@@ -1,436 +1,893 @@
 <!DOCTYPE html>
+
 <html lang="he" dir="rtl">
 
+
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>טופ טק | Top Tech - שלמה רביב</title>
+
     <!-- Google Fonts: Heebo for Hebrew support -->
+
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
+
     <!-- Tailwind CSS CDN -->
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- FontAwesome for icons -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+
         body {
+
             font-family: 'Heebo', sans-serif;
+
             background-color: #f1f5f9;
+
             color: #1e293b;
+
         }
+
+
 
         :root {
+
             --deep-blue: #1A3263;
+
             --dark-gray: #37353E;
+
             --digital-yellow: #F2B50B;
+
             --pure-white: #ffffff;
+
         }
+
+
 
         .text-gradient {
+
             background: linear-gradient(135deg, var(--deep-blue), #3b82f6);
+
             -webkit-background-clip: text;
+
             background-clip: text;
+
             -webkit-text-fill-color: transparent;
+
         }
+
+
 
         .btn-yellow {
+
             background-color: var(--digital-yellow);
+
             color: var(--dark-gray);
+
             transition: all 0.3s ease;
+
             border-radius: 9999px;
+
         }
+
+
 
         .btn-yellow:hover {
+
             transform: translateY(-2px);
+
             box-shadow: 0 10px 15px -3px rgba(251, 191, 36, 0.4);
+
         }
+
+
 
         .btn-blue {
+
             background-color: var(--deep-blue);
+
             color: white;
+
             transition: all 0.3s ease;
+
             border-radius: 9999px;
+
         }
+
+
 
         .btn-blue:hover {
+
             transform: translateY(-2px);
+
             box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.4);
+
         }
+
+
 
         .section-divider {
+
             height: 1px;
+
             background: linear-gradient(90deg, transparent, #cbd5e1, transparent);
+
             margin: 4rem 0;
+
         }
+
+
 
         /* Slider Styles */
+
         .testimonial-slider {
+
             position: relative;
+
             overflow: hidden;
+
             max-width: 800px;
+
             margin: 0 auto;
+
         }
+
+
 
         .testimonial-track {
+
             display: flex;
+
             transition: transform 0.5s ease-in-out;
+
         }
+
+
 
         .testimonial-slide {
+
             min-width: 100%;
+
             padding: 2rem;
+
         }
+
+
 
         .glass-card {
+
             background: rgba(255, 255, 255, 0.8);
+
             backdrop-filter: blur(10px);
+
             border: 1px solid rgba(255, 255, 255, 0.3);
+
         }
+
+
 
         .hero-pattern {
+
             background-image: linear-gradient(rgba(26, 50, 99, 0.7), rgba(26, 50, 99, 0.8)), url('1c1f5ebb-b0dc-4810-9fe5-f7f9fece2822.jpg');
+
             background-size: cover;
+
             background-position: center;
+
         }
+
         .logo-blend {
+
             mix-blend-mode: lighten;
+
         }
+
+
 
         .service-card:hover {
+
             transform: translateY(-5px);
+
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
         }
+
+
 
         html {
+
             scroll-behavior: smooth;
+
         }
 
+
+
         .active-modal {
+
             display: flex;
+
         }
+
+
 
         .modal {
+
             display: none;
+
             position: fixed;
+
             top: 0;
+
             left: 0;
+
             width: 100%;
+
             height: 100%;
+
             background: rgba(0, 0, 0, 0.7);
+
             backdrop-filter: blur(5px);
+
             z-index: 1000;
+
             justify-content: center;
+
             align-items: center;
+
         }
+
+
 
         .modal-content {
+
             background: white;
+
             padding: 2.5rem;
+
             border-radius: 2rem;
+
             max-width: 600px;
+
             width: 90%;
+
             text-align: center;
+
             position: relative;
+
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
         }
 
+
+
         .active-modal {
+
             display: flex;
+
         }
+
     </style>
+
 </head>
+
+
 
 <body class="text-slate-800 leading-relaxed overflow-x-hidden">
 
+
+
     <!-- Navbar -->
+
     <nav class="fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-300">
+
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+
             <div class="flex items-center gap-3">
+
                 <span class="text-2xl font-black text-white tracking-tighter">רביב <span
+
                         class="text-yellow-500">דיגיטל</span></span>
+
             </div>
+
             <div class="hidden md:flex items-center gap-8 font-medium text-white">
+
                 <a href="#home" class="hover:text-yellow-400 transition-colors">בית</a>
+
                 <a href="#about" class="hover:text-yellow-400 transition-colors">אודות</a>
+
                 <a href="#services" class="hover:text-yellow-400 transition-colors">שירותים ומוצרים</a>
+
                 <a href="#downloads" class="hover:text-yellow-400 transition-colors">תוכנות להורדה</a>
+
                 <a href="#contact" class="hover:text-yellow-400 transition-colors">צור קשר</a>
+
             </div>
+
             <div class="md:hidden">
+
                 <button class="text-2xl text-white"><i class="fa-solid fa-bars"></i></button>
+
             </div>
+
         </div>
+
     </nav>
 
+
+
     <!-- Hero Section -->
+
     <section id="home" class="relative pt-32 pb-20 md:pt-48 md:pb-32 hero-pattern overflow-hidden">
+
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
+
         <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-30">
+
         </div>
+
+
 
         <div class="max-w-7xl mx-auto px-6 relative text-center">
+
             <img src="download.jpg" alt="רביב דיגיטל" class="w-64 mx-auto mb-10 logo-blend">
+
             <h1 class="text-5xl md:text-7xl font-black mb-8 tracking-tight text-white leading-tight drop-shadow-xl">
+
                 הופכים רעיונות לטכנולוגיה שעובדת
+
             </h1>
+
             <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-10 leading-relaxed font-light drop-shadow-md">
+
                 פיתוח אפליקציות, בניית מערכות מותאמות אישית, צריבת גרסאות, והכשרת נגנים ברמה מקצועית.
+
             </p>
+
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+
                 <a href="#services" class="btn-yellow px-10 py-4 font-bold shadow-lg w-full sm:w-auto">
+
                     הצגת שירותים
+
                 </a>
-                <a href="#downloads" class="btn-blue px-10 py-4 font-bold shadow-lg w-full sm:w-auto">
+
+                <a href="#downloads" class="btn-yellow px-10 py-4 font-bold shadow-lg w-full sm:w-auto">
+
                     הורדת תוכנות
+
                 </a>
+
             </div>
+
         </div>
+
     </section>
+
+
 
     <!-- About Section -->
+
     <section id="about" class="py-20 bg-slate-50 border-y border-slate-100">
+
         <div class="max-w-4xl mx-auto px-6">
+
             <div
+
                 class="glass-card p-10 rounded-[2.5rem] border border-slate-100 flex flex-col md:flex-row items-center gap-10">
+
                 <div
+
                     class="w-32 h-32 bg-blue-600 rounded-full flex items-center justify-center text-white text-5xl flex-shrink-0 shadow-xl shadow-blue-100">
+
                     <i class="fa-solid fa-user-tie"></i>
+
                 </div>
+
                 <div>
+
                     <h2 class="text-3xl font-black mb-4">נעים להכיר, שלמה רביב</h2>
+
                     <p class="text-lg text-slate-600 leading-relaxed text-right">
+
                         מפתח תוכנות ואפליקציות עם ניסיון בפיתוח מערכות מותאמות אישית, בניית וצריבת גרסאות, לצד הכשרת
+
                         נגנים בצורה מקצועית.
+
                         <br><br>
+
                         "אני משלב בין ידע טכנולוגי מתקדם לבין גישה פרקטית, כדי לספק פתרונות מדויקים לצרכים של כל לקוח.
+
                     </p>
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
+
+
 
     <!-- Services & Products -->
+
     <section id="services" class="py-24 bg-white">
+
         <div class="max-w-7xl mx-auto px-6">
+
             <div class="text-center mb-16">
+
                 <h2 class="text-3xl md:text-4xl font-black mb-4">שירותים ומחירים</h2>
+
                 <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 font-heebo">
-                <!-- Service 1 (Right) -->
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto font-heebo">
+
+                <!-- Row 1 - Service 1 -->
+
                 <div
+
                     class="service-card p-10 rounded-[2.5rem] bg-white border-b-4 border-yellow-400 relative overflow-hidden transition-all duration-300 shadow-lg">
+
                     <div
+
                         class="w-16 h-16 bg-slate-900 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+
                         <i class="fa-solid fa-laptop-code"></i>
+
                     </div>
+
                     <h3 class="text-2xl font-black mb-2 text-slate-900">בניית אתרים תוכנות ואפליקציות ברמה גבוהה</h3>
+
                     <p class="text-slate-500 mb-6 leading-relaxed">פיתוח פתרונות דיגיטליים מתקדמים, אתרי תדמית, 
+
                         ומערכות מורכבות בהתאמה אישית ועוד.</p>
+
                 </div>
 
-                <!-- Service 2 (Center) -->
+
+
+                <!-- Row 1 - Service 2 -->
+
                 <div
+
                     class="service-card p-10 rounded-[2.5rem] border-b-4 border-yellow-400 bg-white relative overflow-hidden transition-all duration-300 shadow-lg">
+
                     <div
+
                         class="w-16 h-16 bg-slate-900 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+
                         <i class="fa-solid fa-sliders"></i>
+
                     </div>
+
                     <h3 class="text-2xl font-black mb-2 text-slate-900">הכשרת נגנים</h3>
+
                     <p class="text-slate-500 mb-6 leading-relaxed">מכשיר את כל סוגי הנגנים, אפשרות לחסימת אינטרנט, ווידיאו או רדיו.</p>
+
                 </div>
 
-                <!-- Service 3 (Left) -->
+
+
+                <!-- Row 2 - Service 3 -->
+
                 <div
+
                     class="service-card p-10 rounded-[2.5rem] bg-white border-b-4 border-yellow-400 relative overflow-hidden transition-all duration-300 shadow-lg">
+
                     <div
+
                         class="w-16 h-16 bg-slate-900 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+
                         <i class="fa-solid fa-gears"></i>
+
                     </div>
+
                     <h3 class="text-2xl font-black mb-2 text-slate-900">צריבת גירסאות כשרות</h3>
+
                     <p class="text-slate-500 mb-6 leading-relaxed">צריבת גירסאות כשרות, צריבת רוט ועוד שרותי אנדרואיד.</p>
+
                 </div>
+
+
+
+                <!-- Row 2 - Service 4 -->
+
+                <div
+
+                    class="service-card p-10 rounded-[2.5rem] bg-white border-b-4 border-yellow-400 relative overflow-hidden transition-all duration-300 shadow-lg">
+
+                    <div
+
+                        class="w-16 h-16 bg-slate-900 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
+
+                        <i class="fa-solid fa-phone-volume"></i>
+
+                    </div>
+
+                    <h3 class="text-2xl font-black mb-2 text-slate-900">מערכות IVR</h3>
+
+                    <p class="text-slate-500 mb-6 leading-relaxed">בנייה ושדרוג מערכות טלפוניות מבית ימות המשיח, כולל פיתוחי API מתקדמים בהתאמה אישית.</p>
+
+                </div>
+
             </div>
+
+
 
         </div>
+
     </section>
+
+
+
 
 
     <!-- Downloads Area -->
+
     <section id="downloads" class="py-24 bg-slate-900 text-white relative">
+
         <div class="max-w-7xl mx-auto px-6 relative z-10">
+
             <div class="text-center mb-16">
+
                 <h2 class="text-3xl md:text-4xl font-black mb-4">מרכז ההורדות</h2>
+
                 <p class="text-slate-400">הכלים המתקדמים ביותר לפיתוח וניהול מכשירי אנדרואיד</p>
+
             </div>
+
+
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+
                 <!-- Tool 1: Android Tool Pro -->
+
                 <div
+
                     class="group bg-slate-800 p-1 rounded-[2.5rem] border-2 border-blue-500 shadow-2xl shadow-blue-900/40 relative overflow-hidden transition-all duration-500 hover:scale-[1.02] col-span-1 md:col-span-2 lg:col-span-1">
+
                     <div
+
                         class="absolute top-0 left-0 bg-blue-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">
+
                         מומלץ ביותר!</div>
+
                     <div class="p-8">
+
                         <div class="w-full h-48 rounded-2xl mb-6 overflow-hidden bg-slate-700 border border-slate-600">
+
                             <img src="9a3b384a-c925-48d8-9d3e-0ccf036ce74d-image.png" alt="Android Tool Pro"
+
                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+
                         </div>
+
                         <div class="flex items-center gap-4 mb-4">
+
                             <div
+
                                 class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
+
                                 <i class="fa-solid fa-toolbox"></i>
+
                             </div>
+
                             <h3 class="text-2xl font-black text-white">Android Tool Pro</h3>
+
                         </div>
+
                         <p class="text-slate-400 mb-8 text-sm leading-relaxed">כלי למפתחים לשאיבת גרסה מלאה (Firmware
+
                             Extraction), גיבויים וניהול קבצי מערכת ברמה הגבוהה ביותר.</p>
 
+
+
                         <div class="flex flex-col gap-3">
+
                             <button onclick="openModal()"
+
                                 class="floating-btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+
                                 <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
+
                             </button>
+
                             <a href="https://mitmachim.top/topic/95426/%D7%A9%D7%99%D7%AA%D7%95%D7%A3-%D7%97%D7%95%D7%95%D7%AA-%D7%93%D7%A2%D7%AA-%D7%9C%D7%AA%D7%95%D7%9B%D7%A0%D7%94-%D7%9C%D7%A9%D7%90%D7%99%D7%91%D7%AA-%D7%92%D7%99%D7%A8%D7%A1%D7%94-%D7%9E%D7%9C%D7%90%D7%94-%D7%9C%D7%9C%D7%90-%D7%A8%D7%95%D7%98-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%99-%D7%92%D7%A8%D7%A1%D7%94-%D7%91%D7%98%D7%90-1.00"
+
                                 target="_blank"
+
                                 class="floating-btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+
                                 <i class="fa-solid fa-link"></i> לנושא המלא על התוכנה
+
                             </a>
-                            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&su=%D7%A8%D7%9B%D7%99%D7%A9%D7%AA%20%D7%97%D7%91%D7%99%D7%9C%D7%AA%20%D7%9B%D7%9C%D7%99%20%D7%94%D7%90%D7%A0%D7%93%D7%A8%D7%95%D7%90%D7%99%D7%93&body=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A9%D7%9C%D7%9E%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%A7%D7%A0%D7%95%D7%AA%20%D7%90%D7%AA%20%D7%94%D7%AA%D7%95%D7%9B%D7%A0%D7%94%20%D7%A9%D7%9C%D7%9A%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%95%D7%93%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D&tf=cm"
+
+                            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
+
                                 target="_blank"
+
                                 class="floating-btn bg-blue-600 glow-blue text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 mt-2">
+
                                 <i class="fa-solid fa-cart-shopping"></i> לפרטים נוספים ולקבלת הצעת מחיר לחצו כאן
+
                             </a>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
 
                 <!-- Tool 2: Makhshirut -->
+
                 <div
+
                     class="group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300">
+
                     <div class="w-full h-40 rounded-2xl mb-6 overflow-hidden bg-slate-700 border border-slate-600">
+
                         <img src="4c42a4d8-9ae2-4092-a758-c1b2b2e1baa2-image.png" alt="Makhshirut"
+
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+
                     </div>
+
                     <div class="flex items-center gap-4 mb-4">
+
                         <div
+
                             class="w-12 h-12 bg-cyan-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
+
                             <i class="fa-solid fa-fire"></i>
+
                         </div>
+
                         <h3 class="text-2xl font-bold text-white">מכשירוט</h3>
+
                     </div>
+
                     <p class="text-slate-400 mb-8 text-sm">הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט,
+
                         מהיר ובטוח.</p>
+
                     <div class="flex items-center justify-between">
+
                         <span class="text-cyan-400 font-bold"><i class="fa-solid fa-circle-check ml-1"></i> הורדה
+
                             חינם!</span>
+
                         <a href="https://mitmachim.top/post/1066649"
+
                             target="_blank"
+
                             class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה
+
                             חינם</a>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
+
+
     <!-- Contact & Footer -->
+
     <footer id="contact" class="bg-white border-t border-slate-100 pt-20 pb-10">
+
         <div class="max-w-7xl mx-auto px-6">
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+
                 <div>
+
                     <h2 class="text-3xl font-black text-slate-900 mb-6 font-heebo">צור קשר</h2>
+
                     <p class="text-slate-600 text-lg mb-8 font-heebo flex flex-col gap-2">
+
                         <span>יש לכם שאלה? מעוניינים בשירות מותאם אישית? אני כאן לכל פנייה!</span>
+
                         <span class="inline-block self-start bg-yellow-400 text-slate-900 px-4 py-1 rounded-lg font-bold shadow-sm">יעוץ חינם!</span>
+
                     </p>
+
                     <div class="flex flex-col gap-6">
+
                         <div class="flex items-center gap-4">
+
                             <div
+
                                 class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl">
+
                                 <i class="fa-solid fa-envelope"></i>
+
                             </div>
+
                             <div>
+
                                 <p class="text-sm text-slate-400">אימייל ליצירת קשר</p>
+
                                 <p class="text-lg font-bold">0556798858b@gmail.com</p>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
                 <div class="flex items-center md:justify-end">
-                    <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&su=%D7%A8%D7%9B%D7%99%D7%A9%D7%AA%20%D7%97%D7%91%D7%99%D7%9C%D7%AA%20%D7%9B%D7%9C%D7%99%20%D7%94%D7%90%D7%A0%D7%93%D7%A8%D7%95%D7%90%D7%99%D7%93&body=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A9%D7%9C%D7%9E%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%A7%D7%A0%D7%95%D7%AA%20%D7%90%D7%AA%20%D7%94%D7%AA%D7%95%D7%9B%D7%A0%D7%94%20%D7%A9%D7%9C%D7%9A%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%95%D7%93%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D&tf=cm"
+
+                    <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
+
                         target="_blank"
+
                         class="glow-blue btn-blue text-white px-10 py-6 rounded-2xl font-bold text-xl shadow-xl shadow-blue-200 flex items-center gap-3">
+
                         <i class="fa-solid fa-paper-plane"></i> צור קשר
+
                     </a>
+
                 </div>
+
             </div>
+
+
 
             <div class="pt-10 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-right">
+
                 <div class="flex items-center gap-2">
+
                     <span class="font-bold text-slate-400">© 2026 רביב דיגיטל. כל הזכויות שמורות לשלמה רביב.</span>
+
                 </div>
+
             </div>
+
         </div>
+
     </footer>
 
+
+
     <!-- Floating Modal for Android Tool Pro -->
+
     <div id="proModal" class="modal">
+
         <div class="modal-content">
+
             <button onclick="closeModal()"
+
                 class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors">
+
                 <i class="fa-solid fa-times"></i>
+
             </button>
+
             <div
+
                 class="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
+
                 <i class="fa-solid fa-info-circle"></i>
+
             </div>
+
             <h3 class="text-3xl font-black mb-6 text-slate-900">Android Tool Pro - פרטים נוספים</h3>
+
             <div class="text-right text-slate-600 space-y-4 mb-8 text-lg leading-relaxed">
+
                 <p>שלום חברים, במשך הרבה זמן פיתחתי תוכנה שתעזור לנו בתור מפתחי אנדרואיד במקום לשאוב ידני (שזה לוקח הרבה
+
                     זמן, גם למקצוענים!) בלחיצת כפתור יתחיל השאיבה.</p>
+
                 <p>בתוכנה יש עוד הרבה אפשרויות, של שאיבת מחיצה בודדת או צריבת מחיצה בודדת.</p>
+
                 <p>כל הפרויקטים שלי היו חינמיים לגמרי אבל בגלל שזה ברמה אחרת אני צריך לכסות את העלויות הגבוהות אז אני
+
                     לוקח תשלום סמלי. ניתן לשלם במזומן, ביט, העברה בנקאית.</p>
+
             </div>
-            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&su=%D7%A8%D7%9B%D7%99%D7%A9%D7%AA%20%D7%97%D7%91%D7%99%D7%9C%D7%AA%20%D7%9B%D7%9C%D7%99%20%D7%94%D7%90%D7%A0%D7%93%D7%A8%D7%95%D7%90%D7%99%D7%93&body=%D7%A9%D7%9C%D7%95%D7%9D%20%D7%A9%D7%9C%D7%9E%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%A7%D7%A0%D7%95%D7%AA%20%D7%90%D7%AA%20%D7%94%D7%AA%D7%95%D7%9B%D7%A0%D7%94%20%D7%A9%D7%9C%D7%9A%20%D7%9E%D7%A2%D7%95%D7%A0%D7%99%D7%99%D7%9F%20%D7%9C%D7%A9%D7%9E%D7%95%D7%A2%20%D7%A2%D7%95%D7%93%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D&tf=cm"
+
+            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
+
                 target="_blank"
+
                 class="glow-blue bg-blue-600 text-white py-4 px-8 rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-200">
+
                 לפרטים נוספים ולהצעת מחיר לחצו כאן:
+
             </a>
+
         </div>
+
     </div>
 
+
+
     <script>
+
         function openModal() {
+
             document.getElementById('proModal').classList.add('active-modal');
+
             document.body.style.overflow = 'hidden';
+
         }
+
         function closeModal() {
+
             document.getElementById('proModal').classList.remove('active-modal');
+
             document.body.style.overflow = 'auto';
+
         }
+
         // Close modal when clicking outside
+
         window.onclick = function (event) {
+
             let modal = document.getElementById('proModal');
+
             if (event.target == modal) {
+
                 closeModal();
+
             }
+
         }
+
+
 
         // Testimonials Slider Logic
+
         let currentSlide = 0;
+
         const totalSlides = 5;
+
         const track = document.getElementById('testimonialTrack');
 
+
+
         function moveSlider(direction) {
+
             currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+
             track.style.transform = `translateX(${currentSlide * 100}%)`;
+
         }
 
+
+
         // Auto slide every 5 seconds
+
         setInterval(() => moveSlider(1), 5000);
+
     </script>
+
 </body>
+
+
 
 </html>
