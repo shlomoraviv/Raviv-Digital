@@ -11,6 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -18,6 +23,13 @@
             font-family: 'Heebo', sans-serif;
             background-color: #f1f5f9;
             color: #1e293b;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* מצב לילה - הגדרות בסיס */
+        .dark body {
+            background-color: #0f172a;
+            color: #f1f5f9;
         }
 
         :root {
@@ -34,26 +46,32 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* כפתור צהוב עם אפקט hover מלוטש */
         .btn-yellow {
             background-color: var(--digital-yellow);
             color: var(--dark-gray);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 9999px;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-yellow:hover {
+            background-color: #d9a308;
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(251, 191, 36, 0.4);
+            box-shadow: 0 10px 15px -3px rgba(242, 181, 11, 0.4);
         }
 
+        /* כפתור כחול עם אפקט hover מלוטש */
         .btn-blue {
             background-color: var(--deep-blue);
             color: white;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 9999px;
         }
 
         .btn-blue:hover {
+            background-color: #152952;
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.4);
         }
@@ -86,6 +104,12 @@
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: background 0.4s ease, transform 0.3s ease;
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .hero-pattern {
@@ -93,21 +117,56 @@
             background-size: cover;
             background-position: center;
         }
+        
         .logo-blend {
             mix-blend-mode: lighten;
         }
 
+        /* עיצוב כרטיסי שירות */
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 320px;
+        }
+
+        /* אפקטי Hover עם צבעים בהירים */
+        .card-web:hover { background-color: #f0f7ff; border-color: #3b82f6; }
+        .card-music:hover { background-color: #fffaf0; border-color: #f6ad55; }
+        .card-android:hover { background-color: #f0fff4; border-color: #48bb78; }
+        .card-translation:hover { background-color: #faf5ff; border-color: #9f7aea; }
+
+        .dark .card-web:hover { background-color: rgba(59, 130, 246, 0.1); }
+        .dark .card-music:hover { background-color: rgba(246, 173, 85, 0.1); }
+        .dark .card-android:hover { background-color: rgba(72, 187, 120, 0.1); }
+        .dark .card-translation:hover { background-color: rgba(159, 122, 234, 0.1); }
+
         .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-box {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .service-card {
+            background-color: #1e293b;
+            border-color: rgba(51, 65, 85, 0.5);
         }
 
         html {
             scroll-behavior: smooth;
-        }
-
-        .active-modal {
-            display: flex;
         }
 
         .modal {
@@ -135,8 +194,108 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
 
+        .dark .modal-content {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+
         .active-modal {
             display: flex;
+        }
+
+        /* עיצוב הכפתור הצף בצד שמאל - צהוב מותג */
+        .floating-contact-btn {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            z-index: 9999;
+            padding: 1.25rem 2.25rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: var(--digital-yellow);
+            color: var(--dark-gray);
+            font-weight: 900;
+            font-size: 1.2rem;
+            border-radius: 9999px;
+            box-shadow: 0 10px 30px rgba(242, 181, 11, 0.4);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+            animation: pulse-yellow-subtle 2s infinite;
+        }
+
+        .floating-contact-btn:hover {
+            background-color: #d9a308;
+            box-shadow: 0 15px 35px rgba(242, 181, 11, 0.5);
+            color: var(--dark-gray);
+            transform: translateY(-3px);
+        }
+
+        @keyframes pulse-yellow-subtle {
+            0% { box-shadow: 0 10px 25px rgba(242, 181, 11, 0.3); }
+            50% { box-shadow: 0 15px 40px rgba(242, 181, 11, 0.6); }
+            100% { box-shadow: 0 10px 25px rgba(242, 181, 11, 0.3); }
+        }
+
+        /* כפתור מצב לילה */
+        .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(15deg);
+        }
+
+        .dark .theme-toggle-btn {
+            background: rgba(242, 181, 11, 0.2);
+            color: #F2B50B;
+            border-color: rgba(242, 181, 11, 0.3);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--digital-yellow);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* אלמנטים של Parallax ברקע */
+        .parallax-layer {
+            position: absolute;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* Navbar מרווח וקריא */
+        nav.scrolled {
+            background: rgba(26, 50, 99, 0.85);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -144,30 +303,42 @@
 <body class="text-slate-800 leading-relaxed overflow-x-hidden">
 
     <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-300">
+    <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-500 py-4">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <span class="text-2xl font-black text-white tracking-tighter">רביב <span
-                        class="text-yellow-500">דיגיטל</span></span>
+            
+            <!-- קטגוריות מצד ימין -->
+            <div class="hidden md:flex items-center gap-8 text-lg font-bold text-white">
+                <a href="#home" class="nav-link hover:text-yellow-400 transition-colors">בית</a>
+                <a href="#about" class="nav-link hover:text-yellow-400 transition-colors">אודות</a>
+                <a href="#services" class="nav-link hover:text-yellow-400 transition-colors">שירותים ומוצרים</a>
+                <a href="#downloads" class="nav-link hover:text-yellow-400 transition-colors">תוכנות להורדה</a>
+                <a href="#contact" class="nav-link hover:text-yellow-400 transition-colors">צור קשר</a>
             </div>
-            <div class="hidden md:flex items-center gap-8 font-medium text-white">
-                <a href="#home" class="hover:text-yellow-400 transition-colors">בית</a>
-                <a href="#about" class="hover:text-yellow-400 transition-colors">אודות</a>
-                <a href="#services" class="hover:text-yellow-400 transition-colors">שירותים ומוצרים</a>
-                <a href="#downloads" class="hover:text-yellow-400 transition-colors">תוכנות להורדה</a>
-                <a href="#contact" class="hover:text-yellow-400 transition-colors">צור קשר</a>
-            </div>
-            <div class="md:hidden">
-                <button class="text-2xl text-white"><i class="fa-solid fa-bars"></i></button>
+
+            <!-- צד שמאל: לוגו ומצב לילה -->
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl md:text-3xl font-black text-white tracking-tighter">רביב <span
+                            class="text-yellow-500">דיגיטל</span></span>
+                </div>
+                
+                <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="שינוי מצב תצוגה">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+
+                <div class="md:hidden">
+                    <button class="text-2xl text-white"><i class="fa-solid fa-bars"></i></button>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="relative pt-32 pb-20 md:pt-48 md:pb-32 hero-pattern overflow-hidden">
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-30">
-        </div>
+    <section id="home" class="relative pt-48 pb-20 md:pt-64 md:pb-32 hero-pattern overflow-hidden">
+        <!-- אלמנטים של Parallax -->
+        <div class="parallax-layer absolute top-10 right-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl" data-speed="0.2"></div>
+        <div class="parallax-layer absolute bottom-20 left-10 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl" data-speed="0.5"></div>
+        <div class="parallax-layer absolute top-1/2 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-2xl" data-speed="0.3"></div>
 
         <div class="max-w-7xl mx-auto px-6 relative text-center">
             <img src="download.jpg" alt="רביב דיגיטל" class="w-64 mx-auto mb-10 logo-blend">
@@ -189,17 +360,17 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20 bg-slate-50 border-y border-slate-100">
+    <section id="about" class="py-20 bg-slate-50 dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
         <div class="max-w-4xl mx-auto px-6">
             <div
                 class="glass-card p-10 rounded-[2.5rem] border border-slate-100 flex flex-col md:flex-row items-center gap-10">
                 <div
-                    class="w-32 h-32 bg-blue-600 rounded-full flex items-center justify-center text-white text-5xl flex-shrink-0 shadow-xl shadow-blue-100">
+                    class="w-32 h-32 bg-blue-600 rounded-full flex items-center justify-center text-white text-5xl flex-shrink-0 shadow-xl shadow-blue-100 dark:shadow-none transition-transform hover:scale-105">
                     <i class="fa-solid fa-user-tie"></i>
                 </div>
                 <div>
-                    <h2 class="text-3xl font-black mb-4">נעים להכיר, שלמה רביב</h2>
-                    <p class="text-lg text-slate-600 leading-relaxed text-right">
+                    <h2 class="text-3xl font-black mb-4 dark:text-white">נעים להכיר, שלמה רביב</h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-right">
                         מפתח תוכנות ואפליקציות עם ניסיון בפיתוח מערכות מותאמות אישית, בניית וצריבת גרסאות, לצד הכשרת
                         נגנים בצורה מקצועית.
                         <br><br>
@@ -211,66 +382,77 @@
     </section>
 
     <!-- Services & Products -->
-    <section id="services" class="py-24 bg-white">
+    <section id="services" class="py-24 bg-white dark:bg-slate-950">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-black mb-4">שירותים ומחירים</h2>
-                <div class="w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-black mb-6 dark:text-white">השירותים <span class="text-yellow-500">שלנו</span></h2>
+                <div class="w-24 h-1.5 bg-yellow-500 mx-auto rounded-full"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto font-heebo">
-                <!-- Row 1 - Service 1 -->
-                <div
-                    class="service-card p-10 rounded-[2.5rem] bg-white border-b-4 border-yellow-400 relative overflow-hidden transition-all duration-300 shadow-lg">
-                    <div
-                        class="w-16 h-16 bg-slate-900 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
-                        <i class="fa-solid fa-laptop-code"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto font-heebo">
+                
+                <!-- Service 1: Web & App -->
+                <div class="service-card card-web p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                    <div>
+                        <div class="icon-box bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="text-2xl font-black mb-4 text-slate-900 dark:text-white">בניית אתרים תוכנות ואפליקציות ברמה גבוהה</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">פיתוח פתרונות דיגיטליים מתקדמים, אתרי תדמית, ומערכות מורכבות בהתאמה אישית ועוד.</p>
                     </div>
-                    <h3 class="text-2xl font-black mb-2 text-slate-900">בניית אתרים תוכנות ואפליקציות ברמה גבוהה</h3>
-                    <p class="text-slate-500 mb-6 leading-relaxed">פיתוח פתרונות דיגיטליים מתקדמים, אתרי תדמית, 
-                        ומערכות מורכבות בהתאמה אישית ועוד.</p>
+                    <div class="flex justify-between items-center mt-10">
+                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-blue-500 transition-colors"></i>
+                    </div>
                 </div>
 
-                <!-- Row 1 - Service 2 -->
-                <div
-                    class="service-card p-10 rounded-[2.5rem] border-b-4 border-yellow-400 bg-white relative overflow-hidden transition-all duration-300 shadow-lg">
-                    <div
-                        class="w-16 h-16 bg-slate-900 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
-                        <i class="fa-solid fa-sliders"></i>
+                <!-- Service 2: Player Training -->
+                <div class="service-card card-music p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                    <div>
+                        <div class="icon-box bg-yellow-50 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-500">
+                            <i class="fa-solid fa-headphones-simple"></i>
+                        </div>
+                        <h3 class="text-2xl font-black mb-4 text-slate-900 dark:text-white">הכשרת נגנים</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">מכשיר את כל סוגי הנגנים בצורה מקצועית, עם אפשרות לחסימת אינטרנט, וידאו או רדיו בהתאמה אישית.</p>
                     </div>
-                    <h3 class="text-2xl font-black mb-2 text-slate-900">הכשרת נגנים</h3>
-                    <p class="text-slate-500 mb-6 leading-relaxed">מכשיר את כל סוגי הנגנים, אפשרות לחסימת אינטרנט, ווידיאו או רדיו.</p>
+                    <div class="flex justify-between items-center mt-10">
+                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-yellow-500 transition-colors"></i>
+                    </div>
                 </div>
 
-                <!-- Row 2 - Service 3 -->
-                <div
-                    class="service-card p-10 rounded-[2.5rem] bg-white border-b-4 border-yellow-400 relative overflow-hidden transition-all duration-300 shadow-lg">
-                    <div
-                        class="w-16 h-16 bg-slate-900 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
-                        <i class="fa-solid fa-gears"></i>
+                <!-- Service 3: Android Flashing -->
+                <div class="service-card card-android p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                    <div>
+                        <div class="icon-box bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <h3 class="text-2xl font-black mb-4 text-slate-900 dark:text-white">צריבת גרסאות כשרות</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">צריבת גרסאות מותאמות, ביצוע רוט (Root) מקצועי ומתן פתרונות תוכנה מתקדמים למכשירי אנדרואיד.</p>
                     </div>
-                    <h3 class="text-2xl font-black mb-2 text-slate-900">צריבת גירסאות כשרות</h3>
-                    <p class="text-slate-500 mb-6 leading-relaxed">צריבת גירסאות כשרות, צריבת רוט ועוד שרותי אנדרואיד.</p>
+                    <div class="flex justify-between items-center mt-10">
+                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-green-500 transition-colors"></i>
+                    </div>
                 </div>
 
-                <!-- Row 2 - Service 4 -->
-                <div
-                    class="service-card p-10 rounded-[2.5rem] bg-white border-b-4 border-yellow-400 relative overflow-hidden transition-all duration-300 shadow-lg">
-                    <div
-                        class="w-16 h-16 bg-slate-900 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner">
-                        <i class="fa-solid fa-database"></i>
+                <!-- Service 4: Apps & Games -->
+                <div class="service-card card-translation p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                    <div>
+                        <div class="icon-box bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
+                            <i class="fa-solid fa-language"></i>
+                        </div>
+                        <h3 class="text-2xl font-black mb-4 text-slate-900 dark:text-white">תרגום ומכירה של אפליקציות ומשחקים</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">תרגום אפליקציות לשפה העברית ברמה גבוהה, ומכירת מגוון משחקים כשרים, נקיים ואיכותיים.</p>
                     </div>
-                    <h3 class="text-2xl font-black mb-2 text-slate-900">תרגום ומכירה של אפליקציות ומשחקים </h3>
-                    <p class="text-slate-500 mb-6 leading-relaxed">תרגום אפליקציות ברמה גבוהה, מכירת משחקים כשרים ואיכותיים.</p>
+                    <div class="flex justify-between items-center mt-10">
+                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-purple-500 transition-colors"></i>
+                    </div>
                 </div>
             </div>
-
         </div>
     </section>
 
 
     <!-- Downloads Area -->
-    <section id="downloads" class="py-24 bg-slate-900 text-white relative">
+    <section id="downloads" class="py-24 bg-slate-900 dark:bg-black text-white relative">
         <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black mb-4">מרכז ההורדות</h2>
@@ -280,7 +462,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 <!-- Tool 1: Android Tool Pro -->
                 <div
-                    class="group bg-slate-800 p-1 rounded-[2.5rem] border-2 border-blue-500 shadow-2xl shadow-blue-900/40 relative overflow-hidden transition-all duration-500 hover:scale-[1.02] col-span-1 md:col-span-2 lg:col-span-1">
+                    class="group bg-slate-800 p-1 rounded-[2.5rem] border-2 border-blue-500 shadow-2xl shadow-blue-900/40 relative overflow-hidden transition-all duration-500 hover:scale-[1.01] col-span-1 md:col-span-2 lg:col-span-1">
                     <div
                         class="absolute top-0 left-0 bg-blue-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">
                         מומלץ ביותר!</div>
@@ -301,17 +483,17 @@
 
                         <div class="flex flex-col gap-3">
                             <button onclick="openModal()"
-                                class="floating-btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+                                class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
                                 <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
                             </button>
                             <a href="https://mitmachim.top/topic/95426/%D7%A9%D7%99%D7%AA%D7%95%D7%A3-%D7%97%D7%95%D7%95%D7%AA-%D7%93%D7%A2%D7%AA-%D7%9C%D7%AA%D7%95%D7%9B%D7%A0%D7%94-%D7%9C%D7%A9%D7%90%D7%99%D7%91%D7%AA-%D7%92%D7%99%D7%A8%D7%A1%D7%94-%D7%9E%D7%9C%D7%90%D7%94-%D7%9C%D7%9C%D7%90-%D7%A8%D7%95%D7%98-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%99-%D7%92%D7%A8%D7%A1%D7%94-%D7%91%D7%98%D7%90-1.00"
                                 target="_blank"
-                                class="floating-btn w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2">
+                                class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
                                 <i class="fa-solid fa-link"></i> לנושא המלא על התוכנה
                             </a>
                             <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
                                 target="_blank"
-                                class="floating-btn bg-blue-600 glow-blue text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 mt-2">
+                                class="bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 mt-2 transition-all">
                                 <i class="fa-solid fa-cart-shopping"></i> לפרטים נוספים ולקבלת הצעת מחיר לחצו כאן
                             </a>
                         </div>
@@ -349,24 +531,24 @@
 
 
     <!-- Contact & Footer -->
-    <footer id="contact" class="bg-white border-t border-slate-100 pt-20 pb-10">
+    <footer id="contact" class="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 pt-20 pb-10">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
                 <div>
-                    <h2 class="text-3xl font-black text-slate-900 mb-6 font-heebo">צור קשר</h2>
-                    <p class="text-slate-600 text-lg mb-8 font-heebo flex flex-col gap-2">
+                    <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-6 font-heebo">צור קשר</h2>
+                    <p class="text-slate-600 dark:text-slate-300 text-lg mb-8 font-heebo flex flex-col gap-2">
                         <span>יש לכם שאלה? מעוניינים בשירות מותאם אישית? אני כאן לכל פנייה!</span>
                         <span class="inline-block self-start bg-yellow-400 text-slate-900 px-4 py-1 rounded-lg font-bold shadow-sm">יעוץ חינם!</span>
                     </p>
                     <div class="flex flex-col gap-6">
                         <div class="flex items-center gap-4">
                             <div
-                                class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl">
+                                class="w-12 h-12 bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center text-xl">
                                 <i class="fa-solid fa-envelope"></i>
                             </div>
                             <div>
                                 <p class="text-sm text-slate-400">אימייל ליצירת קשר</p>
-                                <p class="text-lg font-bold">0556798858b@gmail.com</p>
+                                <p class="text-lg font-bold dark:text-white">0556798858b@gmail.com</p>
                             </div>
                         </div>
                     </div>
@@ -374,13 +556,13 @@
                 <div class="flex items-center md:justify-end">
                     <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
                         target="_blank"
-                        class="glow-blue btn-blue text-white px-10 py-6 rounded-2xl font-bold text-xl shadow-xl shadow-blue-200 flex items-center gap-3">
+                        class="btn-blue text-white px-10 py-6 rounded-2xl font-bold text-xl shadow-xl shadow-blue-200 flex items-center gap-3 transition-all">
                         <i class="fa-solid fa-paper-plane"></i> צור קשר
                     </a>
                 </div>
             </div>
 
-            <div class="pt-10 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-right">
+            <div class="pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-right">
                 <div class="flex items-center gap-2">
                     <span class="font-bold text-slate-400">© 2026 רביב דיגיטל. כל הזכויות שמורות לשלמה רביב.</span>
                 </div>
@@ -397,11 +579,11 @@
                 <i class="fa-solid fa-times"></i>
             </button>
             <div
-                class="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
+                class="w-20 h-20 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
                 <i class="fa-solid fa-info-circle"></i>
             </div>
-            <h3 class="text-3xl font-black mb-6 text-slate-900">Android Tool Pro - פרטים נוספים</h3>
-            <div class="text-right text-slate-600 space-y-4 mb-8 text-lg leading-relaxed">
+            <h3 class="text-3xl font-black mb-6 text-slate-900 dark:text-white">Android Tool Pro - פרטים נוספים</h3>
+            <div class="text-right text-slate-600 dark:text-slate-300 space-y-4 mb-8 text-lg leading-relaxed">
                 <p>שלום חברים, במשך הרבה זמן פיתחתי תוכנה שתעזור לנו בתור מפתחי אנדרואיד במקום לשאוב ידני (שזה לוקח הרבה
                     זמן, גם למקצוענים!) בלחיצת כפתור יתחיל השאיבה.</p>
                 <p>בתוכנה יש עוד הרבה אפשרויות, של שאיבת מחיצה בודדת או צריבת מחיצה בודדת.</p>
@@ -410,11 +592,18 @@
             </div>
             <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
                 target="_blank"
-                class="glow-blue bg-blue-600 text-white py-4 px-8 rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-200">
+                class="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-200 transition-all">
                 לפרטים נוספים ולהצעת מחיר לחצו כאן:
             </a>
         </div>
     </div>
+
+    <!-- כפתור צור קשר צף -->
+    <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
+        target="_blank"
+        class="floating-contact-btn">
+        <i class="fa-solid fa-paper-plane"></i> צור קשר
+    </a>
 
     <script>
         function openModal() {
@@ -425,7 +614,29 @@
             document.getElementById('proModal').classList.remove('active-modal');
             document.body.style.overflow = 'auto';
         }
-        // Close modal when clicking outside
+        
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+        }
+
         window.onclick = function (event) {
             let modal = document.getElementById('proModal');
             if (event.target == modal) {
@@ -433,17 +644,35 @@
             }
         }
 
-        // Testimonials Slider Logic
+        // לוגיקת Parallax עדינה ו-Navbar גלילה
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const nav = document.getElementById('mainNav');
+            
+            if (scrolled > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            const parallaxLayers = document.querySelectorAll('.parallax-layer');
+            parallaxLayers.forEach(layer => {
+                const speed = layer.getAttribute('data-speed');
+                const yPos = -(scrolled * speed);
+                layer.style.transform = `translateY(${yPos}px)`;
+            });
+        });
+
         let currentSlide = 0;
         const totalSlides = 5;
         const track = document.getElementById('testimonialTrack');
 
         function moveSlider(direction) {
+            if(!track) return;
             currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
             track.style.transform = `translateX(${currentSlide * 100}%)`;
         }
 
-        // Auto slide every 5 seconds
         setInterval(() => moveSlider(1), 5000);
     </script>
 </body>
