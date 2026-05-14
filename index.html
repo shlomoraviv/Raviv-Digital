@@ -24,6 +24,7 @@
             background-color: #f1f5f9;
             color: #1e293b;
             transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
         }
 
         /* מצב לילה - הגדרות בסיס */
@@ -37,7 +38,54 @@
             --dark-gray: #37353E;
             --digital-yellow: #F2B50B;
             --pure-white: #ffffff;
+            --action-blue: #1d4ed8;
         }
+
+        /* אנימציות כניסה */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-left.active, .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-up {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.6s ease-out;
+        }
+
+        .scale-up.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* השהיות לאפקט מדורג */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
 
         .text-gradient {
             background: linear-gradient(135deg, var(--deep-blue), #3b82f6);
@@ -73,7 +121,7 @@
         .btn-blue:hover {
             background-color: #152952;
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.4);
+            box-shadow: 0 6px 12px -2px rgba(30, 58, 138, 0.3);
         }
 
         .section-divider {
@@ -82,29 +130,11 @@
             margin: 4rem 0;
         }
 
-        /* Slider Styles */
-        .testimonial-slider {
-            position: relative;
-            overflow: hidden;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .testimonial-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .testimonial-slide {
-            min-width: 100%;
-            padding: 2rem;
-        }
-
         .glass-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: background 0.4s ease, transform 0.3s ease;
+            transition: all 0.4s ease;
         }
 
         .dark .glass-card {
@@ -113,13 +143,21 @@
         }
 
         .hero-pattern {
-            background-image: linear-gradient(rgba(26, 50, 99, 0.7), rgba(26, 50, 99, 0.8)), url('1c1f5ebb-b0dc-4810-9fe5-f7f9fece2822.jpg');
+            background-image: linear-gradient(rgba(26, 50, 99, 0.76), rgba(26, 50, 99, 0.85)), url('1c1f5ebb-b0dc-4810-9fe5-f7f9fece2822.jpg');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
         }
         
         .logo-blend {
-            mix-blend-mode: lighten;
+            mix-blend-mode: screen;
+            filter: brightness(1.1) contrast(1.3);
+            background-color: transparent;
+            transition: transform 0.5s ease;
+        }
+        
+        .logo-blend:hover {
+            transform: scale(1.05) rotate(2deg);
         }
 
         /* עיצוב כרטיסי שירות */
@@ -132,7 +170,6 @@
             min-height: 320px;
         }
 
-        /* אפקטי Hover עם צבעים בהירים */
         .card-web:hover { background-color: #f0f7ff; border-color: #3b82f6; }
         .card-music:hover { background-color: #fffaf0; border-color: #f6ad55; }
         .card-android:hover { background-color: #f0fff4; border-color: #48bb78; }
@@ -144,8 +181,8 @@
         .dark .card-translation:hover { background-color: rgba(159, 122, 234, 0.1); }
 
         .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
         .icon-box {
@@ -157,7 +194,11 @@
             border-radius: 12px;
             font-size: 1.4rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover .icon-box {
+            transform: scale(1.1) rotate(10deg);
         }
 
         .dark .service-card {
@@ -181,6 +222,13 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active-modal {
+            display: flex;
+            opacity: 1;
         }
 
         .modal-content {
@@ -192,6 +240,12 @@
             text-align: center;
             position: relative;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .active-modal .modal-content {
+            transform: translateY(0);
         }
 
         .dark .modal-content {
@@ -199,42 +253,144 @@
             color: #f1f5f9;
         }
 
-        .active-modal {
-            display: flex;
-        }
-
-        /* עיצוב הכפתור הצף בצד שמאל - צהוב מותג */
+        /* עיצוב כפתור צף כחול עגול */
         .floating-contact-btn {
             position: fixed;
             bottom: 40px;
             left: 40px;
             z-index: 9999;
-            padding: 1.25rem 2.25rem;
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            background-color: var(--digital-yellow);
-            color: var(--dark-gray);
-            font-weight: 900;
-            font-size: 1.2rem;
-            border-radius: 9999px;
-            box-shadow: 0 10px 30px rgba(242, 181, 11, 0.4);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-            text-decoration: none;
-            animation: pulse-yellow-subtle 2s infinite;
+            justify-content: center;
+            background-color: var(--action-blue);
+            color: white;
+            font-size: 1.8rem;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(29, 78, 216, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            animation: pulse-blue 2s infinite;
         }
 
         .floating-contact-btn:hover {
-            background-color: #d9a308;
-            box-shadow: 0 15px 35px rgba(242, 181, 11, 0.5);
-            color: var(--dark-gray);
-            transform: translateY(-3px);
+            background-color: #1e40af;
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(29, 78, 216, 0.5);
         }
 
-        @keyframes pulse-yellow-subtle {
-            0% { box-shadow: 0 10px 25px rgba(242, 181, 11, 0.3); }
-            50% { box-shadow: 0 15px 40px rgba(242, 181, 11, 0.6); }
-            100% { box-shadow: 0 10px 25px rgba(242, 181, 11, 0.3); }
+        @keyframes pulse-blue {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(29, 78, 216, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
+        }
+
+        /* חלונית צור קשר חדשה */
+        #customContactModal {
+            display: none;
+            position: fixed;
+            bottom: 110px;
+            left: 40px;
+            width: 25vw;
+            min-width: 320px;
+            height: 500px;
+            background: white;
+            z-index: 10000;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .dark #customContactModal {
+            background: #1e293b;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        #customContactModal.active {
+            display: flex;
+        }
+
+        .modal-header {
+            background: var(--deep-blue);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        .dark .form-group input, .dark .form-group textarea {
+            background: #334155;
+            border-color: #475569;
+            color: white;
+        }
+
+        /* כפתור שליחה כחול */
+        .send-btn {
+            background: var(--action-blue);
+            color: white;
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 0.8rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .send-btn:hover {
+            background: #1e40af;
+        }
+
+        /* הודעת Toast כחולה */
+        #toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--action-blue);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            font-weight: bold;
+            z-index: 20000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #toast-notification.show {
+            transform: translateX(-50%) translateY(0);
         }
 
         /* כפתור מצב לילה */
@@ -255,7 +411,7 @@
 
         .theme-toggle-btn:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: rotate(15deg);
+            transform: rotate(15deg) scale(1.1);
         }
 
         .dark .theme-toggle-btn {
@@ -293,9 +449,11 @@
 
         /* Navbar מרווח וקריא */
         nav.scrolled {
-            background: rgba(26, 50, 99, 0.85);
+            background: rgba(26, 50, 99, 0.95);
             backdrop-filter: blur(12px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
     </style>
 </head>
@@ -335,20 +493,21 @@
 
     <!-- Hero Section -->
     <section id="home" class="relative pt-48 pb-20 md:pt-64 md:pb-32 hero-pattern overflow-hidden">
-        <!-- אלמנטים של Parallax -->
         <div class="parallax-layer absolute top-10 right-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl" data-speed="0.2"></div>
         <div class="parallax-layer absolute bottom-20 left-10 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl" data-speed="0.5"></div>
         <div class="parallax-layer absolute top-1/2 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-2xl" data-speed="0.3"></div>
 
         <div class="max-w-7xl mx-auto px-6 relative text-center">
-            <img src="download.jpg" alt="רביב דיגיטל" class="w-64 mx-auto mb-10 logo-blend">
-            <h1 class="text-5xl md:text-7xl font-black mb-8 tracking-tight text-white leading-tight drop-shadow-xl">
+            <div class="scale-up active">
+                <img src="download.jpg" alt="רביב דיגיטל" class="w-64 mx-auto mb-10 logo-blend">
+            </div>
+            <h1 class="reveal active text-5xl md:text-7xl font-black mb-8 tracking-tight text-white leading-tight drop-shadow-xl">
                 הופכים רעיונות לטכנולוגיה שעובדת
             </h1>
-            <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-10 leading-relaxed font-light drop-shadow-md">
+            <p class="reveal delay-200 active text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-10 leading-relaxed font-light drop-shadow-md">
                 פיתוח אפליקציות, בניית מערכות מותאמות אישית, צריבת גרסאות, והכשרת נגנים ברמה מקצועית.
             </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div class="reveal delay-300 active flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="#services" class="btn-yellow px-10 py-4 font-bold shadow-lg w-full sm:w-auto">
                     הצגת שירותים
                 </a>
@@ -363,18 +522,18 @@
     <section id="about" class="py-20 bg-slate-50 dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
         <div class="max-w-4xl mx-auto px-6">
             <div
-                class="glass-card p-10 rounded-[2.5rem] border border-slate-100 flex flex-col md:flex-row items-center gap-10">
+                class="reveal scale-up glass-card p-10 rounded-[2.5rem] border border-slate-100 flex flex-col md:flex-row items-center gap-10">
                 <div
-                    class="w-32 h-32 bg-blue-600 rounded-full flex items-center justify-center text-white text-5xl flex-shrink-0 shadow-xl shadow-blue-100 dark:shadow-none transition-transform hover:scale-105">
+                    class="w-32 h-32 bg-blue-600 rounded-full flex items-center justify-center text-white text-5xl flex-shrink-0 shadow-xl shadow-blue-100 dark:shadow-none transition-transform hover:scale-110 hover:rotate-6">
                     <i class="fa-solid fa-user-tie"></i>
                 </div>
                 <div>
                     <h2 class="text-3xl font-black mb-4 dark:text-white">נעים להכיר, שלמה רביב</h2>
                     <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-right">
-                        מפתח תוכנות ואפליקציות עם ניסיון בפיתוח מערכות מותאמות אישית, בניית וצריבת גרסאות, לצד הכשרת
+                        מפתח תוכנות ואפליקציות עם ניסינה בפיתוח מערכות מותאמות אישית, בניית וצריבת גרסאות, לצד הכשרת
                         נגנים בצורה מקצועית.
                         <br><br>
-                        "אני משלב בין ידע טכנולוגי מתקדם לבין גישה פרקטית, כדי לספק פתרונות מדויקים לצרכים של כל לקוח.
+                        "אני משלב בין ידע טכנולוגי מתקדם לבין גישה פרקטית, כדי לספק פתרונות מדויקים לצרכים של כל לקוח."
                     </p>
                 </div>
             </div>
@@ -384,15 +543,13 @@
     <!-- Services & Products -->
     <section id="services" class="py-24 bg-white dark:bg-slate-950">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-20">
+            <div class="reveal text-center mb-20">
                 <h2 class="text-4xl md:text-5xl font-black mb-6 dark:text-white">השירותים <span class="text-yellow-500">שלנו</span></h2>
                 <div class="w-24 h-1.5 bg-yellow-500 mx-auto rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto font-heebo">
-                
-                <!-- Service 1: Web & App -->
-                <div class="service-card card-web p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                <div class="reveal-right delay-100 service-card card-web p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
                     <div>
                         <div class="icon-box bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
                             <i class="fa-solid fa-code"></i>
@@ -401,12 +558,11 @@
                         <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">פיתוח פתרונות דיגיטליים מתקדמים, אתרי תדמית, ומערכות מורכבות בהתאמה אישית ועוד.</p>
                     </div>
                     <div class="flex justify-between items-center mt-10">
-                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-blue-500 transition-colors"></i>
+                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-blue-500 transition-all group-hover:-translate-x-2"></i>
                     </div>
                 </div>
 
-                <!-- Service 2: Player Training -->
-                <div class="service-card card-music p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                <div class="reveal-left delay-100 service-card card-music p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
                     <div>
                         <div class="icon-box bg-yellow-50 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-500">
                             <i class="fa-solid fa-headphones-simple"></i>
@@ -415,12 +571,11 @@
                         <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">מכשיר את כל סוגי הנגנים בצורה מקצועית, עם אפשרות לחסימת אינטרנט, וידאו או רדיו בהתאמה אישית.</p>
                     </div>
                     <div class="flex justify-between items-center mt-10">
-                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-yellow-500 transition-colors"></i>
+                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-yellow-500 transition-all group-hover:-translate-x-2"></i>
                     </div>
                 </div>
 
-                <!-- Service 3: Android Flashing -->
-                <div class="service-card card-android p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                <div class="reveal-right delay-200 service-card card-android p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
                     <div>
                         <div class="icon-box bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-400">
                             <i class="fa-solid fa-microchip"></i>
@@ -429,12 +584,11 @@
                         <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">צריבת גרסאות מותאמות, ביצוע רוט (Root) מקצועי ומתן פתרונות תוכנה מתקדמים למכשירי אנדרואיד.</p>
                     </div>
                     <div class="flex justify-between items-center mt-10">
-                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-green-500 transition-colors"></i>
+                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-green-500 transition-all group-hover:-translate-x-2"></i>
                     </div>
                 </div>
 
-                <!-- Service 4: Apps & Games -->
-                <div class="service-card card-translation p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                <div class="reveal-left delay-200 service-card card-translation p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
                     <div>
                         <div class="icon-box bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
                             <i class="fa-solid fa-language"></i>
@@ -443,7 +597,7 @@
                         <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">תרגום אפליקציות לשפה העברית ברמה גבוהה, ומכירת מגוון משחקים כשרים, נקיים ואיכותיים.</p>
                     </div>
                     <div class="flex justify-between items-center mt-10">
-                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-purple-500 transition-colors"></i>
+                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-purple-500 transition-all group-hover:-translate-x-2"></i>
                     </div>
                 </div>
             </div>
@@ -454,15 +608,14 @@
     <!-- Downloads Area -->
     <section id="downloads" class="py-24 bg-slate-900 dark:bg-black text-white relative">
         <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="text-center mb-16">
+            <div class="reveal text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black mb-4">מרכז ההורדות</h2>
                 <p class="text-slate-400">הכלים המתקדמים ביותר לפיתוח וניהול מכשירי אנדרואיד</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <!-- Tool 1: Android Tool Pro -->
                 <div
-                    class="group bg-slate-800 p-1 rounded-[2.5rem] border-2 border-blue-500 shadow-2xl shadow-blue-900/40 relative overflow-hidden transition-all duration-500 hover:scale-[1.01] col-span-1 md:col-span-2 lg:col-span-1">
+                    class="reveal-right group bg-slate-800 p-1 rounded-[2.5rem] border-2 border-blue-500 shadow-2xl shadow-blue-900/40 relative overflow-hidden transition-all duration-500 hover:scale-[1.01] col-span-1 md:col-span-2 lg:col-span-1">
                     <div
                         class="absolute top-0 left-0 bg-blue-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">
                         מומלץ ביותר!</div>
@@ -478,51 +631,33 @@
                             </div>
                             <h3 class="text-2xl font-black text-white">Android Tool Pro</h3>
                         </div>
-                        <p class="text-slate-400 mb-8 text-sm leading-relaxed">כלי למפתחים לשאיבת גרסה מלאה (Firmware
-                            Extraction), גיבויים וניהול קבצי מערכת ברמה הגבוהה ביותר.</p>
-
+                        <p class="text-slate-400 mb-8 text-sm leading-relaxed">כלי למפתחים לשאיבת גרסה מלאה (Firmware Extraction), גיבויים וניהול קבצי מערכת ברמה הגבוהה ביותר.</p>
                         <div class="flex flex-col gap-3">
-                            <button onclick="openModal()"
-                                class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            <button onclick="openModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
                                 <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
                             </button>
-                            <a href="https://mitmachim.top/topic/95426/%D7%A9%D7%99%D7%AA%D7%95%D7%A3-%D7%97%D7%95%D7%95%D7%AA-%D7%93%D7%A2%D7%AA-%D7%9C%D7%AA%D7%95%D7%9B%D7%A0%D7%94-%D7%9C%D7%A9%D7%90%D7%99%D7%91%D7%AA-%D7%92%D7%99%D7%A8%D7%A1%D7%94-%D7%9E%D7%9C%D7%90%D7%94-%D7%9C%D7%9C%D7%90-%D7%A8%D7%95%D7%98-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%99-%D7%92%D7%A8%D7%A1%D7%94-%D7%91%D7%98%D7%90-1.00"
-                                target="_blank"
-                                class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            <a href="https://mitmachim.top/topic/95426/%D7%A9%D7%99%D7%AA%D7%95%D7%A3-%D7%97%D7%95%D7%95%D7%AA-%D7%93%D7%A2%D7%AA-%D7%9C%D7%AA%D7%95%D7%9B%D7%A0%D7%94-%D7%9C%D7%A9%D7%90%D7%99%D7%91%D7%AA-%D7%92%D7%99%D7%A8%D7%A1%D7%94-%D7%9E%D7%9C%D7%90%D7%94-%D7%9C%D7%9C%D7%90-%D7%A8%D7%95%D7%98-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%99-%D7%92%D7%A8%D7%A1%D7%94-%D7%91%D7%98%D7%90-1.00" target="_blank" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
                                 <i class="fa-solid fa-link"></i> לנושא המלא על התוכנה
-                            </a>
-                            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
-                                target="_blank"
-                                class="bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 mt-2 transition-all">
-                                <i class="fa-solid fa-cart-shopping"></i> לפרטים נוספים ולקבלת הצעת מחיר לחצו כאן
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tool 2: Makhshirut -->
-                <div
-                    class="group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300">
+                <div class="reveal-left group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300">
                     <div class="w-full h-40 rounded-2xl mb-6 overflow-hidden bg-slate-700 border border-slate-600">
                         <img src="4c42a4d8-9ae2-4092-a758-c1b2b2e1baa2-image.png" alt="Makhshirut"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="flex items-center gap-4 mb-4">
-                        <div
-                            class="w-12 h-12 bg-cyan-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
+                        <div class="w-12 h-12 bg-cyan-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
                             <i class="fa-solid fa-fire"></i>
                         </div>
                         <h3 class="text-2xl font-bold text-white">מכשירוט</h3>
                     </div>
-                    <p class="text-slate-400 mb-8 text-sm">הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט,
-                        מהיר ובטוח.</p>
+                    <p class="text-slate-400 mb-8 text-sm">הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח.</p>
                     <div class="flex items-center justify-between">
-                        <span class="text-cyan-400 font-bold"><i class="fa-solid fa-circle-check ml-1"></i> הורדה
-                            חינם!</span>
-                        <a href="https://mitmachim.top/post/1066649"
-                            target="_blank"
-                            class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה
-                            חינם</a>
+                        <span class="text-cyan-400 font-bold"><i class="fa-solid fa-circle-check ml-1"></i> הורדה חינם!</span>
+                        <a href="https://mitmachim.top/post/1066649" target="_blank" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה חינם</a>
                     </div>
                 </div>
             </div>
@@ -533,17 +668,16 @@
     <!-- Contact & Footer -->
     <footer id="contact" class="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 pt-20 pb-10">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+            <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
                 <div>
                     <h2 class="text-3xl font-black text-slate-900 dark:text-white mb-6 font-heebo">צור קשר</h2>
                     <p class="text-slate-600 dark:text-slate-300 text-lg mb-8 font-heebo flex flex-col gap-2">
-                        <span>יש לכם שאלה? מעוניינים בשירות מותאם אישית? אני כאן לכל פנייה!</span>
+                        <span>יש לכם שאלה? מעוניינים בשירות מותאם אישית? אנחנו כאן לכל פנייה!</span>
                         <span class="inline-block self-start bg-yellow-400 text-slate-900 px-4 py-1 rounded-lg font-bold shadow-sm">יעוץ חינם!</span>
                     </p>
                     <div class="flex flex-col gap-6">
                         <div class="flex items-center gap-4">
-                            <div
-                                class="w-12 h-12 bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center text-xl">
+                            <div class="w-12 h-12 bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center text-xl">
                                 <i class="fa-solid fa-envelope"></i>
                             </div>
                             <div>
@@ -554,11 +688,10 @@
                     </div>
                 </div>
                 <div class="flex items-center md:justify-end">
-                    <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
-                        target="_blank"
-                        class="btn-blue text-white px-10 py-6 rounded-2xl font-bold text-xl shadow-xl shadow-blue-200 flex items-center gap-3 transition-all">
+                    <button onclick="toggleContactModal()"
+                        class="btn-blue text-white px-10 py-6 rounded-2xl font-bold text-xl shadow-md shadow-blue-400/20 dark:shadow-none flex items-center gap-3 transition-all">
                         <i class="fa-solid fa-paper-plane"></i> צור קשר
-                    </a>
+                    </button>
                 </div>
             </div>
 
@@ -574,38 +707,69 @@
     <!-- Floating Modal for Android Tool Pro -->
     <div id="proModal" class="modal">
         <div class="modal-content">
-            <button onclick="closeModal()"
-                class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors">
+            <button onclick="closeModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors">
                 <i class="fa-solid fa-times"></i>
             </button>
-            <div
-                class="w-20 h-20 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
+            <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
                 <i class="fa-solid fa-info-circle"></i>
             </div>
             <h3 class="text-3xl font-black mb-6 text-slate-900 dark:text-white">Android Tool Pro - פרטים נוספים</h3>
             <div class="text-right text-slate-600 dark:text-slate-300 space-y-4 mb-8 text-lg leading-relaxed">
-                <p>שלום חברים, במשך הרבה זמן פיתחתי תוכנה שתעזור לנו בתור מפתחי אנדרואיד במקום לשאוב ידני (שזה לוקח הרבה
-                    זמן, גם למקצוענים!) בלחיצת כפתור יתחיל השאיבה.</p>
-                <p>בתוכנה יש עוד הרבה אפשרויות, של שאיבת מחיצה בודדת או צריבת מחיצה בודדת.</p>
-                <p>כל הפרויקטים שלי היו חינמיים לגמרי אבל בגלל שזה ברמה אחרת אני צריך לכסות את העלויות הגבוהות אז אני
-                    לוקח תשלום סמלי. ניתן לשלם במזומן, ביט, העברה בנקאית.</p>
+                <p>שלום חברים, במשך הרבה זמן פיתחתי תוכנה שתעזור לנו בתור מפתחי אנדרואיד במקום לשאוב ידני בלחיצת כפתור.</p>
+                <p>כל הפרויקטים שלי היו חינמיים לגמרי אבל בגלל שזה ברמה אחרת אני צריך לכסות את העלויות הגבוהות אז אני לוקח תשלום סמלי.</p>
             </div>
-            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
-                target="_blank"
-                class="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-200 transition-all">
-                לפרטים נוספים ולהצעת מחיר לחצו כאן:
-            </a>
+            <button onclick="toggleContactModal(); closeModal();" class="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-200 transition-all">
+                לפרטים נוספים ולהצעת מחיר לחצו כאן
+            </button>
         </div>
     </div>
 
-    <!-- כפתור צור קשר צף -->
-    <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&body=%D7%94%D7%99%D7%99&tf=cm"
-        target="_blank"
-        class="floating-contact-btn">
-        <i class="fa-solid fa-paper-plane"></i> צור קשר
-    </a>
+    <!-- חלונית צור קשר מותאמת אישית -->
+    <div id="customContactModal">
+        <div class="modal-header">
+            <button onclick="toggleContactModal()" class="hover:text-red-400 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <span class="font-bold">צור קשר</span>
+        </div>
+        <div class="modal-body">
+            <h4 class="text-lg font-bold mb-4 text-center">יש לכם שאלות? השאירו פרטים ונחזור אליכם בהקדם.</h4>
+            <form id="quickContactForm" action="https://formspree.io/f/xgodjayy" method="POST">
+                <div class="form-group">
+                    <label>שם פרטי (חובה)</label>
+                    <input type="text" name="first_name" id="fname" placeholder="הכנס שם פרטי" required>
+                </div>
+                <div class="form-group">
+                    <label>מייל (חובה)</label>
+                    <input type="email" name="email" id="femail" placeholder="הכנס כתובת מייל" required>
+                </div>
+                <div class="form-group">
+                    <label>שם משפחה/עסק (לא חובה)</label>
+                    <input type="text" name="last_name_or_business" id="flname" placeholder="הכנס שם משפחה או עסק">
+                </div>
+                <div class="form-group">
+                    <label>הודעה (חובה)</label>
+                    <textarea name="message" id="fmsg" rows="3" placeholder="כתבו כאן את ההודעה שלכם..." required></textarea>
+                </div>
+                <button type="submit" id="submit-btn" class="send-btn">שלח הודעה</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- הודעת Toast כחולה -->
+    <div id="toast-notification">נשלח! נחזור אליכם בהקדם האפשרי.</div>
+
+    <!-- כפתור צור קשר צף כחול -->
+    <button onclick="toggleContactModal()" class="floating-contact-btn">
+        <i class="fa-solid fa-comment-dots"></i>
+    </button>
 
     <script>
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .scale-up').forEach(el => observer.observe(el));
+
         function openModal() {
             document.getElementById('proModal').classList.add('active-modal');
             document.body.style.overflow = 'hidden';
@@ -614,20 +778,68 @@
             document.getElementById('proModal').classList.remove('active-modal');
             document.body.style.overflow = 'auto';
         }
+        function toggleContactModal() {
+            document.getElementById('customContactModal').classList.toggle('active');
+        }
+
+        // טיפול בשליחת הטופס (AJAX) - סגירת חלון והצגת הודעת הצלחה
+        var form = document.getElementById("quickContactForm");
         
+        async function handleSubmit(event) {
+          event.preventDefault();
+          var submitBtn = document.getElementById("submit-btn");
+          var toast = document.getElementById("toast-notification");
+          
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = "שולח...";
+
+          var data = new FormData(event.target);
+          
+          fetch(event.target.action, {
+            method: form.method,
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+          }).then(response => {
+            if (response.ok) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = "שלח הודעה";
+              form.reset();
+              
+              // סגירת החלונית מיד
+              toggleContactModal();
+              
+              // הצגת הודעת Toast
+              toast.classList.add("show");
+              
+              setTimeout(() => {
+                toast.classList.remove("show");
+              }, 4000);
+
+            } else {
+              alert("אופס! הייתה בעיה בשליחה. נסה שוב.");
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = "שלח הודעה";
+            }
+          }).catch(error => {
+            alert("אופס! הייתה בעיה בחיבור.");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = "שלח הודעה";
+          });
+        }
+        form.addEventListener("submit", handleSubmit);
+
         function toggleDarkMode() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
-            
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+                icon.classList.replace('fa-sun', 'fa-moon');
                 localStorage.setItem('theme', 'light');
             } else {
                 html.classList.add('dark');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
+                icon.classList.replace('fa-moon', 'fa-sun');
                 localStorage.setItem('theme', 'dark');
             }
         }
@@ -638,42 +850,19 @@
         }
 
         window.onclick = function (event) {
-            let modal = document.getElementById('proModal');
-            if (event.target == modal) {
-                closeModal();
-            }
+            if (event.target == document.getElementById('proModal')) closeModal();
         }
 
-        // לוגיקת Parallax עדינה ו-Navbar גלילה
         window.addEventListener('scroll', function() {
             const scrolled = window.pageYOffset;
             const nav = document.getElementById('mainNav');
-            
-            if (scrolled > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-
-            const parallaxLayers = document.querySelectorAll('.parallax-layer');
-            parallaxLayers.forEach(layer => {
+            if (scrolled > 50) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+            document.querySelectorAll('.parallax-layer').forEach(layer => {
                 const speed = layer.getAttribute('data-speed');
-                const yPos = -(scrolled * speed);
-                layer.style.transform = `translateY(${yPos}px)`;
+                layer.style.transform = `translateY(${-(scrolled * speed)}px)`;
             });
         });
-
-        let currentSlide = 0;
-        const totalSlides = 5;
-        const track = document.getElementById('testimonialTrack');
-
-        function moveSlider(direction) {
-            if(!track) return;
-            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
-            track.style.transform = `translateX(${currentSlide * 100}%)`;
-        }
-
-        setInterval(() => moveSlider(1), 5000);
     </script>
 </body>
+
 </html>
