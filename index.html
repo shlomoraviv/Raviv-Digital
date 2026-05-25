@@ -81,6 +81,11 @@
             transform: scale(1);
         }
 
+        /* אפקט השהיה לתמונות בטעינה ראשונית */
+        .initial-load-delay {
+            transition-delay: 1000ms !important;
+        }
+
         /* השהיות לאפקט מדורג */
         .delay-100 { transition-delay: 100ms; }
         .delay-200 { transition-delay: 200ms; }
@@ -151,11 +156,15 @@
         
         .logo-blend {
             background-color: transparent;
-            transition: transform 0.5s ease;
+            transition: all 0.5s ease;
+            object-fit: contain;
+            /* שילוב הלוגו ברקע */
+            mix-blend-mode: luminosity;
         }
         
         .logo-blend:hover {
-            transform: scale(1.05) rotate(2deg);
+            transform: scale(1.05);
+            mix-blend-mode: normal;
         }
 
         /* עיצוב כרטיסי שירות */
@@ -202,10 +211,6 @@
         .dark .service-card {
             background-color: #1e293b;
             border-color: rgba(51, 65, 85, 0.5);
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         .modal {
@@ -453,6 +458,34 @@
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
         }
+
+        /* עיצוב מחירון בסגנון התמונה */
+        .pricing-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .dark .pricing-card { background: #1e293b; border-color: #334155; }
+
+        .pricing-card.featured {
+            border: 2px solid var(--digital-yellow);
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(242, 181, 11, 0.15);
+        }
+
+        .price-tag {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--digital-yellow);
+            margin: 1.5rem 0;
+        }
     </style>
 </head>
 
@@ -466,7 +499,9 @@
             <div class="hidden md:flex items-center gap-8 text-lg font-bold text-white">
                 <a href="#home" class="nav-link hover:text-yellow-400 transition-colors">בית</a>
                 <a href="#about" class="nav-link hover:text-yellow-400 transition-colors">אודות</a>
+                <a href="#why-us" class="nav-link hover:text-yellow-400 transition-colors">למה אנחנו</a>
                 <a href="#services" class="nav-link hover:text-yellow-400 transition-colors">שירותים ומוצרים</a>
+                <a href="#pricing" class="nav-link hover:text-yellow-400 transition-colors">מחירון</a>
                 <a href="#downloads" class="nav-link hover:text-yellow-400 transition-colors">תוכנות להורדה</a>
                 <a href="#contact" class="nav-link hover:text-yellow-400 transition-colors">צור קשר</a>
             </div>
@@ -496,17 +531,17 @@
         <div class="parallax-layer absolute top-1/2 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-2xl" data-speed="0.3"></div>
 
         <div class="max-w-7xl mx-auto px-6 relative text-center">
-            <div class="scale-up active">
-                <!-- כאן שיניתי חזרה ל-download.jpg כדי שזה יטען מהגיטהאב שלך -->
-                <img src="download.jpg" alt="רביב דיגיטל" class="w-64 mx-auto mb-10 logo-blend">
+            <!-- לוגו משתלב מושהה -->
+            <div class="scale-up initial-load-delay">
+                <img src="logo.png" alt="רביב דיגיטל" class="w-64 mx-auto mb-10 logo-blend">
             </div>
-            <h1 class="reveal active text-5xl md:text-7xl font-black mb-8 tracking-tight text-white leading-tight drop-shadow-xl">
+            <h1 class="reveal initial-load-delay text-5xl md:text-7xl font-black mb-8 tracking-tight text-white leading-tight drop-shadow-xl">
                 הופכים רעיונות לטכנולוגיה שעובדת
             </h1>
-            <p class="reveal delay-200 active text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-10 leading-relaxed font-light drop-shadow-md">
+            <p class="reveal initial-load-delay delay-200 text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-10 leading-relaxed font-light drop-shadow-md">
                 פיתוח אפליקציות, בניית מערכות מותאמות אישית, צריבת גרסאות, והכשרת נגנים ברמה מקצועית.
             </p>
-            <div class="reveal delay-300 active flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div class="reveal initial-load-delay delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="#services" class="btn-yellow px-10 py-4 font-bold shadow-lg w-full sm:w-auto">
                     הצגת שירותים
                 </a>
@@ -539,8 +574,20 @@
         </div>
     </section>
 
+    <!-- Why Us Section -->
+    <section id="why-us" class="py-20 bg-white dark:bg-slate-950">
+        <div class="max-w-5xl mx-auto px-6 text-center reveal">
+            <h2 class="text-4xl font-black mb-8 dark:text-white">למה לבחור <span class="text-yellow-500">דווקא בנו?</span></h2>
+            <div class="p-8 rounded-[2.5rem] bg-blue-50 dark:bg-slate-900 border border-blue-100 dark:border-slate-800">
+                <p class="text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                    אצלנו תיהנו משירות יעיל, מקצועי ומותאם אישית במדויק לחזון שלכם. אנו משקיעים בכל לקוח את מלוא תשומת הלב והמשאבים כדי להבטיח תוצאה מושלמת ללא פשרות.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <!-- Services & Products -->
-    <section id="services" class="py-24 bg-white dark:bg-slate-950">
+    <section id="services" class="py-24 bg-slate-50 dark:bg-slate-900">
         <div class="max-w-7xl mx-auto px-6">
             <div class="reveal text-center mb-20">
                 <h2 class="text-4xl md:text-5xl font-black mb-6 dark:text-white">השירותים <span class="text-yellow-500">שלנו</span></h2>
@@ -603,6 +650,67 @@
         </div>
     </section>
 
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 bg-white dark:bg-slate-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="reveal text-center mb-16">
+                <span class="text-yellow-500 font-bold tracking-widest uppercase text-sm">השקעה משתלמת</span>
+                <h2 class="text-4xl md:text-5xl font-black mt-2 mb-6 dark:text-white">מחירון</h2>
+                <p class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-lg">כלים טכנולוגיים ברמה גבוהה, במחירים מיוחדים ונוחים .</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
+                
+                <!-- Right Card: Software & Apps -->
+                <div class="reveal-right pricing-card shadow-lg">
+                    <div>
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 mx-auto rounded-2xl flex items-center justify-center text-2xl mb-6">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <h3 class="text-2xl font-black mb-2 dark:text-white">תוכנות/אפליקציות</h3>
+                        <p class="text-slate-500 dark:text-slate-400 mb-4">שרות בנייה עריכה, שדרוג ועוד</p>
+                        <div class="price-tag"><span class="text-lg font-bold align-middle ml-1">החל מ-</span>399 <span class="text-xl">₪</span></div>
+                    </div>
+                    <button onclick="toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
+                         פנו להצעת מחיר <i class="fa-solid fa-envelope"></i>
+                    </button>
+                </div>
+
+                <!-- Center Featured Card: Website -->
+                <div class="reveal pricing-card featured">
+                    <span class="bg-yellow-400 text-slate-900 text-xs font-bold px-4 py-1 rounded-full absolute -top-3 left-1/2 -translate-x-1/2 uppercase tracking-wider">מומלץ ופופולרי</span>
+                    <div>
+                        <div class="w-20 h-20 bg-yellow-100 text-yellow-600 mx-auto rounded-3xl flex items-center justify-center text-3xl mb-8">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-3xl font-black mb-4 dark:text-white">בניית אתר תדמית</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed px-4">אתר מותאם אישית ללקוח כולל לוגו מקצועי, מעוצב, מהיר ומותאם לכל המכשירים.</p>
+                        <div class="price-tag"><span class="text-lg font-bold align-middle ml-1">רק</span> 399 <span class="text-xl">₪</span></div>
+                    </div>
+                    <button onclick="toggleContactModal()" class="btn-yellow w-full py-5 font-black mt-8 flex items-center justify-center gap-2 text-lg">
+                        להזמנה ויצירת קשר <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <!-- Left Card: Chrome Extensions -->
+                <div class="reveal-left pricing-card shadow-lg">
+                    <div>
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 mx-auto rounded-2xl flex items-center justify-center text-2xl mb-6">
+                            <i class="fa-brands fa-chrome"></i>
+                        </div>
+                        <h3 class="text-2xl font-black mb-2 dark:text-white">תוספים וסקריפטים</h3>
+                        <p class="text-slate-500 dark:text-slate-400 mb-4">תוספי כרום, סקריפטים ועוד בהתאמה אישית</p>
+                        <div class="price-tag">199 <span class="text-xl">₪</span></div>
+                    </div>
+                    <button onclick="toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
+                        פנו להצעת מחיר <i class="fa-solid fa-envelope"></i>
+                    </button>
+                </div>
+
+            </div>
+            <p class="text-center text-slate-400 text-sm mt-12">* המחיר הסופי ייקבע בהתאם להיקף הפרויקט, מורכבות הפיתוח והדרישות הספציפיות.</p>
+        </div>
+    </section>
 
     <!-- Downloads Area -->
     <section id="downloads" class="py-24 bg-slate-900 dark:bg-black text-white relative">
@@ -675,15 +783,18 @@
                         <span class="inline-block self-start bg-yellow-400 text-slate-900 px-4 py-1 rounded-lg font-bold shadow-sm">יעוץ חינם!</span>
                     </p>
                     <div class="flex flex-col gap-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center text-xl">
+                        <!-- קישור מייל תקין ופעיל -->
+                        <a href="mailto:0556798858b@gmail.com" class="flex items-center gap-4 group cursor-pointer hover:no-underline">
+                            <div class="w-12 h-12 bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center text-xl group-hover:bg-blue-600 group-hover:text-white transition-all">
                                 <i class="fa-solid fa-envelope"></i>
                             </div>
                             <div>
-                                <p class="text-sm text-slate-400">אימייל ליצירת קשר</p>
-                                <p class="text-lg font-bold dark:text-white">0556798858b@gmail.com</p>
+                                <p class="text-sm text-slate-400">אימייל ליצירת קשר (לחצו לשליחה)</p>
+                                <p class="text-lg font-bold dark:text-white group-hover:text-yellow-500 transition-colors">
+                                    0556798858b@gmail.com
+                                </p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="flex items-center md:justify-end">
@@ -762,12 +873,54 @@
     </button>
 
     <script>
+        // פונקציית אנימציית גלילה איטית (Smooth Slow Scroll)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const startPosition = window.pageYOffset;
+                    const distance = targetPosition - startPosition;
+                    const duration = 2000; // זמן הגלילה במילישניות - 2 שניות (גלילה איטית)
+                    let start = null;
+
+                    window.requestAnimationFrame(step);
+
+                    function step(timestamp) {
+                        if (!start) start = timestamp;
+                        const progress = timestamp - start;
+                        window.scrollTo(0, easeInOutCubic(progress, startPosition, distance, duration));
+                        if (progress < duration) window.requestAnimationFrame(step);
+                    }
+                }
+            });
+        });
+
+        // פונקציית מתמטית לגלילה חלקה
+        function easeInOutCubic(t, b, c, d) {
+            t /= d/2;
+            if (t < 1) return c/2*t*t*t + b;
+            t -= 2;
+            return c/2*(t*t*t + 2) + b;
+        };
+
         const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, observerOptions);
 
+        // הפעלת האנימציות
         document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .scale-up').forEach(el => observer.observe(el));
+
+        // הפעלת אנימציות ה-Hero בהשהיה של שנייה אחרי טעינת הדף
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.initial-load-delay').forEach(el => el.classList.add('active'));
+            }, 100); 
+        });
 
         function openModal() {
             document.getElementById('proModal').classList.add('active-modal');
@@ -805,17 +958,9 @@
               submitBtn.disabled = false;
               submitBtn.innerHTML = "שלח הודעה";
               form.reset();
-              
-              // סגירת החלונית מיד
               toggleContactModal();
-              
-              // הצגת הודעת Toast
               toast.classList.add("show");
-              
-              setTimeout(() => {
-                toast.classList.remove("show");
-              }, 4000);
-
+              setTimeout(() => { toast.classList.remove("show"); }, 4000);
             } else {
               alert("אופס! הייתה בעיה בשליחה. נסה שוב.");
               submitBtn.disabled = false;
