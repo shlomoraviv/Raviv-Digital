@@ -486,6 +486,52 @@
             color: var(--digital-yellow);
             margin: 1.5rem 0;
         }
+
+        /* גלריית תיק עבודות */
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2.5rem;
+            cursor: pointer;
+            background: #e2e8f0;
+            aspect-ratio: 16 / 9;
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26, 50, 99, 0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 2rem;
+        }
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        /* לייטבוקס */
+        #lightboxModal {
+            z-index: 10001;
+        }
+        #lightboxImage {
+            max-height: 75vh;
+            max-width: 100%;
+            border-radius: 1.5rem;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
 
@@ -587,7 +633,7 @@
     </section>
 
     <!-- Services & Products -->
-    <section id="services" class="py-24 bg-slate-50 dark:bg-slate-900">
+    <section id="services" class="py-24 bg-slate-50 dark:bg-slate-900 pb-12">
         <div class="max-w-7xl mx-auto px-6">
             <div class="reveal text-center mb-20">
                 <h2 class="text-4xl md:text-5xl font-black mb-6 dark:text-white">השירותים <span class="text-yellow-500">שלנו</span></h2>
@@ -614,27 +660,14 @@
                             <i class="fa-solid fa-headphones-simple"></i>
                         </div>
                         <h3 class="text-2xl font-black mb-4 text-slate-900 dark:text-white">הכשרת נגנים</h3>
-                        <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">מכשיר את כל סוגי הנגנים בצורה מקצועית, עם אפשרות לחסימת אינטרנט, וידאו או רדיו בהתאמה אישית.</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">מכשיר את כל סוגי הנגנים בצורה מקצועית, עם אפשרות לחסימת אינטרנט, וידאו או רדיו בהתאמה אישית. כולל צריבת גרסאות, צריבת רוט ועוד.</p>
                     </div>
                     <div class="flex justify-between items-center mt-10">
                         <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-yellow-500 transition-all group-hover:-translate-x-2"></i>
                     </div>
                 </div>
 
-                <div class="reveal-right delay-200 service-card card-android p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
-                    <div>
-                        <div class="icon-box bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-400">
-                            <i class="fa-solid fa-microchip"></i>
-                        </div>
-                        <h3 class="text-2xl font-black mb-4 text-slate-900 dark:text-white">צריבת גרסאות כשרות</h3>
-                        <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">צריבת גרסאות מותאמות, ביצוע רוט (Root) מקצועי ומתן פתרונות תוכנה מתקדמים למכשירי אנדרואיד.</p>
-                    </div>
-                    <div class="flex justify-between items-center mt-10">
-                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-green-500 transition-all group-hover:-translate-x-2"></i>
-                    </div>
-                </div>
-
-                <div class="reveal-left delay-200 service-card card-translation p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                <div class="reveal-right delay-200 service-card card-translation p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
                     <div>
                         <div class="icon-box bg-purple-50 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
                             <i class="fa-solid fa-language"></i>
@@ -644,6 +677,55 @@
                     </div>
                     <div class="flex justify-between items-center mt-10">
                         <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-purple-500 transition-all group-hover:-translate-x-2"></i>
+                    </div>
+                </div>
+
+                <div class="reveal-left delay-200 service-card card-android p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden group">
+                    <div>
+                        <div class="icon-box bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h3 class="text-2xl font-black mb-4 text-slate-900 dark:text-white">עיצוב פרסומות תמונות ולוגו, ברמה גבוהה!</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-lg leading-relaxed">עיצוב גרפי מקצועי הכולל מיתוג עסקי, עיצוב לוגו ייחודי, באנרים ופרסומות המותאמים אישית לצרכי הלקוח.</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-10">
+                        <i class="fa-solid fa-arrow-left text-slate-300 group-hover:text-green-500 transition-all group-hover:-translate-x-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- תיק עבודות - פרסומים ועיצובים -->
+    <section id="portfolio" class="py-16 bg-slate-50 dark:bg-slate-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="reveal text-center mb-12">
+                <h3 class="text-3xl font-black mb-4 dark:text-white">תיק עבודות <span class="text-yellow-500">ופרסומים</span></h3>
+                <p class="text-slate-500 dark:text-slate-400">הצצה לעיצובים ולפרסומים שיצרנו (לחצו להגדלה, הורדה ומעבר לקישור)</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- פריט 1: פורום בני ברק -->
+                <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('unnamed (17).png', 'https://bnebrak.com/')">
+                    <img src="unnamed (17).png" alt="פרסום פורום בני ברק">
+                    <div class="portfolio-overlay">
+                        <span class="bg-white text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg">צפייה בפרסום <i class="fa-solid fa-magnifying-glass-plus mr-2"></i></span>
+                    </div>
+                </div>
+
+                <!-- פריט 2: צלם רחפן -->
+                <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('unnamed (16).png', 'https://mail.google.com/mail/u/0/?fs=1&to=eliyahubloy@gmail.com&tf=cm')">
+                    <img src="unnamed (16).png" alt="פרסום צלם רחפן">
+                    <div class="portfolio-overlay">
+                        <span class="bg-white text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg">צפייה בפרסום <i class="fa-solid fa-magnifying-glass-plus mr-2"></i></span>
+                    </div>
+                </div>
+
+                <!-- פריט 3: הכשרת נגנים -->
+                <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('unnamed (18).png', '#')">
+                    <img src="unnamed (18).png" alt="הכשרת נגנים">
+                    <div class="portfolio-overlay">
+                        <span class="bg-white text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg">צפייה בפרסום <i class="fa-solid fa-magnifying-glass-plus mr-2"></i></span>
                     </div>
                 </div>
             </div>
@@ -805,7 +887,7 @@
                 </div>
             </div>
 
-            <div class="pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-right">
+            <div class="pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col md:row justify-between items-center gap-6 text-center md:text-right">
                 <div class="flex items-center gap-2">
                     <span class="font-bold text-slate-400">© 2026 רביב דיגיטל. כל הזכויות שמורות לשלמה רביב.</span>
                 </div>
@@ -831,6 +913,26 @@
             <button onclick="toggleContactModal(); closeModal();" class="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-200 transition-all">
                 לפרטים נוספים ולהצעת מחיר לחצו כאן
             </button>
+        </div>
+    </div>
+
+    <!-- לייטבוקס -->
+    <div id="lightboxModal" class="modal" onclick="closeLightbox(event)">
+        <div class="modal-content max-w-4xl p-6" onclick="event.stopPropagation()">
+            <button onclick="closeLightbox(null)" class="absolute -top-12 left-0 text-white text-3xl hover:text-yellow-400 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <a id="lightboxLink" href="#" target="_blank" class="block w-full">
+                <img id="lightboxImage" src="" alt="תצוגה מוגדלת" class="mx-auto shadow-2xl">
+            </a>
+
+            <div class="mt-8 flex flex-col items-center gap-4">
+                <a id="downloadBtn" href="#" download class="btn-yellow px-10 py-4 font-bold flex items-center gap-3 text-lg">
+                    הורדת קובץ <i class="fa-solid fa-download"></i>
+                </a>
+                <p class="text-sm text-slate-400 font-bold">לחצו על התמונה למעבר לאתר/קישור הרלוונטי</p>
+            </div>
         </div>
     </div>
 
@@ -873,7 +975,7 @@
     </button>
 
     <script>
-        // פונקציית אנימציית גלילה איטית (Smooth Slow Scroll)
+        // פונקציית אנימציית גלילה איטית
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -884,7 +986,7 @@
                     const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
                     const startPosition = window.pageYOffset;
                     const distance = targetPosition - startPosition;
-                    const duration = 2000; // זמן הגלילה במילישניות - 2 שניות (גלילה איטית)
+                    const duration = 2000; 
                     let start = null;
 
                     window.requestAnimationFrame(step);
@@ -899,7 +1001,6 @@
             });
         });
 
-        // פונקציית מתמטית לגלילה חלקה
         function easeInOutCubic(t, b, c, d) {
             t /= d/2;
             if (t < 1) return c/2*t*t*t + b;
@@ -912,10 +1013,8 @@
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, observerOptions);
 
-        // הפעלת האנימציות
         document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .scale-up').forEach(el => observer.observe(el));
 
-        // הפעלת אנימציות ה-Hero בהשהיה של שנייה אחרי טעינת הדף
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.querySelectorAll('.initial-load-delay').forEach(el => el.classList.add('active'));
@@ -934,7 +1033,40 @@
             document.getElementById('customContactModal').classList.toggle('active');
         }
 
-        // טיפול בשליחת הטופס (AJAX) - סגירת חלון והצגת הודעת הצלחה
+        // פונקציית לייטבוקס מתוקנת
+        function openLightbox(imgSrc, linkUrl) {
+            const modal = document.getElementById('lightboxModal');
+            const img = document.getElementById('lightboxImage');
+            const link = document.getElementById('lightboxLink');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            img.src = imgSrc;
+            
+            // הגדרת הקישור בלחיצה על התמונה
+            if (linkUrl && linkUrl !== '#') {
+                link.href = linkUrl;
+                link.style.cursor = "pointer";
+            } else {
+                link.href = "javascript:void(0)";
+                link.style.cursor = "default";
+            }
+
+            // הגדרת כפתור ההורדה
+            downloadBtn.href = imgSrc;
+            downloadBtn.setAttribute('download', imgSrc);
+
+            modal.classList.add('active-modal');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(e) {
+            // סגירה רק אם לוחצים על הרקע או אם הועבר null מה-X
+            if (e === null || e.target.id === 'lightboxModal') {
+                document.getElementById('lightboxModal').classList.remove('active-modal');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
         var form = document.getElementById("quickContactForm");
         
         async function handleSubmit(event) {
