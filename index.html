@@ -704,7 +704,7 @@
                 <p class="text-slate-500 dark:text-slate-400">הצצה לעיצובים ולפרסומים שיצרנו (לחצו להגדלה, הורדה ומעבר לקישור)</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 <!-- פריט 1: פורום בני ברק -->
                 <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('unnamed%20(17).png', 'https://bnebrak.com/')">
                     <img src="unnamed (17).png" alt="פרסום פורום בני ברק">
@@ -716,14 +716,6 @@
                 <!-- פריט 2: צלם רחפן -->
                 <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('unnamed%20(16).png', 'https://mail.google.com/mail/u/0/?fs=1&to=eliyahubloy@gmail.com&tf=cm')">
                     <img src="unnamed (16).png" alt="פרסום צלם רחפן">
-                    <div class="portfolio-overlay">
-                        <span class="bg-white text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg">צפייה בפרסום <i class="fa-solid fa-magnifying-glass-plus mr-2"></i></span>
-                    </div>
-                </div>
-
-                <!-- פריט 3: הכשרת נגנים -->
-                <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('unnamed%20(18).png', '#')">
-                    <img src="unnamed (18).png" alt="הכשרת נגנים">
                     <div class="portfolio-overlay">
                         <span class="bg-white text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg">צפייה בפרסום <i class="fa-solid fa-magnifying-glass-plus mr-2"></i></span>
                     </div>
@@ -928,9 +920,6 @@
             </a>
 
             <div class="mt-8 flex flex-col items-center gap-4">
-                <a id="downloadBtn" href="#" download class="btn-yellow px-10 py-4 font-bold flex items-center gap-3 text-lg">
-                    הורדת קובץ <i class="fa-solid fa-download"></i>
-                </a>
                 <p class="text-sm text-slate-400 font-bold">לחצו על התמונה למעבר לאתר/קישור הרלוונטי</p>
             </div>
         </div>
@@ -1038,7 +1027,6 @@
             const modal = document.getElementById('lightboxModal');
             const img = document.getElementById('lightboxImage');
             const link = document.getElementById('lightboxLink');
-            const downloadBtn = document.getElementById('downloadBtn');
 
             // פענוח שם הקובץ למקרה שיש רווחים
             const decodedImgSrc = decodeURIComponent(imgSrc);
@@ -1048,13 +1036,16 @@
             if (linkUrl && linkUrl !== '#') {
                 link.href = linkUrl;
                 link.style.cursor = "pointer";
+                // הוספת אירוע לחיצה ישיר למעבר בטוח
+                link.onclick = function(e) {
+                    window.open(linkUrl, '_blank');
+                    e.preventDefault();
+                };
             } else {
                 link.href = "javascript:void(0)";
                 link.style.cursor = "default";
+                link.onclick = null;
             }
-
-            downloadBtn.href = decodedImgSrc;
-            downloadBtn.setAttribute('download', decodedImgSrc);
 
             modal.classList.add('active-modal');
             document.body.style.overflow = 'hidden';
