@@ -520,6 +520,285 @@
             opacity: 1;
         }
 
+        /* ============================================================
+           מסך פתיחה אנימטי (Intro Overlay)
+           ============================================================ */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.4rem;
+            background: radial-gradient(1100px 650px at 72% 18%, #24457e 0%, #14275a 48%, #0a1428 100%);
+            overflow: hidden;
+            transition: opacity .6s ease, clip-path .85s cubic-bezier(.7, 0, .3, 1);
+        }
+
+        #intro-overlay.exit {
+            clip-path: inset(0 0 100% 0);
+            opacity: .3;
+            pointer-events: none;
+        }
+
+        #intro-overlay.gone { display: none; }
+
+        .intro-orb { position: absolute; border-radius: 50%; filter: blur(70px); animation: introFloat 6s ease-in-out infinite; }
+        .intro-orb-a { width: 340px; height: 340px; background: #f2b50b; opacity: .16; top: 12%; right: 12%; }
+        .intro-orb-b { width: 280px; height: 280px; background: #3b82f6; opacity: .28; bottom: 14%; left: 10%; animation-delay: 1.6s; }
+
+        @keyframes introFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .intro-grid {
+            position: absolute; inset: 0; opacity: .12;
+            background-image: linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px);
+            background-size: 46px 46px;
+            -webkit-mask-image: radial-gradient(circle at 50% 45%, black 0%, transparent 70%);
+            mask-image: radial-gradient(circle at 50% 45%, black 0%, transparent 70%);
+        }
+
+        .intro-center { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .9rem; text-align: center; padding: 0 1rem; }
+
+        .intro-logo-wrap { position: relative; width: 150px; height: 150px; display: grid; place-items: center; animation: introFloat 5s ease-in-out infinite; }
+
+        .intro-logo {
+            width: 112px; height: 112px; object-fit: contain; border-radius: 26px;
+            mix-blend-mode: screen;
+            filter: drop-shadow(0 14px 34px rgba(0, 0, 0, .5));
+            animation: introPop .9s cubic-bezier(.16, 1, .3, 1) both .1s;
+        }
+
+        .intro-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(242, 181, 11, .45); animation: ringPulse 2.6s ease-out infinite; }
+        .intro-ring-2 { animation-delay: 1.3s; }
+
+        @keyframes ringPulse {
+            0% { transform: scale(.72); opacity: .9; }
+            100% { transform: scale(1.35); opacity: 0; }
+        }
+
+        @keyframes introPop {
+            from { opacity: 0; transform: scale(.55) rotate(-8deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .intro-shine { position: absolute; inset: -6px; border-radius: 30px; overflow: hidden; pointer-events: none; }
+
+        .intro-shine::after {
+            content: '';
+            position: absolute; top: -60%; bottom: -60%; width: 42%; right: -70%;
+            transform: rotate(22deg);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent);
+            animation: shineSweep 2.6s ease-in-out infinite .8s;
+        }
+
+        @keyframes shineSweep {
+            0% { right: -70%; }
+            55%, 100% { right: 135%; }
+        }
+
+        .intro-title {
+            font-size: clamp(2.4rem, 7vw, 4rem);
+            font-weight: 900; color: #fff; letter-spacing: -.02em; line-height: 1.05;
+            animation: introRise .8s cubic-bezier(.16, 1, .3, 1) both .28s;
+        }
+
+        .intro-title .intro-yellow { color: var(--digital-yellow); }
+
+        .intro-tag {
+            color: rgba(226, 232, 240, .85);
+            font-size: clamp(1rem, 2.6vw, 1.2rem); font-weight: 300;
+            animation: introRise .8s cubic-bezier(.16, 1, .3, 1) both .46s;
+        }
+
+        @keyframes introRise {
+            from { opacity: 0; transform: translateY(26px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-bar {
+            width: min(260px, 60vw); height: 4px; border-radius: 999px;
+            background: rgba(255, 255, 255, .14); overflow: hidden; z-index: 2;
+        }
+
+        .intro-bar-fill {
+            height: 100%; width: 0; border-radius: inherit;
+            background: linear-gradient(90deg, #3b82f6, var(--digital-yellow));
+            transition: width .15s linear;
+        }
+
+        .intro-skip {
+            z-index: 2; margin-top: .4rem;
+            color: rgba(226, 232, 240, .75); font-weight: 700; font-size: .92rem;
+            display: inline-flex; align-items: center; gap: .45rem;
+            padding: 9px 15px; border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: rgba(255, 255, 255, .06); backdrop-filter: blur(6px);
+            transition: all .25s ease; cursor: pointer;
+        }
+
+        .intro-skip:hover { color: #fff; background: rgba(242, 181, 11, .18); border-color: rgba(242, 181, 11, .4); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .intro-orb, .intro-ring, .intro-logo-wrap, .intro-logo, .intro-title, .intro-tag { animation: none !important; }
+        }
+
+        /* ============================================================
+           עוקב עכבר (Cursor Follower) + ספוטלייט Hero
+           ============================================================ */
+        #cursor-glow, #cursor-dot, #cursor-ring {
+            position: fixed; top: 0; left: 0;
+            pointer-events: none; opacity: 0;
+            transition: opacity .4s ease;
+        }
+
+        #cursor-glow.on, #cursor-dot.on, #cursor-ring.on { opacity: 1; }
+
+        #cursor-glow {
+            z-index: 150000; width: 380px; height: 380px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(242, 181, 11, .16) 0%, rgba(59, 130, 246, .12) 38%, transparent 68%);
+            mix-blend-mode: screen;
+            will-change: transform;
+        }
+
+        #cursor-ring {
+            z-index: 200000; width: 36px; height: 36px;
+            border: 1.5px solid rgba(242, 181, 11, .8);
+            border-radius: 50%;
+            background: rgba(242, 181, 11, .06);
+            transition: opacity .4s ease, background .25s ease, border-color .25s ease;
+            will-change: transform;
+        }
+
+        #cursor-ring.hot { background: rgba(242, 181, 11, .14); border-color: rgba(242, 181, 11, 1); }
+
+        #cursor-dot {
+            z-index: 200001; width: 8px; height: 8px;
+            background: var(--digital-yellow); border-radius: 50%;
+            box-shadow: 0 0 12px rgba(242, 181, 11, .85);
+            will-change: transform;
+        }
+
+        @media (pointer: coarse) {
+            #cursor-glow, #cursor-dot, #cursor-ring { display: none; }
+        }
+
+        #hero-spotlight {
+            position: absolute; inset: 0; pointer-events: none; opacity: 0;
+            background: radial-gradient(430px circle at var(--sx, 50%) var(--sy, 50%), rgba(242, 181, 11, .13), rgba(59, 130, 246, .09) 42%, transparent 66%);
+            transition: opacity .45s ease;
+        }
+
+        #hero-spotlight.on { opacity: 1; }
+
+        /* ============================================================
+           מוני לייקים וצפיות
+           ============================================================ */
+        .rv-stats { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin: 0 0 1.25rem; }
+
+        .rv-pill, .rv-like-btn {
+            display: inline-flex; align-items: center; gap: .45rem;
+            padding: .42rem .85rem; border-radius: 999px;
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .12);
+            color: #cbd5e1; font-size: .85rem; font-weight: 700; line-height: 1.2;
+            transition: all .25s ease;
+        }
+
+        .rv-like-btn { cursor: pointer; }
+        .rv-like-btn:hover { border-color: rgba(242, 181, 11, .5); color: #f2b50b; transform: translateY(-1px); }
+        .rv-like-btn.liked { background: rgba(242, 181, 11, .16); border-color: rgba(242, 181, 11, .5); color: #f2b50b; }
+        .rv-like-btn.liked .fa-heart { animation: rvLikePop .45s cubic-bezier(.16, 1, .3, 1); }
+
+        @keyframes rvLikePop {
+            0% { transform: scale(.4); }
+            60% { transform: scale(1.35); }
+            100% { transform: scale(1); }
+        }
+
+        .rv-stats-light .rv-pill,
+        .rv-stats-light .rv-like-btn { background: #f8fafc; border-color: #e2e8f0; color: #475569; }
+
+        .rv-stats-light .rv-like-btn:hover,
+        .rv-stats-light .rv-like-btn.liked { background: #fef9c3; border-color: var(--digital-yellow); color: #a16207; }
+
+        .dark .rv-stats-light .rv-pill,
+        .dark .rv-stats-light .rv-like-btn { background: rgba(255, 255, 255, .07); border-color: rgba(255, 255, 255, .12); color: #cbd5e1; }
+
+        .dark .rv-stats-light .rv-like-btn:hover,
+        .dark .rv-stats-light .rv-like-btn.liked { background: rgba(242, 181, 11, .16); border-color: rgba(242, 181, 11, .5); color: #f2b50b; }
+
+        .rv-overlay-pill {
+            position: absolute; top: 1rem; left: 1rem; z-index: 25;
+            display: inline-flex; align-items: center; gap: .55rem;
+            padding: .42rem .8rem; border-radius: 999px;
+            background: rgba(15, 23, 42, .72);
+            border: 1px solid rgba(255, 255, 255, .16);
+            color: #e2e8f0; font-size: .8rem; font-weight: 700;
+            backdrop-filter: blur(6px);
+        }
+
+        .rv-overlay-pill .fa-heart { color: #f2b50b; }
+        .rv-overlay-pill .fa-eye { color: #93c5fd; }
+
+        /* ============================================================
+           באנר הסכמה (Consent Banner)
+           ============================================================ */
+        #rv-consent {
+            position: fixed; bottom: 1.25rem; right: 50%;
+            transform: translate(50%, 150%);
+            width: min(600px, calc(100vw - 2rem));
+            z-index: 95000;
+            background: rgba(255, 255, 255, .98);
+            border: 1px solid #e2e8f0;
+            border-radius: 1.4rem;
+            box-shadow: 0 24px 60px rgba(2, 6, 23, .28);
+            padding: 1.1rem 1.25rem;
+            display: flex; gap: 1rem; align-items: flex-start;
+            opacity: 0;
+            transition: transform .65s cubic-bezier(.16, 1, .3, 1), opacity .4s ease;
+        }
+
+        #rv-consent.show { transform: translate(50%, 0); opacity: 1; }
+        #rv-consent p { font-size: .88rem; color: #475569; line-height: 1.6; }
+
+        .dark #rv-consent { background: rgba(15, 23, 42, .98); border-color: #334155; }
+        .dark #rv-consent p { color: #cbd5e1; }
+
+        .rv-consent-icon {
+            width: 42px; height: 42px; flex-shrink: 0;
+            border-radius: 12px; display: grid; place-items: center;
+            background: rgba(242, 181, 11, .16); color: #d9a308; font-size: 1.15rem;
+        }
+
+        .rv-consent-actions { display: flex; gap: .6rem; margin-top: .85rem; flex-wrap: wrap; }
+
+        .rv-consent-actions button {
+            padding: .5rem 1.05rem; border-radius: 999px;
+            font-weight: 700; font-size: .85rem; cursor: pointer;
+            transition: all .2s ease;
+        }
+
+        #rv-consent-accept { background: var(--deep-blue); color: #fff; }
+        #rv-consent-accept:hover { background: #152952; transform: translateY(-1px); }
+        #rv-consent-decline { background: transparent; border: 1px solid #cbd5e1; color: #64748b; }
+        #rv-consent-decline:hover { border-color: #94a3b8; color: #334155; }
+        .dark #rv-consent-decline { border-color: #475569; color: #94a3b8; }
+        .dark #rv-consent-decline:hover { border-color: #64748b; color: #e2e8f0; }
+
+        /* ============================================================
+           השבתת ספירה (מי שסירב בבאנר)
+           ============================================================ */
+        body.counts-disabled [data-rv-counts],
+        body.counts-disabled .rv-stats,
+        body.counts-disabled .rv-overlay-pill { display: none !important; }
+
         /* לייטבוקס */
         #lightboxModal {
             z-index: 10001;
@@ -536,6 +815,30 @@
 </head>
 
 <body class="text-slate-800 leading-relaxed overflow-x-hidden">
+
+    <!-- מסך פתיחה אנימטי -->
+    <div id="intro-overlay" role="dialog" aria-modal="true" aria-label="מסך פתיחה">
+        <div class="intro-orb intro-orb-a" aria-hidden="true"></div>
+        <div class="intro-orb intro-orb-b" aria-hidden="true"></div>
+        <div class="intro-grid" aria-hidden="true"></div>
+        <div class="intro-center">
+            <div class="intro-logo-wrap">
+                <span class="intro-ring" aria-hidden="true"></span>
+                <span class="intro-ring intro-ring-2" aria-hidden="true"></span>
+                <img src="logo.png" alt="הלוגו של רביב דיגיטל" class="intro-logo">
+                <span class="intro-shine" aria-hidden="true"></span>
+            </div>
+            <h1 class="intro-title">רביב <span class="intro-yellow">דיגיטל</span></h1>
+            <p class="intro-tag">הופכים רעיונות לטכנולוגיה שעובדת</p>
+        </div>
+        <div class="intro-bar" aria-hidden="true"><div class="intro-bar-fill" id="intro-fill"></div></div>
+        <button type="button" class="intro-skip" id="intro-skip">דלג לכניסה <i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+    </div>
+
+    <!-- עוקב עכבר: זוהר סביבתי + טבעת + נקודה -->
+    <div id="cursor-glow" aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
+    <div id="cursor-dot" aria-hidden="true"></div>
 
     <!-- Navbar -->
     <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-500 py-4">
@@ -572,6 +875,7 @@
 
     <!-- Hero Section -->
     <section id="home" class="relative pt-48 pb-20 md:pt-64 md:pb-32 hero-pattern overflow-hidden">
+        <div id="hero-spotlight" aria-hidden="true"></div>
         <div class="parallax-layer absolute top-10 right-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl" data-speed="0.2"></div>
         <div class="parallax-layer absolute bottom-20 left-10 w-64 h-64 bg-yellow-400/10 rounded-full blur-3xl" data-speed="0.5"></div>
         <div class="parallax-layer absolute top-1/2 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-2xl" data-speed="0.3"></div>
@@ -706,16 +1010,28 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 <!-- פריט 1: פורום בני ברק -->
-                <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('unnamed%20(17).png', 'https://bnebrak.com/')">
+                <div class="portfolio-item group reveal shadow-xl" data-rv-view="ad-bnei-brak" onclick="openLightbox('unnamed%20(17).png', 'https://bnebrak.com/')">
                     <img src="unnamed (17).png" alt="פרסום פורום בני ברק">
+                    <span class="rv-overlay-pill" data-rv-counts title="לייקים וצפיות">
+                        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                        <span data-rv-likes="ad-bnei-brak">–</span>
+                        <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        <span data-rv-views="ad-bnei-brak">–</span>
+                    </span>
                     <div class="portfolio-overlay">
                         <span class="bg-white text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg">צפייה בפרסום <i class="fa-solid fa-magnifying-glass-plus mr-2"></i></span>
                     </div>
                 </div>
 
                 <!-- פריט 2: צלם רחפן -->
-                <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('unnamed%20(16).png', 'https://mail.google.com/mail/u/0/?fs=1&to=eliyahubloy@gmail.com&tf=cm')">
+                <div class="portfolio-item group reveal shadow-xl" data-rv-view="ad-drone" onclick="openLightbox('unnamed%20(16).png', 'https://mail.google.com/mail/u/0/?fs=1&to=eliyahubloy@gmail.com&tf=cm')">
                     <img src="unnamed (16).png" alt="פרסום צלם רחפן">
+                    <span class="rv-overlay-pill" data-rv-counts title="לייקים וצפיות">
+                        <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                        <span data-rv-likes="ad-drone">–</span>
+                        <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        <span data-rv-views="ad-drone">–</span>
+                    </span>
                     <div class="portfolio-overlay">
                         <span class="bg-white text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg">צפייה בפרסום <i class="fa-solid fa-magnifying-glass-plus mr-2"></i></span>
                     </div>
@@ -736,7 +1052,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
                 
                 <!-- Right Card: Software & Apps -->
-                <div class="reveal-right pricing-card shadow-lg">
+                <div class="reveal-right pricing-card shadow-lg" data-rv-view="svc-software">
                     <div>
                         <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 mx-auto rounded-2xl flex items-center justify-center text-2xl mb-6">
                             <i class="fa-solid fa-mobile-screen-button"></i>
@@ -744,6 +1060,16 @@
                         <h3 class="text-2xl font-black mb-2 dark:text-white">תוכנות/אפליקציות</h3>
                         <p class="text-slate-500 dark:text-slate-400 mb-4">שרות בנייה עריכה, שדרוג ועוד</p>
                         <div class="price-tag"><span class="text-lg font-bold align-middle ml-1">החל מ-</span>399 <span class="text-xl">₪</span></div>
+                        <div class="rv-stats rv-stats-light" style="justify-content:center" data-rv-counts>
+                            <span class="rv-pill" title="מספר צפיות">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                                <span class="rv-num" data-rv-views="svc-software">–</span>
+                            </span>
+                            <button type="button" class="rv-like-btn" data-rv-like="svc-software" aria-pressed="false" aria-label="אהבתי את שירות התוכנות והאפליקציות">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                                <span class="rv-num" data-rv-likes="svc-software">–</span>
+                            </button>
+                        </div>
                     </div>
                     <button onclick="toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
                          פנו להצעת מחיר <i class="fa-solid fa-envelope"></i>
@@ -751,7 +1077,7 @@
                 </div>
 
                 <!-- Center Featured Card: Website -->
-                <div class="reveal pricing-card featured">
+                <div class="reveal pricing-card featured" data-rv-view="svc-website">
                     <span class="bg-yellow-400 text-slate-900 text-xs font-bold px-4 py-1 rounded-full absolute -top-3 left-1/2 -translate-x-1/2 uppercase tracking-wider">מומלץ ופופולרי</span>
                     <div>
                         <div class="w-20 h-20 bg-yellow-100 text-yellow-600 mx-auto rounded-3xl flex items-center justify-center text-3xl mb-8">
@@ -760,6 +1086,16 @@
                         <h3 class="text-3xl font-black mb-4 dark:text-white">בניית אתר תדמית</h3>
                         <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed px-4">אתר מותאם אישית ללקוח כולל לוגו מקצועי, מעוצב, מהיר ומותאם לכל המכשירים.</p>
                         <div class="price-tag"><span class="text-lg font-bold align-middle ml-1">רק</span> 399 <span class="text-xl">₪</span></div>
+                        <div class="rv-stats rv-stats-light" style="justify-content:center" data-rv-counts>
+                            <span class="rv-pill" title="מספר צפיות">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                                <span class="rv-num" data-rv-views="svc-website">–</span>
+                            </span>
+                            <button type="button" class="rv-like-btn" data-rv-like="svc-website" aria-pressed="false" aria-label="אהבתי את שירות בניית האתר">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                                <span class="rv-num" data-rv-likes="svc-website">–</span>
+                            </button>
+                        </div>
                     </div>
                     <button onclick="toggleContactModal()" class="btn-yellow w-full py-5 font-black mt-8 flex items-center justify-center gap-2 text-lg">
                         להזמנה ויצירת קשר <i class="fa-solid fa-paper-plane"></i>
@@ -767,7 +1103,7 @@
                 </div>
 
                 <!-- Left Card: Chrome Extensions -->
-                <div class="reveal-left pricing-card shadow-lg">
+                <div class="reveal-left pricing-card shadow-lg" data-rv-view="svc-extensions">
                     <div>
                         <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 mx-auto rounded-2xl flex items-center justify-center text-2xl mb-6">
                             <i class="fa-brands fa-chrome"></i>
@@ -775,6 +1111,16 @@
                         <h3 class="text-2xl font-black mb-2 dark:text-white">תוספים וסקריפטים</h3>
                         <p class="text-slate-500 dark:text-slate-400 mb-4">תוספי כרום, סקריפטים ועוד בהתאמה אישית</p>
                         <div class="price-tag">199 <span class="text-xl">₪</span></div>
+                        <div class="rv-stats rv-stats-light" style="justify-content:center" data-rv-counts>
+                            <span class="rv-pill" title="מספר צפיות">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                                <span class="rv-num" data-rv-views="svc-extensions">–</span>
+                            </span>
+                            <button type="button" class="rv-like-btn" data-rv-like="svc-extensions" aria-pressed="false" aria-label="אהבתי את שירות התוספים והסקריפטים">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                                <span class="rv-num" data-rv-likes="svc-extensions">–</span>
+                            </button>
+                        </div>
                     </div>
                     <button onclick="toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
                         פנו להצעת מחיר <i class="fa-solid fa-envelope"></i>
@@ -796,7 +1142,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 <div
-                    class="reveal-right group bg-slate-800 p-1 rounded-[2.5rem] border-2 border-blue-500 shadow-2xl shadow-blue-900/40 relative overflow-hidden transition-all duration-500 hover:scale-[1.01] col-span-1 md:col-span-2 lg:col-span-1">
+                    class="reveal-right group bg-slate-800 p-1 rounded-[2.5rem] border-2 border-blue-500 shadow-2xl shadow-blue-900/40 relative overflow-hidden transition-all duration-500 hover:scale-[1.01] col-span-1 md:col-span-2 lg:col-span-1" data-rv-view="android-tool-pro">
                     <div
                         class="absolute top-0 left-0 bg-blue-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">
                         מומלץ ביותר!</div>
@@ -813,6 +1159,16 @@
                             <h3 class="text-2xl font-black text-white">Android Tool Pro</h3>
                         </div>
                         <p class="text-slate-400 mb-8 text-sm leading-relaxed">כלי למפתחים לשאיבת גרסה מלאה (Firmware Extraction), גיבויים וניהול קבצי מערכת ברמה הגבוהה ביותר.</p>
+                        <div class="rv-stats" data-rv-counts>
+                            <span class="rv-pill" title="מספר צפיות">
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                                <span class="rv-num" data-rv-views="android-tool-pro">–</span>
+                            </span>
+                            <button type="button" class="rv-like-btn" data-rv-like="android-tool-pro" aria-pressed="false" aria-label="אהבתי את Android Tool Pro">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                                <span class="rv-num" data-rv-likes="android-tool-pro">–</span>
+                            </button>
+                        </div>
                         <div class="flex flex-col gap-3">
                             <button onclick="openModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
                                 <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
@@ -824,7 +1180,7 @@
                     </div>
                 </div>
 
-                <div class="reveal-left group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300">
+                <div class="reveal-left group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300" data-rv-view="makhshirot">
                     <div class="w-full h-40 rounded-2xl mb-6 overflow-hidden bg-slate-700 border border-slate-600">
                         <img src="4c42a4d8-9ae2-4092-a758-c1b2b2e1baa2-image.png" alt="Makhshirut"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -836,6 +1192,16 @@
                         <h3 class="text-2xl font-bold text-white">מכשירוט</h3>
                     </div>
                     <p class="text-slate-400 mb-8 text-sm">הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח.</p>
+                    <div class="rv-stats" data-rv-counts>
+                        <span class="rv-pill" title="מספר צפיות">
+                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                            <span class="rv-num" data-rv-views="makhshirot">–</span>
+                        </span>
+                        <button type="button" class="rv-like-btn" data-rv-like="makhshirot" aria-pressed="false" aria-label="אהבתי את מכשירות">
+                            <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                            <span class="rv-num" data-rv-likes="makhshirot">–</span>
+                        </button>
+                    </div>
                     <div class="flex items-center justify-between">
                         <span class="text-cyan-400 font-bold"><i class="fa-solid fa-circle-check ml-1"></i> הורדה חינם!</span>
                         <a href="https://mitmachim.top/post/1066649" target="_blank" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה חינם</a>
@@ -955,6 +1321,21 @@
         </div>
     </div>
 
+    <!-- באנר הסכמה לספירה -->
+    <div id="rv-consent" role="dialog" aria-live="polite" aria-label="הודעת פרטיות">
+        <div class="rv-consent-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+        <div>
+            <p>
+                האתר סופר לייקים וצפיות באמצעות מזהה אנונימי בלבד — ללא שם, דוא"ל או מידע אישי.
+                בנוסף נשמרות במכשירכם העדפות התצוגה והפריטים שאהבתם. המידע אינו מועבר לצד שלישי לפרסום.
+            </p>
+            <div class="rv-consent-actions">
+                <button type="button" id="rv-consent-accept">הבנתי, אפשר להמשיך</button>
+                <button type="button" id="rv-consent-decline">לא, השבת ספירה</button>
+            </div>
+        </div>
+    </div>
+
     <!-- הודעת Toast כחולה -->
     <div id="toast-notification">נשלח! נחזור אליכם בהקדם האפשרי.</div>
 
@@ -964,6 +1345,263 @@
     </button>
 
     <script>
+        /* ============================================================
+           מנהל מסך הפתיחה (Intro) — פעם אחת בכל סשן
+           ============================================================ */
+        (function () {
+            const overlay = document.getElementById('intro-overlay');
+            const fill = document.getElementById('intro-fill');
+            const skip = document.getElementById('intro-skip');
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const seen = sessionStorage.getItem('rv_intro_seen');
+            let done = false;
+
+            function finish() {
+                if (done) return;
+                done = true;
+                sessionStorage.setItem('rv_intro_seen', '1');
+                overlay.classList.add('exit');
+                // מפעיל את אנימציות ה-Hero רק אחרי שהמסך נפתח
+                setTimeout(() => {
+                    overlay.classList.add('gone');
+                    document.querySelectorAll('.initial-load-delay').forEach(el => el.classList.add('active'));
+                }, 700);
+            }
+
+            window.rvIntroDone = finish;
+
+            if (seen || reduceMotion) {
+                overlay.classList.add('gone');
+                window.rvIntroDone = null;
+                return;
+            }
+
+            skip.addEventListener('click', finish);
+            overlay.addEventListener('click', e => { if (e.target === overlay) finish(); });
+
+            let p = 0;
+            const timer = setInterval(() => {
+                p += 2;
+                fill.style.width = Math.min(p, 100) + '%';
+                if (p >= 100) { clearInterval(timer); setTimeout(finish, 250); }
+            }, 30);
+
+            // רשת ביטחון: לעולם לא לתקוע את המשתמש במסך הפתיחה
+            setTimeout(finish, 8000);
+        })();
+
+        /* ============================================================
+           עוקב עכבר: זוהר + טבעת + נקודה + ספוטלייט Hero
+           ============================================================ */
+        (function () {
+            const fine = window.matchMedia('(pointer: fine)').matches;
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const glow = document.getElementById('cursor-glow');
+            const ring = document.getElementById('cursor-ring');
+            const dot = document.getElementById('cursor-dot');
+            const hero = document.getElementById('home');
+            const spotlight = document.getElementById('hero-spotlight');
+
+            if (!fine || reduceMotion) return;
+
+            let mx = innerWidth / 2, my = innerHeight / 2;
+            let gx = mx, gy = my, rx = mx, ry = my;
+            let raf = null;
+
+            function tick() {
+                gx += (mx - gx) * 0.08;
+                gy += (my - gy) * 0.08;
+                rx += (mx - rx) * 0.22;
+                ry += (my - ry) * 0.22;
+                glow.style.transform = 'translate3d(' + (gx - 190) + 'px,' + (gy - 190) + 'px,0)';
+                ring.style.transform = 'translate3d(' + (rx - 18) + 'px,' + (ry - 18) + 'px,0)';
+                dot.style.transform = 'translate3d(' + (mx - 4) + 'px,' + (my - 4) + 'px,0)';
+                if (Math.abs(mx - gx) > 0.4 || Math.abs(my - gy) > 0.4 || Math.abs(mx - rx) > 0.4 || Math.abs(my - ry) > 0.4) {
+                    raf = requestAnimationFrame(tick);
+                } else {
+                    raf = null;
+                }
+            }
+
+            function wake() { if (!raf) raf = requestAnimationFrame(tick); }
+
+            document.addEventListener('pointermove', e => {
+                mx = e.clientX; my = e.clientY;
+                glow.classList.add('on'); ring.classList.add('on'); dot.classList.add('on');
+                wake();
+                const t = e.target;
+                const hot = t && t.closest && t.closest('a, button, .portfolio-item, input, textarea, select, [onclick]');
+                ring.classList.toggle('hot', !!hot);
+            }, { passive: true });
+
+            document.addEventListener('pointerleave', () => {
+                glow.classList.remove('on'); ring.classList.remove('on'); dot.classList.remove('on');
+            });
+
+            if (hero && spotlight) {
+                hero.addEventListener('pointermove', e => {
+                    const r = hero.getBoundingClientRect();
+                    spotlight.style.setProperty('--sx', (e.clientX - r.left) + 'px');
+                    spotlight.style.setProperty('--sy', (e.clientY - r.top) + 'px');
+                    spotlight.classList.add('on');
+                });
+                hero.addEventListener('pointerleave', () => spotlight.classList.remove('on'));
+            }
+        })();
+
+        /* ============================================================
+           לייקים וצפיות — Google Apps Script + Google Sheets
+           ============================================================ */
+        (function () {
+            const LIKES_URL = 'https://script.google.com/macros/s/AKfycbREPLACE_ME/exec';
+            // מונע בקשות לכתובת פלייסהולדר — פעיל אוטומטית אחרי החלפת הכתובת
+            const LIKES_ENABLED = LIKES_URL.indexOf('REPLACE_ME') === -1;
+            const K_VISITOR = 'raviv_visitor_id';
+            const K_LIKED = 'raviv_liked_items';
+            const K_CONSENT = 'raviv_consent';
+            const K_VIEWED = 'raviv_viewed_session';
+
+            let PROJECT_LIKES = {};
+            let PROJECT_VIEWS = {};
+            let tracking = localStorage.getItem(K_CONSENT) !== 'declined';
+
+            function getVisitorId() {
+                if (!tracking) return '';
+                let v = localStorage.getItem(K_VISITOR);
+                if (!v) {
+                    v = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+                    localStorage.setItem(K_VISITOR, v);
+                }
+                return v;
+            }
+
+            function getLikedMap() {
+                try { return JSON.parse(localStorage.getItem(K_LIKED)) || {}; } catch (e) { return {}; }
+            }
+
+            function isLiked(id) { return !!getLikedMap()[id]; }
+
+            function setLiked(id, val) {
+                const m = getLikedMap();
+                if (val) m[id] = true; else delete m[id];
+                try { localStorage.setItem(K_LIKED, JSON.stringify(m)); } catch (e) {}
+            }
+
+            function sendBeacon(action, id) {
+                if (!tracking || !id || !LIKES_ENABLED) return;
+                try {
+                    new Image().src = LIKES_URL + '?action=' + encodeURIComponent(action) +
+                        '&id=' + encodeURIComponent(id) +
+                        '&visitor=' + encodeURIComponent(getVisitorId());
+                } catch (e) {}
+            }
+
+            function renderCounts() {
+                document.querySelectorAll('[data-rv-views]').forEach(el => {
+                    const id = el.getAttribute('data-rv-views');
+                    el.textContent = String(PROJECT_VIEWS[id] || 0);
+                });
+                document.querySelectorAll('[data-rv-likes]').forEach(el => {
+                    const id = el.getAttribute('data-rv-likes');
+                    el.textContent = String(PROJECT_LIKES[id] || 0);
+                });
+                document.querySelectorAll('[data-rv-like]').forEach(btn => {
+                    const id = btn.getAttribute('data-rv-like');
+                    const liked = isLiked(id);
+                    btn.classList.toggle('liked', liked);
+                    btn.setAttribute('aria-pressed', liked ? 'true' : 'false');
+                    const ic = btn.querySelector('i');
+                    if (ic) ic.className = liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+                });
+            }
+
+            function loadCounts() {
+                if (!tracking || !LIKES_ENABLED) return;
+                window.ravivCountsCb = function (data) {
+                    PROJECT_LIKES = (data && data.likes) || {};
+                    PROJECT_VIEWS = (data && data.views) || {};
+                    renderCounts();
+                    try { delete window.ravivCountsCb; } catch (e) {}
+                };
+                const s = document.createElement('script');
+                s.src = LIKES_URL + '?action=counts&callback=ravivCountsCb';
+                s.onerror = function () { try { delete window.ravivCountsCb; } catch (e) {} };
+                document.head.appendChild(s);
+            }
+
+            function registerView(id) {
+                if (!tracking || !id) return;
+                let viewed = {};
+                try { viewed = JSON.parse(sessionStorage.getItem(K_VIEWED)) || {}; } catch (e) {}
+                if (viewed[id]) return;
+                viewed[id] = true;
+                try { sessionStorage.setItem(K_VIEWED, JSON.stringify(viewed)); } catch (e) {}
+                PROJECT_VIEWS[id] = (PROJECT_VIEWS[id] || 0) + 1;
+                sendBeacon('view', id);
+                renderCounts();
+            }
+
+            function toggleLike(id) {
+                if (!tracking || !id) return;
+                const next = !isLiked(id);
+                setLiked(id, next);
+                PROJECT_LIKES[id] = Math.max(0, (PROJECT_LIKES[id] || 0) + (next ? 1 : -1));
+                sendBeacon(next ? 'like' : 'unlike', id);
+                renderCounts();
+            }
+
+            // רישום צפייה כשכרטיס/פריט נכנס למסך (פעם אחת בסשן)
+            if ('IntersectionObserver' in window) {
+                const viewObs = new IntersectionObserver(entries => {
+                    entries.forEach(en => {
+                        if (en.isIntersecting) {
+                            registerView(en.target.getAttribute('data-rv-view'));
+                            viewObs.unobserve(en.target);
+                        }
+                    });
+                }, { threshold: 0.35 });
+                document.querySelectorAll('[data-rv-view]').forEach(el => viewObs.observe(el));
+            }
+
+            // לחיצות לייק (דלגציה)
+            document.addEventListener('click', e => {
+                const btn = e.target.closest('[data-rv-like]');
+                if (!btn) return;
+                e.preventDefault();
+                e.stopPropagation();
+                toggleLike(btn.getAttribute('data-rv-like'));
+            });
+
+            // באנר הסכמה
+            function initConsent() {
+                const banner = document.getElementById('rv-consent');
+                if (!banner) return;
+                const consent = localStorage.getItem(K_CONSENT);
+                if (consent) { banner.remove(); if (consent === 'declined') disable(); return; }
+                setTimeout(() => banner.classList.add('show'), 1600);
+                document.getElementById('rv-consent-accept').addEventListener('click', () => {
+                    localStorage.setItem(K_CONSENT, 'agreed');
+                    banner.classList.remove('show');
+                    setTimeout(() => banner.remove(), 500);
+                    loadCounts();
+                });
+                document.getElementById('rv-consent-decline').addEventListener('click', () => {
+                    localStorage.setItem(K_CONSENT, 'declined');
+                    banner.classList.remove('show');
+                    setTimeout(() => banner.remove(), 500);
+                    disable();
+                });
+            }
+
+            function disable() {
+                tracking = false;
+                document.body.classList.add('counts-disabled');
+            }
+
+            if (tracking) { renderCounts(); loadCounts(); } else { disable(); }
+            initConsent();
+        })();
+
         // אנימציית גלילה איטית
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1006,8 +1644,10 @@
 
         window.addEventListener('load', () => {
             setTimeout(() => {
+                // אם מסך הפתיחה פעיל — הוא מפעיל את אנימציות ה-Hero בסיומו
+                if (typeof window.rvIntroDone === 'function') return;
                 document.querySelectorAll('.initial-load-delay').forEach(el => el.classList.add('active'));
-            }, 100); 
+            }, 100);
         });
 
         function openModal() {
