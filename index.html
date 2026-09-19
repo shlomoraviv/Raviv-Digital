@@ -1246,8 +1246,9 @@
             </div>
 
             <div class="pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col md:row justify-between items-center gap-6 text-center md:text-right">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-3">
                     <span class="font-bold text-slate-400">© 2026 רביב דיגיטל. כל הזכויות שמורות לשלמה רביב.</span>
+                    <button type="button" onclick="localStorage.removeItem('raviv_consent');location.reload();" class="text-slate-400 hover:text-yellow-500 underline text-sm transition-colors" title="הצג שוב את באנר ההסכמה או הפעל מחדש את הספירה">ניהול ספירה</button>
                 </div>
             </div>
         </div>
@@ -1460,7 +1461,8 @@
             const K_VISITOR = 'raviv_visitor_id';
             const K_LIKED = 'raviv_liked_items';
             const K_CONSENT = 'raviv_consent';
-            const K_VIEWED = 'raviv_viewed_session';
+            const K_VIEWED_AT = 'raviv_viewed_at';
+            const VIEW_COOLDOWN_MS = 30 * 60 * 1000; // מינימום 30 דקות בין ספירות של אותו מבקר לאותו פריט
 
             let PROJECT_LIKES = {};
             let PROJECT_VIEWS = {};
@@ -1533,15 +1535,18 @@
 
             function registerView(id) {
                 if (!tracking || !id) return;
-                let viewed = {};
-                try { viewed = JSON.parse(sessionStorage.getItem(K_VIEWED)) || {}; } catch (e) {}
-                if (viewed[id]) return;
-                viewed[id] = true;
-                try { sessionStorage.setItem(K_VIEWED, JSON.stringify(viewed)); } catch (e) {}
+                let at = {};
+                try { at = JSON.parse(localStorage.getItem(K_VIEWED_AT)) || {}; } catch (e) {}
+                const now = Date.now();
+                if (at[id] && now - at[id] < VIEW_COOLDOWN_MS) return; // הגנת רענון לחצי שעה
+                at[id] = now;
+                try { localStorage.setItem(K_VIEWED_AT, JSON.stringify(at)); } catch (e) {}
                 PROJECT_VIEWS[id] = (PROJECT_VIEWS[id] || 0) + 1;
                 sendBeacon('view', id);
                 renderCounts();
             }
+            // חשיפה לשימוש פנימי (למשל פתיחת לייטבוקס)
+            window.rvCountView = registerView;
 
             function toggleLike(id) {
                 if (!tracking || !id) return;
@@ -1666,6 +1671,12 @@
 
         // פונקציית לייטבוקס מעודכנת עבור שרתים/GitHub
         function openLightbox(imgSrc, linkUrl) {
+            // ספירת צפייה גם בפתיחת התמונה בהגדלה
+            if (window.rvCountView) {
+                const rvMap = { 'unnamed (17).png': 'ad-bnei-brak', 'unnamed (16).png': 'ad-drone' };
+                const rvId = rvMap[decodeURIComponent(imgSrc)];
+                if (rvId) window.rvCountView(rvId);
+            }
             const modal = document.getElementById('lightboxModal');
             const img = document.getElementById('lightboxImage');
             const link = document.getElementById('lightboxLink');
