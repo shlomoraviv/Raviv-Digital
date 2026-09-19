@@ -1453,7 +1453,8 @@
            לייקים וצפיות — Google Apps Script + Google Sheets
            ============================================================ */
         (function () {
-            const LIKES_URL = 'https://script.google.com/macros/s/AKfycbwYKV-1EKkynMN293hcTR4ndBEyUT6_pntlhV1OZ7xx4tyh1VuMK8MLA_rpkNPc-ORsdA/exec';
+            const LIKES_URL = 'https://script.google.com/macros/s/AKfycbxgwPHLzxC96t95zo7f1xg1Lt35CDr0F0hdyK82-AZD_eEupESGnjaLFJ3-rKh2vznj/exec';
+            const LIKES_CACHE_BUSTER = '2026-09-20';
             // מונע בקשות לכתובת פלייסהולדר — פעיל אוטומטית אחרי החלפת הכתובת
             const LIKES_ENABLED = LIKES_URL.indexOf('REPLACE_ME') === -1;
             const K_VISITOR = 'raviv_visitor_id';
@@ -1490,7 +1491,8 @@
             function sendBeacon(action, id) {
                 if (!tracking || !id || !LIKES_ENABLED) return;
                 try {
-                    new Image().src = LIKES_URL + '?action=' + encodeURIComponent(action) +
+                    new Image().src = LIKES_URL + '?v=' + LIKES_CACHE_BUSTER +
+                        '&action=' + encodeURIComponent(action) +
                         '&id=' + encodeURIComponent(id) +
                         '&visitor=' + encodeURIComponent(getVisitorId());
                 } catch (e) {}
@@ -1524,7 +1526,7 @@
                     try { delete window.ravivCountsCb; } catch (e) {}
                 };
                 const s = document.createElement('script');
-                s.src = LIKES_URL + '?action=counts&callback=ravivCountsCb';
+                s.src = LIKES_URL + '?v=' + LIKES_CACHE_BUSTER + '&action=counts&callback=ravivCountsCb';
                 s.onerror = function () { try { delete window.ravivCountsCb; } catch (e) {} };
                 document.head.appendChild(s);
             }
