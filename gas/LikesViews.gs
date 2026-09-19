@@ -22,8 +22,9 @@
 * - ביטול:  GET .../exec?action=unlike&id=xxx&visitor=yyy
 * - צפייה: GET .../exec?action=view&id=xxx&visitor=yyy
 *
-* הספירה היא של מבקרים שונים (לפי מזהה מבקר ייחודי) — כך שאותו מבקר
-* נספר פעם אחת בלבד לכל פריט, והמספרים לא מתנפחים.
+* לייקים: ספירה של מבקרים שונים (לפי מזהה מבקר ייחודי) — אותו אדם נספר פעם אחת.
+* צפיות: ספירת סה"כ צפיות — כל כניסה לאתר שבה הפריט הוצג מוסיפה +1
+*  (מניעת רענון-ספאם נעשה בדפדפן: פעם אחת לכל סשן לכל פריט).
 *
 * התראות במייל:
 * - צפיות: כל VIEW_EMAIL_EVERY צפיות חדשות באותו פריט (ברירת מחדל: 25)
@@ -163,11 +164,32 @@ function getCounts_() {
   try {
     var ss = getSpreadsheet_();
     out.likes = countDistinct_(ss.getSheetByName(CONFIG.LIKES_SHEET));
-    out.views = countDistinct_(ss.getSheetByName(CONFIG.VIEWS_SHEET));
+    out.views = countRows_(ss.getSheetByName(CONFIG.VIEWS_SHEET));
   } catch (err) {
     out.error = String(err);
   }
   return out;
+}
+
+// צפיות נספרות כסה"כ — כל שורה = צפייה אחת (הדה-דופליקציה לפי סשן נעשית בדפדפן)
+function countRows_(sheet) {
+  return countRowsInRange_(sheet, null, null);
+}
+
+// סה"כ צפיות בטווח תאריכים [from, to) — לסיכום החודשי
+function countRowsInRange_(sheet, from, to) {
+  var counts = {};
+  if (!sheet) return counts;
+  var values = sheet.getDataRange().getValues();
+  for (var i = 1; i < values.length; i++) {
+    var ts = values[i][0];
+    if (from && (!(ts instanceof Date) || ts.getTime() < from.getTime())) continue;
+    if (to && ts instanceof Date && ts.getTime() >= to.getTime()) continue;
+    var rowId = String(values[i][1] || '').trim();
+    if (!rowId) continue;
+    counts[rowId] = (counts[rowId] || 0) + 1;
+  }
+  return counts;
 }
 
 // סופר כמה מבקרים שונים (לפי מזהה מבקר) אהבו/צפו בכל פריט
@@ -360,9 +382,9 @@ function sendMonthlySummary(monthOffset) {
   var to = new Date(now.getFullYear(), now.getMonth() + offset + 1, 1);
   var ss = getSpreadsheet_();
   var likesMonthly = countDistinctInRange_(ss.getSheetByName(CONFIG.LIKES_SHEET), from, to);
-  var viewsMonthly = countDistinctInRange_(ss.getSheetByName(CONFIG.VIEWS_SHEET), from, to);
+  var viewsMonthly = countRowsInRange_(ss.getSheetByName(CONFIG.VIEWS_SHEET), from, to);
   var likesTotal = countDistinct_(ss.getSheetByName(CONFIG.LIKES_SHEET));
-  var viewsTotal = countDistinct_(ss.getSheetByName(CONFIG.VIEWS_SHEET));
+  var viewsTotal = countRows_(ss.getSheetByName(CONFIG.VIEWS_SHEET));
   // איחוד כל הפריטים שהופיעו בכל אחת מהספירות
   var ids = {};
   [likesMonthly, viewsMonthly, likesTotal, viewsTotal].forEach(function (m) {
