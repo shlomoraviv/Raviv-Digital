@@ -1010,8 +1010,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 <!-- פריט 1: פורום בני ברק -->
-                <div class="portfolio-item group reveal shadow-xl" data-rv-view="ad-bnei-brak" onclick="openLightbox('unnamed%20(17).png', 'https://bnebrak.com/')">
-                    <img src="unnamed (17).png" alt="פרסום פורום בני ברק">
+                <div class="portfolio-item group reveal shadow-xl" data-rv-view="ad-bnei-brak" onclick="openLightbox('raviv-digital-banner.jpg', 'https://bnebrak.com/')">
+                    <img src="raviv-digital-banner.jpg" alt="רביב דיגיטל — מיתוג ועיצוב">
                     <span class="rv-overlay-pill" data-rv-counts title="לייקים וצפיות">
                         <i class="fa-regular fa-heart" aria-hidden="true"></i>
                         <span data-rv-likes="ad-bnei-brak">–</span>
@@ -1670,7 +1670,7 @@
         function openLightbox(imgSrc, linkUrl) {
             // ספירת צפייה גם בפתיחת התמונה בהגדלה
             if (window.rvCountView) {
-                const rvMap = { 'unnamed (17).png': 'ad-bnei-brak', 'unnamed (16).png': 'ad-drone' };
+                const rvMap = { 'raviv-digital-banner.jpg': 'ad-bnei-brak', 'unnamed (16).png': 'ad-drone' };
                 const rvId = rvMap[decodeURIComponent(imgSrc)];
                 if (rvId) window.rvCountView(rvId);
             }
