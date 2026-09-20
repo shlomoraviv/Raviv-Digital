@@ -153,18 +153,29 @@ function doGet(e) {
     // לא להפיל את התשובה — אבל מדווחים על השגיאה בתשובה כדי שניתן יהיה לאבחן
     writeError = String(err);
   }
-  var data = getCounts_();
+  var data = getCounts_(visitor);
   if (writeError) data.write_error = writeError;
   var callback = String(p.callback || '');
   return respond_(callback, data);
 }
 
-function getCounts_() {
+function getCounts_(visitor) {
   var out = { likes: {}, views: {} };
   try {
     var ss = getSpreadsheet_();
     out.likes = countDistinct_(ss.getSheetByName(CONFIG.LIKES_SHEET));
     out.views = countRows_(ss.getSheetByName(CONFIG.VIEWS_SHEET));
+    // רשימת הפריטים שמבקר ספציפי סימן (אם נשלח מזהה) — לסנכרון מצב הלב בין מכשירים
+    if (visitor) {
+      var my = {};
+      var values = ss.getSheetByName(CONFIG.LIKES_SHEET).getDataRange().getValues();
+      for (var i = 1; i < values.length; i++) {
+        var rowId = String(values[i][1] || '').trim();
+        var rowVisitor = String(values[i][2] || '').trim();
+        if (rowId && rowVisitor === visitor) my[rowId] = true;
+      }
+      out.myLikes = my;
+    }
   } catch (err) {
     out.error = String(err);
   }

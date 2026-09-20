@@ -1523,11 +1523,22 @@
                 window.ravivCountsCb = function (data) {
                     PROJECT_LIKES = (data && data.likes) || {};
                     PROJECT_VIEWS = (data && data.views) || {};
+                    // סנכרון מצב הלב מהשרת: השרת שולח את רשימת הפריטים
+                    // שהמבקר הנוכחי סימן (myLikes) — כך המצב נכון גם במכשיר אחר.
+                    if (data && data.myLikes) {
+                        const remote = data.myLikes;
+                        let changed = false;
+                        for (const k in Object.assign({}, getLikedMap(), remote)) {
+                            if (!!getLikedMap()[k] !== !!remote[k]) changed = true;
+                            if (remote[k]) setLiked(k, true); else setLiked(k, false);
+                        }
+                        if (changed) renderCounts();
+                    }
                     renderCounts();
                     try { delete window.ravivCountsCb; } catch (e) {}
                 };
                 const s = document.createElement('script');
-                s.src = LIKES_URL + '?action=counts&callback=ravivCountsCb' + cb();
+                s.src = LIKES_URL + '?action=counts&callback=ravivCountsCb&visitor=' + encodeURIComponent(getVisitorId()) + cb();
                 s.onerror = function () { try { delete window.ravivCountsCb; } catch (e) {} };
                 document.head.appendChild(s);
             }
