@@ -1248,7 +1248,16 @@
             <div class="pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col md:row justify-between items-center gap-6 text-center md:text-right">
                 <div class="flex items-center gap-3">
                     <span class="font-bold text-slate-400">© 2026 רביב דיגיטל. כל הזכויות שמורות לשלמה רביב.</span>
-                    <button type="button" onclick="localStorage.removeItem('raviv_consent');location.reload();" class="text-slate-400 hover:text-yellow-500 underline text-sm transition-colors" title="הצג שוב את באנר ההסכמה או הפעל מחדש את הספירה">ניהול ספירה</button>
+                    <button type="button" id="rv-manage-btn" class="text-slate-400 hover:text-yellow-500 underline text-sm transition-colors" title="אבחון וניהול מערכת הספירה בדפדפן זה">ניהול ספירה</button>
+                </div>
+                <div id="rv-manage-panel" style="display:none" class="mt-4 mx-auto max-w-md text-right bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4 shadow-sm">
+                    <p id="rv-manage-status" class="font-bold mb-1 text-sm">בודק חיבור לשרת…</p>
+                    <p id="rv-manage-session" class="text-slate-500 dark:text-slate-400 text-xs mb-3 leading-relaxed"></p>
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <button type="button" id="rv-reset-session" class="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-colors">אפס סשן צפיות</button>
+                        <button type="button" id="rv-refresh-counts" class="px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors">רענן מונים</button>
+                        <button type="button" id="rv-reconsent" class="px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors">הסכמה מחדש</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1466,6 +1475,7 @@
 
             let PROJECT_LIKES = {};
             let PROJECT_VIEWS = {};
+            let serverOk = null; // null = לא ידוע, true = השרת מגיב, false = אין תשובה (חוסם/רשת)
             let tracking = localStorage.getItem(K_CONSENT) !== 'declined';
 
             function getVisitorId() {
@@ -1492,11 +1502,19 @@
 
             function sendBeacon(action, id) {
                 if (!tracking || !id || !LIKES_ENABLED) return;
+                const url = LIKES_URL + '?action=' + encodeURIComponent(action) +
+                    '&id=' + encodeURIComponent(id) +
+                    '&visitor=' + encodeURIComponent(getVisitorId()) + cb();
+                // ערוץ ראשי: fetch ללא CORS (עוקף חוסמים שמכוונים תמונות/סקריפטים); ערוץ רזרבי: תמונה
+                let sent = false;
+                const viaImage = () => { try { new Image().src = url; } catch (e) {} };
                 try {
-                    new Image().src = LIKES_URL + '?action=' + encodeURIComponent(action) +
-                        '&id=' + encodeURIComponent(id) +
-                        '&visitor=' + encodeURIComponent(getVisitorId()) + cb();
-                } catch (e) {}
+                    if (typeof fetch === 'function') {
+                        sent = true;
+                        fetch(url, { mode: 'no-cors', keepalive: true }).catch(viaImage);
+                    }
+                } catch (e) { sent = false; }
+                if (!sent) viaImage();
             }
 
             function renderCounts() {
@@ -1520,7 +1538,10 @@
 
             function loadCounts() {
                 if (!tracking || !LIKES_ENABLED) return;
+                let answered = false;
                 window.ravivCountsCb = function (data) {
+                    answered = true;
+                    serverOk = true;
                     PROJECT_LIKES = (data && data.likes) || {};
                     PROJECT_VIEWS = (data && data.views) || {};
                     // סנכרון מצב הלב מהשרת: השרת שולח את רשימת הפריטים
@@ -1539,8 +1560,11 @@
                 };
                 const s = document.createElement('script');
                 s.src = LIKES_URL + '?action=counts&callback=ravivCountsCb&visitor=' + encodeURIComponent(getVisitorId()) + cb();
-                s.onerror = function () { try { delete window.ravivCountsCb; } catch (e) {} };
+                s.onerror = function () { serverOk = false; try { delete window.ravivCountsCb; } catch (e) {} };
                 document.head.appendChild(s);
+                setTimeout(() => { try { s.remove(); } catch (e) {} }, 30000);
+                // אבחון: אם אין תשובה תוך 12 שניות — מסומן כתקלת חיבור (מוצג בפאנל הניהול)
+                setTimeout(() => { if (!answered && serverOk !== true) serverOk = false; }, 12000);
             }
 
             // צפייה נספרת רק בפעולה מפורשת של המבקר (פתיחת פריט) —
@@ -1613,6 +1637,68 @@
                 });
             } else { disable(); }
             initConsent();
+
+            // אבחון וניהול — נקודת החיבור של פאנל "ניהול ספירה" בפוטר
+            window.rvDiag = function () {
+                let viewed = {};
+                try { viewed = JSON.parse(sessionStorage.getItem(K_VIEWED)) || {}; } catch (e) {}
+                return {
+                    tracking: tracking,
+                    serverOk: serverOk,
+                    consent: localStorage.getItem(K_CONSENT),
+                    viewedCount: Object.keys(viewed).length
+                };
+            };
+            window.rvResetSessionViews = function () {
+                try { sessionStorage.removeItem(K_VIEWED); } catch (e) {}
+                loadCounts();
+            };
+            window.rvRefreshCounts = loadCounts;
+
+            const rvManageBtn = document.getElementById('rv-manage-btn');
+            const rvPanel = document.getElementById('rv-manage-panel');
+            if (rvManageBtn && rvPanel) {
+                const rvStatusEl = document.getElementById('rv-manage-status');
+                const rvSessionEl = document.getElementById('rv-manage-session');
+                const rvPaint = function () {
+                    const d = window.rvDiag();
+                    if (!d.tracking) {
+                        rvStatusEl.textContent = 'הספירה כבויה בדפדפן זה (ההסכמה נדחתה בעבר). לחץ "הסכמה מחדש" כדי להפעיל.';
+                        rvStatusEl.style.color = '#b45309';
+                    } else if (d.serverOk === true) {
+                        rvStatusEl.textContent = 'מחובר לשרת הספירה ✓ הכל עובד';
+                        rvStatusEl.style.color = '#15803d';
+                    } else if (d.serverOk === false) {
+                        rvStatusEl.textContent = 'אין תשובה מהשרת — ייתכן חוסם פרסומות/הרחבה, חסימת רשת או תקלה זמנית של Google.';
+                        rvStatusEl.style.color = '#b91c1c';
+                    } else {
+                        rvStatusEl.textContent = 'בודק חיבור לשרת…';
+                        rvStatusEl.style.color = '';
+                    }
+                    rvSessionEl.textContent = 'בחלון זה כבר נספרו ' + d.viewedCount +
+                        ' פריטים. לחיצה חוזרת עליהם באותו חלון לא מוסיפה צפייה (מנגנון נגד רענון-ספאם) — "אפס סשן צפיות" מאפשר לספור אותם שוב.';
+                };
+                rvManageBtn.addEventListener('click', function () {
+                    const show = rvPanel.style.display === 'none';
+                    rvPanel.style.display = show ? 'block' : 'none';
+                    if (show) { rvPaint(); setTimeout(rvPaint, 2500); setTimeout(rvPaint, 9000); }
+                });
+                document.getElementById('rv-reset-session').addEventListener('click', function () {
+                    window.rvResetSessionViews();
+                    rvPaint();
+                    this.textContent = 'אופס ✓';
+                    const b = this;
+                    setTimeout(function () { b.textContent = 'אפס סשן צפיות'; }, 1500);
+                });
+                document.getElementById('rv-refresh-counts').addEventListener('click', function () {
+                    window.rvRefreshCounts();
+                    rvPaint();
+                });
+                document.getElementById('rv-reconsent').addEventListener('click', function () {
+                    localStorage.removeItem(K_CONSENT);
+                    location.reload();
+                });
+            }
         })();
 
         // אנימציית גלילה איטית
