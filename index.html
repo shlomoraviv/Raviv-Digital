@@ -1071,7 +1071,7 @@
                             </button>
                         </div>
                     </div>
-                    <button onclick="toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
+                    <button onclick="if(window.rvCountView)window.rvCountView('svc-software');toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
                          פנו להצעת מחיר <i class="fa-solid fa-envelope"></i>
                     </button>
                 </div>
@@ -1097,7 +1097,7 @@
                             </button>
                         </div>
                     </div>
-                    <button onclick="toggleContactModal()" class="btn-yellow w-full py-5 font-black mt-8 flex items-center justify-center gap-2 text-lg">
+                    <button onclick="if(window.rvCountView)window.rvCountView('svc-website');toggleContactModal()" class="btn-yellow w-full py-5 font-black mt-8 flex items-center justify-center gap-2 text-lg">
                         להזמנה ויצירת קשר <i class="fa-solid fa-paper-plane"></i>
                     </button>
                 </div>
@@ -1122,7 +1122,7 @@
                             </button>
                         </div>
                     </div>
-                    <button onclick="toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
+                    <button onclick="if(window.rvCountView)window.rvCountView('svc-extensions');toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
                         פנו להצעת מחיר <i class="fa-solid fa-envelope"></i>
                     </button>
                 </div>
@@ -1204,7 +1204,7 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="text-cyan-400 font-bold"><i class="fa-solid fa-circle-check ml-1"></i> הורדה חינם!</span>
-                        <a href="https://mitmachim.top/post/1066649" target="_blank" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה חינם</a>
+                        <a href="https://mitmachim.top/post/1066649" target="_blank" onclick="if(window.rvCountView)window.rvCountView('makhshirot')" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה חינם</a>
                     </div>
                 </div>
             </div>
@@ -1462,8 +1462,7 @@
             const K_VISITOR = 'raviv_visitor_id';
             const K_LIKED = 'raviv_liked_items';
             const K_CONSENT = 'raviv_consent';
-            const K_VIEWED_AT = 'raviv_viewed_at';
-            const VIEW_COOLDOWN_MS = 30 * 60 * 1000; // מינימום 30 דקות בין ספירות של אותו מבקר לאותו פריט
+            const K_VIEWED = 'raviv_viewed_session'; // דה-דופליקציה לכל הסשן — כמו באתר לב טוב
 
             let PROJECT_LIKES = {};
             let PROJECT_VIEWS = {};
@@ -1533,19 +1532,20 @@
                 document.head.appendChild(s);
             }
 
+            // צפייה נספרת רק בפעולה מפורשת של המבקר (פתיחת פריט) —
+            // פעם אחת לכל פריט בכל סשן, בדיוק כמו באתר לב טוב.
             function registerView(id) {
                 if (!tracking || !id) return;
-                let at = {};
-                try { at = JSON.parse(localStorage.getItem(K_VIEWED_AT)) || {}; } catch (e) {}
-                const now = Date.now();
-                if (at[id] && now - at[id] < VIEW_COOLDOWN_MS) return; // הגנת רענון לחצי שעה
-                at[id] = now;
-                try { localStorage.setItem(K_VIEWED_AT, JSON.stringify(at)); } catch (e) {}
-                PROJECT_VIEWS[id] = (PROJECT_VIEWS[id] || 0) + 1;
+                let viewed = {};
+                try { viewed = JSON.parse(sessionStorage.getItem(K_VIEWED)) || {}; } catch (e) {}
+                if (viewed[id]) return;
+                viewed[id] = true;
+                try { sessionStorage.setItem(K_VIEWED, JSON.stringify(viewed)); } catch (e) {}
+                PROJECT_VIEWS[id] = (PROJECT_VIEWS[id] || 0) + 1; // עדכון מיידי במסך — הלחיצה עצמה מרגישה חיה
                 sendBeacon('view', id);
                 renderCounts();
             }
-            // חשיפה לשימוש פנימי (למשל פתיחת לייטבוקס)
+            // חשיפה לשימוש פנימי (לייטבוקס, מודאלים וכפתורים)
             window.rvCountView = registerView;
 
             function toggleLike(id) {
@@ -1555,19 +1555,6 @@
                 PROJECT_LIKES[id] = Math.max(0, (PROJECT_LIKES[id] || 0) + (next ? 1 : -1));
                 sendBeacon(next ? 'like' : 'unlike', id);
                 renderCounts();
-            }
-
-            // רישום צפייה כשכרטיס/פריט נכנס למסך (פעם אחת בסשן)
-            if ('IntersectionObserver' in window) {
-                const viewObs = new IntersectionObserver(entries => {
-                    entries.forEach(en => {
-                        if (en.isIntersecting) {
-                            registerView(en.target.getAttribute('data-rv-view'));
-                            viewObs.unobserve(en.target);
-                        }
-                    });
-                }, { threshold: 0.35 });
-                document.querySelectorAll('[data-rv-view]').forEach(el => viewObs.observe(el));
             }
 
             // לחיצות לייק (דלגציה)
@@ -1666,6 +1653,8 @@
         });
 
         function openModal() {
+            // ספירת צפייה בפתיחת פרטי התוכנה
+            if (window.rvCountView) window.rvCountView('android-tool-pro');
             document.getElementById('proModal').classList.add('active-modal');
             document.body.style.overflow = 'hidden';
         }
