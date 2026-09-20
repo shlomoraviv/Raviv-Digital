@@ -1,6 +1,10 @@
 # לייקים וצפיות לאתר — מדריך פריסה (רביב דיגיטל)
 
-האתר (GitHub Pages — סטטי) סופר **לייקים ("אהבתי")** ו**צפיות** לכל פריט:
+> **עדכון (ספטמבר 2026):** האתר מציג וסופר כיום **לייקים בלבד** —
+> כל פונקציונליות הצפיות הוסרה מהאתר. השרת עדיין תומך בצפיות ברמת ה-API,
+> אבל האתר לא שולח ולא מציג אותן.
+
+האתר (GitHub Pages — סטטי) סופר **לייקים ("אהבתי")** לכל פריט:
 התוכנות להורדה, כרטיסי המחירון ותיק העבודות.
 המספרים נשמרים בגיליון Google Sheets דרך **Google Apps Script** — כך כל הגולשים
 רואים את אותם מספרים, ואתם מקבלים פידבק אמיתי על כל פריט.
@@ -65,18 +69,11 @@ var CONFIG = {
 > **טיפ:** אחרי כל עדכון של הסקריפט (Deploy → Manage deployments → Edit → New version)
 > הכתובת נשארת זהה — אין צורך לשנות אותה באתר.
 
-## הוספת מונים לפריט חדש באתר
+## הוספת מונה לייקים לפריט חדש באתר
 
 ```html
-<!-- כל קונטיינר שרוצים לספור צפיות עליו: -->
-<div data-rv-view="my-new-item"> ... </div>
-
-<!-- הצגת המונים: -->
+<!-- הצגת מונה הלייקים: -->
 <div class="rv-stats" data-rv-counts>
-  <span class="rv-pill">
-    <i class="fa-regular fa-eye"></i>
-    <span class="rv-num" data-rv-views="my-new-item">–</span>
-  </span>
   <button type="button" class="rv-like-btn" data-rv-like="my-new-item">
     <i class="fa-regular fa-heart"></i>
     <span class="rv-num" data-rv-likes="my-new-item">–</span>
