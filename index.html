@@ -697,106 +697,9 @@
 
         #hero-spotlight.on { opacity: 1; }
 
-        /* ============================================================            מוני לייקים
-           ============================================================ */
-        .rv-stats { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin: 0 0 1.25rem; }
-
-        .rv-pill, .rv-like-btn {
-            display: inline-flex; align-items: center; gap: .45rem;
-            padding: .42rem .85rem; border-radius: 999px;
-            background: rgba(255, 255, 255, .07);
-            border: 1px solid rgba(255, 255, 255, .12);
-            color: #cbd5e1; font-size: .85rem; font-weight: 700; line-height: 1.2;
-            transition: all .25s ease;
-        }
-
-        .rv-like-btn { cursor: pointer; }
-        .rv-like-btn:hover { border-color: rgba(242, 181, 11, .5); color: #f2b50b; transform: translateY(-1px); }
-        .rv-like-btn.liked { background: rgba(242, 181, 11, .16); border-color: rgba(242, 181, 11, .5); color: #f2b50b; }
-        .rv-like-btn.liked .fa-heart { animation: rvLikePop .45s cubic-bezier(.16, 1, .3, 1); }
-
-        @keyframes rvLikePop {
-            0% { transform: scale(.4); }
-            60% { transform: scale(1.35); }
-            100% { transform: scale(1); }
-        }
-
-        .rv-stats-light .rv-pill,
-        .rv-stats-light .rv-like-btn { background: #f8fafc; border-color: #e2e8f0; color: #475569; }
-
-        .rv-stats-light .rv-like-btn:hover,
-        .rv-stats-light .rv-like-btn.liked { background: #fef9c3; border-color: var(--digital-yellow); color: #a16207; }
-
-        .dark .rv-stats-light .rv-pill,
-        .dark .rv-stats-light .rv-like-btn { background: rgba(255, 255, 255, .07); border-color: rgba(255, 255, 255, .12); color: #cbd5e1; }
-
-        .dark .rv-stats-light .rv-like-btn:hover,
-        .dark .rv-stats-light .rv-like-btn.liked { background: rgba(242, 181, 11, .16); border-color: rgba(242, 181, 11, .5); color: #f2b50b; }
-
-        .rv-overlay-pill {
-            position: absolute; top: 1rem; left: 1rem; z-index: 25;
-            display: inline-flex; align-items: center; gap: .55rem;
-            padding: .42rem .8rem; border-radius: 999px;
-            background: rgba(15, 23, 42, .72);
-            border: 1px solid rgba(255, 255, 255, .16);
-            color: #e2e8f0; font-size: .8rem; font-weight: 700;
-            backdrop-filter: blur(6px);
-        }
-
-        .rv-overlay-pill .fa-heart { color: #f2b50b; }
-
         /* ============================================================
            באנר הסכמה (Consent Banner)
            ============================================================ */
-        #rv-consent {
-            position: fixed; bottom: 1.25rem; right: 50%;
-            transform: translate(50%, 150%);
-            width: min(600px, calc(100vw - 2rem));
-            z-index: 95000;
-            background: rgba(255, 255, 255, .98);
-            border: 1px solid #e2e8f0;
-            border-radius: 1.4rem;
-            box-shadow: 0 24px 60px rgba(2, 6, 23, .28);
-            padding: 1.1rem 1.25rem;
-            display: flex; gap: 1rem; align-items: flex-start;
-            opacity: 0;
-            transition: transform .65s cubic-bezier(.16, 1, .3, 1), opacity .4s ease;
-        }
-
-        #rv-consent.show { transform: translate(50%, 0); opacity: 1; }
-        #rv-consent p { font-size: .88rem; color: #475569; line-height: 1.6; }
-
-        .dark #rv-consent { background: rgba(15, 23, 42, .98); border-color: #334155; }
-        .dark #rv-consent p { color: #cbd5e1; }
-
-        .rv-consent-icon {
-            width: 42px; height: 42px; flex-shrink: 0;
-            border-radius: 12px; display: grid; place-items: center;
-            background: rgba(242, 181, 11, .16); color: #d9a308; font-size: 1.15rem;
-        }
-
-        .rv-consent-actions { display: flex; gap: .6rem; margin-top: .85rem; flex-wrap: wrap; }
-
-        .rv-consent-actions button {
-            padding: .5rem 1.05rem; border-radius: 999px;
-            font-weight: 700; font-size: .85rem; cursor: pointer;
-            transition: all .2s ease;
-        }
-
-        #rv-consent-accept { background: var(--deep-blue); color: #fff; }
-        #rv-consent-accept:hover { background: #152952; transform: translateY(-1px); }
-        #rv-consent-decline { background: transparent; border: 1px solid #cbd5e1; color: #64748b; }
-        #rv-consent-decline:hover { border-color: #94a3b8; color: #334155; }
-        .dark #rv-consent-decline { border-color: #475569; color: #94a3b8; }
-        .dark #rv-consent-decline:hover { border-color: #64748b; color: #e2e8f0; }
-
-        /* ============================================================
-           השבתת ספירה (מי שסירב בבאנר)
-           ============================================================ */
-        body.counts-disabled [data-rv-counts],
-        body.counts-disabled .rv-stats,
-        body.counts-disabled .rv-overlay-pill { display: none !important; }
-
         /* לייטבוקס */
         #lightboxModal {
             z-index: 10001;
@@ -1010,10 +913,6 @@
                 <!-- פריט 1: פורום בני ברק -->
                 <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('raviv-digital-banner.jpg', 'https://bnebrak.com/')">
                     <img src="raviv-digital-banner.jpg" alt="רביב דיגיטל — מיתוג ועיצוב">
-                    <span class="rv-overlay-pill" data-rv-counts title="לייקים">
-                        <i class="fa-regular fa-heart" aria-hidden="true"></i>
-                        <span data-rv-likes="ad-bnei-brak">–</span>
-                    </span>
                     <div class="portfolio-overlay">
                         <span class="bg-white text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg">צפייה בפרסום <i class="fa-solid fa-magnifying-glass-plus mr-2"></i></span>
                     </div>
@@ -1022,10 +921,6 @@
                 <!-- פריט 2: צלם רחפן -->
                 <div class="portfolio-item group reveal shadow-xl" onclick="openLightbox('unnamed%20(16).png', 'https://mail.google.com/mail/u/0/?fs=1&to=eliyahubloy@gmail.com&tf=cm')">
                     <img src="unnamed (16).png" alt="פרסום צלם רחפן">
-                    <span class="rv-overlay-pill" data-rv-counts title="לייקים">
-                        <i class="fa-regular fa-heart" aria-hidden="true"></i>
-                        <span data-rv-likes="ad-drone">–</span>
-                    </span>
                     <div class="portfolio-overlay">
                         <span class="bg-white text-slate-900 px-6 py-2 rounded-full font-bold shadow-lg">צפייה בפרסום <i class="fa-solid fa-magnifying-glass-plus mr-2"></i></span>
                     </div>
@@ -1054,12 +949,6 @@
                         <h3 class="text-2xl font-black mb-2 dark:text-white">תוכנות/אפליקציות</h3>
                         <p class="text-slate-500 dark:text-slate-400 mb-4">שרות בנייה עריכה, שדרוג ועוד</p>
                         <div class="price-tag"><span class="text-lg font-bold align-middle ml-1">החל מ-</span>399 <span class="text-xl">₪</span></div>
-                        <div class="rv-stats rv-stats-light" style="justify-content:center" data-rv-counts>
-                            <button type="button" class="rv-like-btn" data-rv-like="svc-software" aria-pressed="false" aria-label="אהבתי את שירות התוכנות והאפליקציות">
-                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
-                                <span class="rv-num" data-rv-likes="svc-software">–</span>
-                            </button>
-                        </div>
                     </div>
                     <button onclick="toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
                          פנו להצעת מחיר <i class="fa-solid fa-envelope"></i>
@@ -1076,12 +965,6 @@
                         <h3 class="text-3xl font-black mb-4 dark:text-white">בניית אתר תדמית</h3>
                         <p class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed px-4">אתר מותאם אישית ללקוח כולל לוגו מקצועי, מעוצב, מהיר ומותאם לכל המכשירים.</p>
                         <div class="price-tag"><span class="text-lg font-bold align-middle ml-1">רק</span> 399 <span class="text-xl">₪</span></div>
-                        <div class="rv-stats rv-stats-light" style="justify-content:center" data-rv-counts>
-                            <button type="button" class="rv-like-btn" data-rv-like="svc-website" aria-pressed="false" aria-label="אהבתי את שירות בניית האתר">
-                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
-                                <span class="rv-num" data-rv-likes="svc-website">–</span>
-                            </button>
-                        </div>
                     </div>
                     <button onclick="toggleContactModal()" class="btn-yellow w-full py-5 font-black mt-8 flex items-center justify-center gap-2 text-lg">
                         להזמנה ויצירת קשר <i class="fa-solid fa-paper-plane"></i>
@@ -1097,12 +980,6 @@
                         <h3 class="text-2xl font-black mb-2 dark:text-white">תוספים וסקריפטים</h3>
                         <p class="text-slate-500 dark:text-slate-400 mb-4">תוספי כרום, סקריפטים ועוד בהתאמה אישית</p>
                         <div class="price-tag">199 <span class="text-xl">₪</span></div>
-                        <div class="rv-stats rv-stats-light" style="justify-content:center" data-rv-counts>
-                            <button type="button" class="rv-like-btn" data-rv-like="svc-extensions" aria-pressed="false" aria-label="אהבתי את שירות התוספים והסקריפטים">
-                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
-                                <span class="rv-num" data-rv-likes="svc-extensions">–</span>
-                            </button>
-                        </div>
                     </div>
                     <button onclick="toggleContactModal()" class="btn-blue w-full py-4 font-bold mt-8 flex items-center justify-center gap-2">
                         פנו להצעת מחיר <i class="fa-solid fa-envelope"></i>
@@ -1141,12 +1018,6 @@
                             <h3 class="text-2xl font-black text-white">Android Tool Pro</h3>
                         </div>
                         <p class="text-slate-400 mb-8 text-sm leading-relaxed">כלי למפתחים לשאיבת גרסה מלאה (Firmware Extraction), גיבויים וניהול קבצי מערכת ברמה הגבוהה ביותר.</p>
-                        <div class="rv-stats" data-rv-counts>
-                            <button type="button" class="rv-like-btn" data-rv-like="android-tool-pro" aria-pressed="false" aria-label="אהבתי את Android Tool Pro">
-                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
-                                <span class="rv-num" data-rv-likes="android-tool-pro">–</span>
-                            </button>
-                        </div>
                         <div class="flex flex-col gap-3">
                             <button onclick="openModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
                                 <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
@@ -1170,12 +1041,6 @@
                         <h3 class="text-2xl font-bold text-white">מכשירוט</h3>
                     </div>
                     <p class="text-slate-400 mb-8 text-sm">הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח.</p>
-                    <div class="rv-stats" data-rv-counts>
-                        <button type="button" class="rv-like-btn" data-rv-like="makhshirot" aria-pressed="false" aria-label="אהבתי את מכשירות">
-                            <i class="fa-regular fa-heart" aria-hidden="true"></i>
-                            <span class="rv-num" data-rv-likes="makhshirot">–</span>
-                        </button>
-                    </div>
                     <div class="flex items-center justify-between">
                         <span class="text-cyan-400 font-bold"><i class="fa-solid fa-circle-check ml-1"></i> הורדה חינם!</span>
                         <a href="https://mitmachim.top/post/1066649" target="_blank" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה חינם</a>
@@ -1222,14 +1087,6 @@
             <div class="pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col md:row justify-between items-center gap-6 text-center md:text-right">
                 <div class="flex items-center gap-3">
                     <span class="font-bold text-slate-400">© 2026 רביב דיגיטל. כל הזכויות שמורות לשלמה רביב.</span>
-                    <button type="button" id="rv-manage-btn" class="text-slate-400 hover:text-yellow-500 underline text-sm transition-colors" title="אבחון וניהול מערכת הספירה בדפדפן זה">ניהול ספירה</button>
-                </div>
-                <div id="rv-manage-panel" style="display:none" class="mt-4 mx-auto max-w-md text-right bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4 shadow-sm">
-                    <p id="rv-manage-status" class="font-bold mb-3 text-sm">בודק חיבור לשרת…</p>
-                    <div class="flex flex-wrap gap-2 justify-center">
-                        <button type="button" id="rv-refresh-counts" class="px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors">רענן לייקים</button>
-                        <button type="button" id="rv-reconsent" class="px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors">הסכמה מחדש</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1300,21 +1157,6 @@
                 </div>
                 <button type="submit" id="submit-btn" class="send-btn">שלח הודעה</button>
             </form>
-        </div>
-    </div>
-
-    <!-- באנר הסכמה לספירה -->
-    <div id="rv-consent" role="dialog" aria-live="polite" aria-label="הודעת פרטיות">
-        <div class="rv-consent-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
-        <div>
-            <p>
-                האתר סופר לייקים באמצעות מזהה אנונימי בלבד — ללא שם, דוא"ל או מידע אישי.
-                בנוסף נשמרות במכשירכם העדפות התצוגה והפריטים שאהבתם. המידע אינו מועבר לצד שלישי לפרסום.
-            </p>
-            <div class="rv-consent-actions">
-                <button type="button" id="rv-consent-accept">הבנתי, אפשר להמשיך</button>
-                <button type="button" id="rv-consent-decline">לא, השבת ספירה</button>
-            </div>
         </div>
     </div>
 
@@ -1428,208 +1270,6 @@
                     spotlight.classList.add('on');
                 });
                 hero.addEventListener('pointerleave', () => spotlight.classList.remove('on'));
-            }
-        })();
-
-        /* ============================================================
-           לייקים וצפיות — Google Apps Script + Google Sheets
-           ============================================================ */
-        (function () {
-            const LIKES_URL = 'https://script.google.com/macros/s/AKfycbxgwPHLzxC96t95zo7f1xg1Lt35CDr0F0hdyK82-AZD_eEupESGnjaLFJ3-rKh2vznj/exec';
-            // מזהה ייחודי לכל בקשה — מונע מהדפדפן להציג תשובות שמורות מהזיכרון
-            const cb = () => '&_=' + Date.now() + Math.random().toString(36).slice(2, 6);
-            // מונע בקשות לכתובת פלייסהולדר — פעיל אוטומטית אחרי החלפת הכתובת
-            const LIKES_ENABLED = LIKES_URL.indexOf('REPLACE_ME') === -1;
-            const K_VISITOR = 'raviv_visitor_id';
-            const K_LIKED = 'raviv_liked_items';
-            const K_CONSENT = 'raviv_consent';
-
-            let PROJECT_LIKES = {};
-            let serverOk = null; // null = לא ידוע, true = השרת מגיב, false = אין תשובה (חוסם/רשת)
-            let tracking = localStorage.getItem(K_CONSENT) !== 'declined';
-
-            function getVisitorId() {
-                if (!tracking) return '';
-                let v = localStorage.getItem(K_VISITOR);
-                if (!v) {
-                    v = 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
-                    localStorage.setItem(K_VISITOR, v);
-                }
-                return v;
-            }
-
-            function getLikedMap() {
-                try { return JSON.parse(localStorage.getItem(K_LIKED)) || {}; } catch (e) { return {}; }
-            }
-
-            function isLiked(id) { return !!getLikedMap()[id]; }
-
-            function setLiked(id, val) {
-                const m = getLikedMap();
-                if (val) m[id] = true; else delete m[id];
-                try { localStorage.setItem(K_LIKED, JSON.stringify(m)); } catch (e) {}
-            }
-
-            function sendBeacon(action, id) {
-                if (!tracking || !id || !LIKES_ENABLED) return;
-                const url = LIKES_URL + '?action=' + encodeURIComponent(action) +
-                    '&id=' + encodeURIComponent(id) +
-                    '&visitor=' + encodeURIComponent(getVisitorId()) + cb();
-                // ערוץ ראשי: fetch ללא CORS (עוקף חוסמים שמכוונים תמונות/סקריפטים); ערוץ רזרבי: תמונה
-                let sent = false;
-                const viaImage = () => { try { new Image().src = url; } catch (e) {} };
-                try {
-                    if (typeof fetch === 'function') {
-                        sent = true;
-                        fetch(url, { mode: 'no-cors', keepalive: true }).catch(viaImage);
-                    }
-                } catch (e) { sent = false; }
-                if (!sent) viaImage();
-            }
-
-            function renderCounts() {
-                document.querySelectorAll('[data-rv-likes]').forEach(el => {
-                    const id = el.getAttribute('data-rv-likes');
-                    el.textContent = String(PROJECT_LIKES[id] || 0);
-                });
-                document.querySelectorAll('[data-rv-like]').forEach(btn => {
-                    const id = btn.getAttribute('data-rv-like');
-                    const liked = isLiked(id);
-                    btn.classList.toggle('liked', liked);
-                    btn.setAttribute('aria-pressed', liked ? 'true' : 'false');
-                    const ic = btn.querySelector('i');
-                    if (ic) ic.className = liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
-                });
-            }
-
-            // קריאת הספירות מהשרת (JSONP) — ה-callback מוגדר פעם אחת במודול,
-            // כך שבקשות חופפות לא יוצרות ReferenceError.
-            window.ravivCountsCb = function (data) {
-                serverOk = true;
-                PROJECT_LIKES = (data && data.likes) || {};
-                // סנכרון מצב הלב מהשרת: השרת שולח את רשימת הפריטים
-                // שהמבקר הנוכחי סימן (myLikes) — כך המצב נכון גם במכשיר אחר.
-                if (data && data.myLikes) {
-                    const remote = data.myLikes;
-                    let changed = false;
-                    for (const k in Object.assign({}, getLikedMap(), remote)) {
-                        if (!!getLikedMap()[k] !== !!remote[k]) changed = true;
-                        if (remote[k]) setLiked(k, true); else setLiked(k, false);
-                    }
-                    if (changed) renderCounts();
-                }
-                renderCounts();
-            };
-
-            function loadCounts() {
-                if (!tracking || !LIKES_ENABLED) return;
-                const s = document.createElement('script');
-                s.src = LIKES_URL + '?action=counts&callback=ravivCountsCb&visitor=' + encodeURIComponent(getVisitorId()) + cb();
-                s.onerror = function () { serverOk = false; };
-                document.head.appendChild(s);
-                setTimeout(() => { try { s.remove(); } catch (e) {} }, 30000);
-                // אבחון: אם אין תשובה תוך 12 שניות (ועוד לא הצלחנו קודם) — מסומן כתקלת חיבור
-                setTimeout(() => { if (serverOk !== true) serverOk = false; }, 12000);
-            }
-
-            function toggleLike(id) {
-                if (!tracking || !id) return;
-                const next = !isLiked(id);
-                setLiked(id, next);
-                PROJECT_LIKES[id] = Math.max(0, (PROJECT_LIKES[id] || 0) + (next ? 1 : -1));
-                sendBeacon(next ? 'like' : 'unlike', id);
-                renderCounts();
-            }
-
-            // לחיצות לייק (דלגציה)
-            document.addEventListener('click', e => {
-                const btn = e.target.closest('[data-rv-like]');
-                if (!btn) return;
-                e.preventDefault();
-                e.stopPropagation();
-                toggleLike(btn.getAttribute('data-rv-like'));
-            });
-
-            // באנר הסכמה
-            function initConsent() {
-                const banner = document.getElementById('rv-consent');
-                if (!banner) return;
-                const consent = localStorage.getItem(K_CONSENT);
-                if (consent) { banner.remove(); if (consent === 'declined') disable(); return; }
-                setTimeout(() => banner.classList.add('show'), 1600);
-                document.getElementById('rv-consent-accept').addEventListener('click', () => {
-                    localStorage.setItem(K_CONSENT, 'agreed');
-                    banner.classList.remove('show');
-                    setTimeout(() => banner.remove(), 500);
-                    loadCounts();
-                });
-                document.getElementById('rv-consent-decline').addEventListener('click', () => {
-                    localStorage.setItem(K_CONSENT, 'declined');
-                    banner.classList.remove('show');
-                    setTimeout(() => banner.remove(), 500);
-                    disable();
-                });
-            }
-
-            function disable() {
-                tracking = false;
-                document.body.classList.add('counts-disabled');
-            }
-
-            if (tracking) {
-                renderCounts();
-                loadCounts();
-                // רענון חי: המספרים מתעדכנים גם מפעילות של מבקרים אחרים
-                setInterval(() => { if (!document.hidden && tracking) loadCounts(); }, 45000);
-                document.addEventListener('visibilitychange', () => {
-                    if (!document.hidden && tracking) loadCounts();
-                });
-            } else { disable(); }
-            initConsent();
-
-            // אבחון וניהול — נקודת החיבור של פאנל "ניהול ספירה" בפוטר
-            window.rvDiag = function () {
-                return {
-                    tracking: tracking,
-                    serverOk: serverOk,
-                    consent: localStorage.getItem(K_CONSENT)
-                };
-            };
-            window.rvRefreshCounts = loadCounts;
-
-            const rvManageBtn = document.getElementById('rv-manage-btn');
-            const rvPanel = document.getElementById('rv-manage-panel');
-            if (rvManageBtn && rvPanel) {
-                const rvStatusEl = document.getElementById('rv-manage-status');
-                const rvPaint = function () {
-                    const d = window.rvDiag();
-                    if (!d.tracking) {
-                        rvStatusEl.textContent = 'הספירה כבויה בדפדפן זה (ההסכמה נדחתה בעבר). לחץ "הסכמה מחדש" כדי להפעיל.';
-                        rvStatusEl.style.color = '#b45309';
-                    } else if (d.serverOk === true) {
-                        rvStatusEl.textContent = 'מחובר לשרת הספירה ✓ הכל עובד';
-                        rvStatusEl.style.color = '#15803d';
-                    } else if (d.serverOk === false) {
-                        rvStatusEl.textContent = 'אין תשובה מהשרת — ייתכן חוסם פרסומות/הרחבה, חסימת רשת או תקלה זמנית של Google.';
-                        rvStatusEl.style.color = '#b91c1c';
-                    } else {
-                        rvStatusEl.textContent = 'בודק חיבור לשרת…';
-                        rvStatusEl.style.color = '';
-                    }
-                };
-                rvManageBtn.addEventListener('click', function () {
-                    const show = rvPanel.style.display === 'none';
-                    rvPanel.style.display = show ? 'block' : 'none';
-                    if (show) { rvPaint(); setTimeout(rvPaint, 2500); setTimeout(rvPaint, 9000); }
-                });
-                document.getElementById('rv-refresh-counts').addEventListener('click', function () {
-                    window.rvRefreshCounts();
-                    rvPaint();
-                });
-                document.getElementById('rv-reconsent').addEventListener('click', function () {
-                    localStorage.removeItem(K_CONSENT);
-                    location.reload();
-                });
             }
         })();
 
