@@ -850,6 +850,55 @@
 
         /* אנימציית כניסה משלימה לכרטיסים שנחשפים אחרי סינון */
         .dl-card { opacity: 1; }
+
+        /* גלריית צילומי מסך בכרטיס */
+        .dl-gallery {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .dl-gallery::-webkit-scrollbar { display: none; }
+
+        .dl-gallery img {
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .dl-gal-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 9999px;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+
+        .dl-gal-btn:hover { background: rgba(15, 23, 42, 0.95); border-color: #38bdf8; color: #38bdf8; }
+
+        .dl-gal-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+            background: rgba(148, 163, 184, 0.45);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .dl-gal-dot.active {
+            background: #38bdf8;
+            width: 1.25rem;
+        }
     </style>
 </head>
 
@@ -1185,17 +1234,26 @@
                     </div>
                 </div>
 
-                <!-- RofeSD — כרטיס מרכזי. להחלפת התמונה בעתיד: החליפו את תוכן ה-div עם id="rofesd-art" בתמונה רגילה (img) -->
+                <!-- RofeSD — כרטיס מרכזי עם גלריית צילומי מסך מתגלגלת. להוספת תמונה: העתיקו img חדש בתוך #rofesd-gallery -->
                 <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-emerald-500 transition-all duration-300 relative overflow-hidden dl-card-item"
                     data-type="app" data-price="partial" data-name="RofeSD"
                     data-desc="אפליקציה פשוטה וחינמית לשחזור מידע מכרטיסי זיכרון שדורשים פרמוט"
                     data-tags="rofesd שחזור מידע כרטיס זיכרון פרמוט אנדרואיד אפליקציה חינם חלקי">
                     <div class="absolute top-0 left-0 bg-emerald-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">חדש!</div>
-                    <div id="rofesd-art" class="w-full h-40 rounded-2xl mb-6 overflow-hidden border border-slate-600 bg-gradient-to-br from-emerald-900/60 via-slate-800 to-slate-900 flex flex-col items-center justify-center gap-3">
-                        <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-sd-card"></i>
+                    <div class="relative w-full h-40 mb-6">
+                        <div id="rofesd-gallery" class="dl-gallery w-full h-40 rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory">
+                            <img src="rofesd-shot-1.png" alt="RofeSD — מסך סריקת כרטיס" draggable="false"
+                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
+                            <img src="rofesd-shot-2.png" alt="RofeSD — בחירת קבצים לחילוץ" draggable="false"
+                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
+                            <img src="rofesd-shot-3.png" alt="RofeSD — בדיקת תוכן הקבצים" draggable="false"
+                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
+                            <img src="rofesd-shot-4.png" alt="RofeSD — הקבצים ששוחזרו" draggable="false"
+                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
                         </div>
-                        <span class="text-emerald-300 font-black tracking-widest">RofeSD</span>
+                        <button id="rofesd-gal-prev" class="dl-gal-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button id="rofesd-gal-next" class="dl-gal-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+                        <div id="rofesd-gal-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
                     </div>
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
@@ -1560,18 +1618,60 @@
             document.body.style.overflow = 'auto';
         }
         function downloadRofeSD() {
-            var url = 'https://mitmachim.top/assets/uploads/files/1790160421460-rofesd-1.2.0.ap';
-            var fixed = false;
-            try { fixed = document.execCommand('SaveAs', false, 'RofeSD-1.2.0.apk'); } catch (e) { fixed = false; }
-            if (!fixed) {
-                var iframe = document.createElement('iframe');
-                iframe.style.display = 'none';
-                iframe.src = url;
-                document.body.appendChild(iframe);
-                setTimeout(function(){ document.body.removeChild(iframe); }, 30000);
-            }
-            alert('ההורדה החלה. אם הקובץ ירד עם סיומת ".ap" — שנו את הסיומת ל-".apk" ואז ניתן יהיה להתקין אותו באנדרואיד.');
+            var url = 'RofeSD-1.2.0.apk';
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'RofeSD-1.2.0.apk';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
+
+        /* גלריית צילומי המסך של RofeSD — חצים, נקודות והחלקה במגע */
+        (function () {
+            var gal = document.getElementById('rofesd-gallery');
+            if (!gal) return;
+            var slides = Array.prototype.slice.call(gal.querySelectorAll('img'));
+            var dotsWrap = document.getElementById('rofesd-gal-dots');
+            var idx = 0;
+
+            var dots = slides.map(function (_, i) {
+                var d = document.createElement('span');
+                d.className = 'dl-gal-dot' + (i === 0 ? ' active' : '');
+                d.addEventListener('click', function () { goTo(i); });
+                dotsWrap.appendChild(d);
+                return d;
+            });
+
+            function goTo(i) {
+                idx = Math.max(0, Math.min(slides.length - 1, i));
+                slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+
+            document.getElementById('rofesd-gal-prev').addEventListener('click', function () { goTo(idx - 1); });
+            document.getElementById('rofesd-gal-next').addEventListener('click', function () { goTo(idx + 1); });
+
+            var ticking = false;
+            gal.addEventListener('scroll', function () {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(function () {
+                    ticking = false;
+                    var center = gal.scrollLeft + gal.clientWidth / 2;
+                    var best = 0, bestDist = Infinity;
+                    slides.forEach(function (s, i) {
+                        var sc = s.offsetLeft + s.offsetWidth / 2;
+                        var dist = Math.abs(sc - center);
+                        if (dist < bestDist) { bestDist = dist; best = i; }
+                    });
+                    if (best !== idx) {
+                        idx = best;
+                        dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+                    }
+                });
+            }, { passive: true });
+        })();
         function toggleContactModal() {
             document.getElementById('customContactModal').classList.toggle('active');
         }
