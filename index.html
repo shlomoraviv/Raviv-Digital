@@ -848,6 +848,18 @@
         .dl-tag-partial{ background: rgba(245, 158, 11, 0.12); color: #fcd34d; border-color: rgba(245, 158, 11, 0.35); }
         .dl-tag-neutral{ background: rgba(100, 116, 139, 0.15); color: #cbd5e1; border-color: rgba(100, 116, 139, 0.4); }
 
+        /* תגיות בתוך המודאל — ניגודיות תקינה גם על רקע בהיר */
+        #dlItemTags .dl-tag-type   { color: #0369a1; }
+        #dlItemTags .dl-tag-free   { color: #047857; }
+        #dlItemTags .dl-tag-paid   { color: #be123c; }
+        #dlItemTags .dl-tag-partial{ color: #b45309; }
+        #dlItemTags .dl-tag-neutral{ color: #475569; background: rgba(100, 116, 139, 0.12); }
+        .dark #dlItemTags .dl-tag-type   { color: #7dd3fc; }
+        .dark #dlItemTags .dl-tag-free   { color: #6ee7b7; }
+        .dark #dlItemTags .dl-tag-paid   { color: #fda4af; }
+        .dark #dlItemTags .dl-tag-partial{ color: #fcd34d; }
+        .dark #dlItemTags .dl-tag-neutral{ color: #cbd5e1; background: rgba(100, 116, 139, 0.15); }
+
         /* אנימציית כניסה משלימה לכרטיסים שנחשפים אחרי סינון */
         .dl-card { opacity: 1; }
 
@@ -1913,6 +1925,14 @@
                 if (Math.abs(dx) > 40) { if (dx < 0) show(idx + 1); else show(idx - 1); }
                 startX = null;
             }, { passive: true });
+            // גרירה בעכבר (מחשב)
+            lbImg.addEventListener('mousedown', function (e) { startX = e.clientX; e.preventDefault(); });
+            lbImg.addEventListener('mouseup', function (e) {
+                if (startX === null) return;
+                var dx = e.clientX - startX;
+                if (Math.abs(dx) > 40) { if (dx < 0) show(idx + 1); else show(idx - 1); }
+                startX = null;
+            });
             document.addEventListener('keydown', function (e) {
                 if (!lb.classList.contains('active-modal')) return;
                 if (e.key === 'Escape') closeRofeSdLightbox();
@@ -2383,6 +2403,7 @@
         var dlZoomIdx = 0;
         function openDlZoom(i) {
             if (!dlItemGalImgs.length) return;
+            if (dlItemGalImgs.length <= 1) { dlZoomIdx = 0; dlZoomSingle = true; } else { dlZoomSingle = false; }
             dlZoomIdx = ((i % dlItemGalImgs.length) + dlItemGalImgs.length) % dlItemGalImgs.length;
             var lb = document.getElementById('dlZoomLightbox');
             var img = document.getElementById('dlZoomImg');
@@ -2397,10 +2418,16 @@
                 d.addEventListener('click', function () { dlZoomShow(j); });
             });
             counter.textContent = (dlZoomIdx + 1) + ' / ' + dlItemGalImgs.length;
+            // חצים רק כשיש יותר מתמונה אחת
+            var one = dlItemGalImgs.length <= 1;
+            document.getElementById('dlZoomPrev').style.display = one ? 'none' : '';
+            document.getElementById('dlZoomNext').style.display = one ? 'none' : '';
             lb.classList.add('active-modal');
         }
+        var dlZoomSingle = false;
         function dlZoomShow(i) {
             if (!dlItemGalImgs.length) return;
+            if (dlZoomSingle) { dlZoomIdx = 0; return; }
             dlZoomIdx = ((i % dlItemGalImgs.length) + dlItemGalImgs.length) % dlItemGalImgs.length;
             var img = document.getElementById('dlZoomImg');
             img.src = dlItemGalImgs[dlZoomIdx].src;
@@ -2429,6 +2456,14 @@
                 if (Math.abs(dx) > 40) { if (dx < 0) dlZoomShow(dlZoomIdx + 1); else dlZoomShow(dlZoomIdx - 1); }
                 startX = null;
             }, { passive: true });
+            // גרירה בעכבר (מחשב)
+            img.addEventListener('mousedown', function (e) { startX = e.clientX; e.preventDefault(); });
+            img.addEventListener('mouseup', function (e) {
+                if (startX === null) return;
+                var dx = e.clientX - startX;
+                if (Math.abs(dx) > 40) { if (dx < 0) dlZoomShow(dlZoomIdx + 1); else dlZoomShow(dlZoomIdx - 1); }
+                startX = null;
+            });
             document.addEventListener('keydown', function (e) {
                 if (!lb.classList.contains('active-modal')) return;
                 if (e.key === 'Escape') closeDlZoomLb();
