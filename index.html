@@ -902,6 +902,32 @@
 
         #rofesd-gallery img { cursor: zoom-in; }
 
+        /* אייקון עגול עם תמונה לכרטיסים במרכז ההורדות */
+        .dl-icon-sm { width: 3.5rem; height: 3.5rem; }
+        .dl-icon-lg { width: 6rem; height: 6rem; }
+        .dl-icon-ring {
+            background: #f8fafc;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 6px 16px -4px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(15,23,42,0.08);
+        }
+        .dl-icon-ring img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 9999px;
+        }
+        .dl-icon-ring-blue    { border: 3px solid #3b82f6; }
+        .dl-icon-ring-cyan    { border: 3px solid #06b6d4; }
+        .dl-icon-ring-emerald { border: 3px solid #10b981; }
+        .dl-icon-ring-yellow  { border: 3px solid #facc15; }
+        .dl-icon-ring-rose    { border: 3px solid #fb7185; }
+        .dl-icon-ring-violet  { border: 3px solid #8b5cf6; }
+
         /* לייטבוקס גלריית RofeSD — תמונה בגודל מלא */
         #rofesdLightbox .modal-content {
             background: rgba(15, 23, 42, 0.95);
@@ -1531,7 +1557,7 @@
             <button onclick="closeDlItemModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors">
                 <i class="fa-solid fa-times"></i>
             </button>
-            <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6" id="dlItemIcon"></div>
+            <div class="mx-auto mb-6 w-fit" id="dlItemIcon"></div>
             <h3 class="text-2xl md:text-3xl font-black mb-2 text-slate-900 dark:text-white" id="dlItemTitle"></h3>
             <div class="flex justify-center mb-6"><div class="dl-tags justify-center" id="dlItemTags"></div></div>
             <div id="dlItemGalleryWrap" style="display:none" class="relative w-full h-64 mb-6">
@@ -1994,6 +2020,7 @@
                 desc: 'כלי למפתחים לשאיבת גרסה מלאה (Firmware Extraction), גיבויים וניהול קבצי מערכת ברמה הגבוהה ביותר.',
                 tags: ['שאיבת קושחה', 'גיבויים', 'מפתחים'],
                 icon: 'fa-toolbox',
+                iconImg: 'icon-androidtool.png',
                 color: 'blue',
                 details: true
             },
@@ -2004,6 +2031,7 @@
                 desc: 'תרגום תמונות אופליין — ערכת מדריך מלא עם קבצי שפה: אידיש, ערבית ואנגלית → עברית.',
                 tags: ['תרגום תמונות', 'אופליין', 'אידיש', 'ערבית', 'אנגלית'],
                 icon: 'fa-language',
+                iconImg: 'icon-translate.png',
                 color: 'violet',
                 gallery: ['translate-shot-1.png', 'translate-shot-2.png'],
                 guide: [
@@ -2046,6 +2074,7 @@
                 desc: 'תוסף שמונע סימוני "דיס" בטעות בפורומים — מציג חלונית אזהרה ומבקש אישור לפני שליחת הדיס.',
                 tags: ['אזהרה לפני דיס', 'פורומים', 'מניעת לחיצות בטעות'],
                 icon: 'fa-hand',
+                iconImg: 'icon-dislike.png',
                 color: 'rose',
                 gallery: ['dislike-shot-1.png'],
                 guide: [
@@ -2064,6 +2093,7 @@
                 desc: 'תוכנה קטנה ומהירה לפתקים ותזכורות בסגנון מחברת — נפתחת בצד המסך בלי להפריע לעבודה.',
                 tags: ['פתקים', 'תזכורות', 'מחברת דיגיטלית', 'Windows'],
                 icon: 'fa-note-sticky',
+                iconImg: 'icon-quicknote.png',
                 color: 'yellow',
                 gallery: ['quicknote-shot-2.png', 'quicknote-shot-1.png'],
                 guide: [
@@ -2107,6 +2137,7 @@
                 desc: 'כלי פשוט לצריבת תמונת אתחול (logo.bin) לאנדרואיד מהמחשב, במספר פעולות בלבד.',
                 tags: ['צריבת לוגו', 'Fastboot', 'Bootloader', 'MTK'],
                 icon: 'fa-fire',
+                iconImg: 'icon-adbfastboot.png',
                 color: 'rose',
                 gallery: ['adbfastboot-shot-1.png'],
                 guide: [
@@ -2127,6 +2158,7 @@
                 desc: 'תוסף שמדגיש מודעות שכבר נקראו ביד 2, מסיר ממומנים ושולח למייל מודעות שתואמות לקריטריונים.',
                 tags: ['הדגשת נקראו', 'הסרת ממומנים', 'התראות מייל', 'יד 2'],
                 icon: 'fa-highlighter',
+                iconImg: 'icon-yad2.png',
                 color: 'yellow',
                 gallery: ['yad2-shot-4.png', 'yad2-shot-2.png', 'yad2-shot-1.png', 'yad2-shot-3.png'],
                 guide: [
@@ -2156,19 +2188,27 @@
             });
         }
 
+        function dlIconHtml(sw, sizeClass) {
+            if (sw.iconImg) {
+                return '<div class="dl-icon-ring ' + sizeClass + ' dl-icon-ring-' + (sw.color || 'blue') + '"><img src="' + dlEscape(sw.iconImg) + '" alt="' + dlEscape(sw.name) + '" draggable="false"></div>';
+            }
+            var colorMap = {
+                blue:    { icon: 'bg-blue-600',    iconText: 'text-white' },
+                cyan:    { icon: 'bg-cyan-600',    iconText: 'text-white' },
+                emerald: { icon: 'bg-emerald-600', iconText: 'text-white' },
+                yellow:  { icon: 'bg-yellow-500',  iconText: 'text-slate-900' },
+                rose:    { icon: 'bg-rose-600',    iconText: 'text-white' },
+                violet:  { icon: 'bg-violet-600',  iconText: 'text-white' }
+            };
+            var c = colorMap[sw.color] || colorMap.blue;
+            var size = sizeClass.indexOf('dl-icon-lg') !== -1 ? 'w-20 h-20 rounded-2xl text-4xl' : 'w-11 h-11 rounded-xl text-lg';
+            return '<div class="' + size + ' ' + c.icon + ' ' + c.iconText + ' flex items-center justify-center shadow-lg shrink-0"><i class="fa-solid ' + sw.icon + '"></i></div>';
+        }
+
         function renderDlSmallCards() {
             var grid = document.getElementById('dl-small-grid');
             if (!grid) return;
             grid.innerHTML = SOFTWARES.map(function (sw, i) {
-                var colorMap = {
-                    blue:    { icon: 'bg-blue-600',    iconText: 'text-white' },
-                    cyan:    { icon: 'bg-cyan-600',    iconText: 'text-white' },
-                    emerald: { icon: 'bg-emerald-600', iconText: 'text-white' },
-                    yellow:  { icon: 'bg-yellow-500',  iconText: 'text-slate-900' },
-                    rose:    { icon: 'bg-rose-600',    iconText: 'text-white' },
-                    violet:  { icon: 'bg-violet-600',  iconText: 'text-white' }
-                };
-                var c = colorMap[sw.color] || colorMap.blue;
                 var tagsHtml =
                     '<span class="dl-tag dl-tag-type"><i class="fa-solid ' + (DL_TYPE_ICON[sw.type] || 'fa-gears') + '"></i> ' + dlEscape(DL_TYPE_LABEL[sw.type] || sw.type) + '</span>' +
                     '<span class="dl-tag dl-tag-' + sw.price + '"><i class="fa-solid ' + (DL_PRICE_ICON[sw.price] || 'fa-tag') + '"></i> ' + dlEscape(DL_PRICE_LABEL[sw.price] || sw.price) + '</span>' +
@@ -2179,7 +2219,7 @@
                 return '<div class="dl-card dl-card-item" data-type="' + sw.type + '" data-price="' + sw.price + '"' +
                     ' data-name="' + dlEscape(sw.name) + '" data-desc="' + dlEscape(sw.desc) + '" data-tags="' + dlEscape((sw.tags || []).join(' ')) + '">' +
                     '<div class="flex items-center gap-3">' +
-                    '<div class="w-11 h-11 ' + c.icon + ' ' + c.iconText + ' rounded-xl flex items-center justify-center text-lg shadow-lg shrink-0"><i class="fa-solid ' + sw.icon + '"></i></div>' +
+                    dlIconHtml(sw, 'dl-icon-sm') +
                     '<h4 class="text-lg font-bold text-white">' + dlEscape(sw.name) + '</h4>' +
                     '</div>' +
                     '<p class="text-slate-400 text-sm leading-relaxed flex-1">' + dlEscape(sw.desc) + '</p>' +
@@ -2213,16 +2253,8 @@
         function openDlItemModal(i) {
             var sw = SOFTWARES[i];
             if (!sw) return;
-            var colorMap = {
-                blue: 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300',
-                cyan: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300',
-                emerald: 'bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-300',
-                yellow: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300',
-                rose: 'bg-rose-100 dark:bg-rose-900 text-rose-600 dark:text-rose-300',
-                violet: 'bg-violet-100 dark:bg-violet-900 text-violet-600 dark:text-violet-300'
-            };
-            document.getElementById('dlItemIcon').className = 'w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6 ' + (colorMap[sw.color] || colorMap.blue);
-            document.getElementById('dlItemIcon').innerHTML = '<i class="fa-solid ' + sw.icon + '"></i>';
+            document.getElementById('dlItemIcon').className = 'mx-auto mb-6';
+            document.getElementById('dlItemIcon').innerHTML = dlIconHtml(sw, 'dl-icon-lg mx-auto');
             document.getElementById('dlItemTitle').textContent = sw.name;
             document.getElementById('dlItemTags').innerHTML =
                 '<span class="dl-tag dl-tag-type"><i class="fa-solid ' + (DL_TYPE_ICON[sw.type] || 'fa-gears') + '"></i> ' + dlEscape(DL_TYPE_LABEL[sw.type] || sw.type) + '</span>' +
