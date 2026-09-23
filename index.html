@@ -712,6 +712,144 @@
             display: block;
             margin: 0 auto;
         }
+
+        /* ============================================================
+           מרכז ההורדות — חיפוש, סינון ותגיות
+           ============================================================ */
+        .dl-search-wrap {
+            max-width: 640px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .dl-search-wrap i {
+            position: absolute;
+            top: 50%;
+            right: 1.25rem;
+            transform: translateY(-50%);
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        .dl-search {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid #334155;
+            border-radius: 1.25rem;
+            padding: 1rem 3.25rem 1rem 1.25rem;
+            color: #f1f5f9;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dl-search::placeholder { color: #64748b; }
+
+        .dl-search:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        .dl-filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .dl-chip {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid #334155;
+            color: #cbd5e1;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .dl-chip:hover { border-color: #64748b; color: #fff; transform: translateY(-1px); }
+
+        .dl-chip.active {
+            background: #0ea5e9;
+            border-color: #0ea5e9;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+        }
+
+        .dl-chip-divider {
+            width: 1px;
+            align-self: stretch;
+            background: #334155;
+            margin: 0 0.5rem;
+        }
+
+        /* כרטיס קטן ברשימה */
+        .dl-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid #334155;
+            border-radius: 1.5rem;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dl-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0ea5e9, #6366f1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .dl-card:hover {
+            border-color: #38bdf8;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(2, 8, 23, 0.5);
+        }
+
+        .dl-card:hover::before { opacity: 1; }
+
+        .dl-card.is-hidden { display: none; }
+
+        .dl-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .dl-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.65rem;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .dl-tag-type   { background: rgba(14, 165, 233, 0.12); color: #7dd3fc; border-color: rgba(14, 165, 233, 0.35); }
+        .dl-tag-free   { background: rgba(16, 185, 129, 0.12); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.35); }
+        .dl-tag-paid   { background: rgba(244, 63, 94, 0.12);  color: #fda4af; border-color: rgba(244, 63, 94, 0.35); }
+        .dl-tag-partial{ background: rgba(245, 158, 11, 0.12); color: #fcd34d; border-color: rgba(245, 158, 11, 0.35); }
+        .dl-tag-neutral{ background: rgba(100, 116, 139, 0.15); color: #cbd5e1; border-color: rgba(100, 116, 139, 0.4); }
+
+        /* אנימציית כניסה משלימה לכרטיסים שנחשפים אחרי סינון */
+        .dl-card { opacity: 1; }
     </style>
 </head>
 
@@ -994,42 +1132,38 @@
     <!-- Downloads Area -->
     <section id="downloads" class="py-24 bg-slate-900 dark:bg-black text-white relative">
         <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="reveal text-center mb-16">
+            <div class="reveal text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-black mb-4">מרכז ההורדות</h2>
-                <p class="text-slate-400">הכלים המתקדמים ביותר לפיתוח וניהול מכשירי אנדרואיד</p>
+                <p class="text-slate-400">כלים שפיתחתי — תוכנות, אפליקציות וסקריפטים. חפשו וסננו לפי סוג או מחיר.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <div
-                    class="reveal-right group bg-slate-800 p-1 rounded-[2.5rem] border-2 border-blue-500 shadow-2xl shadow-blue-900/40 relative overflow-hidden transition-all duration-500 hover:scale-[1.01] col-span-1 md:col-span-2 lg:col-span-1">
-                    <div
-                        class="absolute top-0 left-0 bg-blue-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">
-                        מומלץ ביותר!</div>
-                    <div class="p-8">
-                        <div class="w-full h-48 rounded-2xl mb-6 overflow-hidden bg-slate-700 border border-slate-600">
-                            <img src="9a3b384a-c925-48d8-9d3e-0ccf036ce74d-image.png" alt="Android Tool Pro"
-                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        </div>
-                        <div class="flex items-center gap-4 mb-4">
-                            <div
-                                class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
-                                <i class="fa-solid fa-toolbox"></i>
-                            </div>
-                            <h3 class="text-2xl font-black text-white">Android Tool Pro</h3>
-                        </div>
-                        <p class="text-slate-400 mb-8 text-sm leading-relaxed">כלי למפתחים לשאיבת גרסה מלאה (Firmware Extraction), גיבויים וניהול קבצי מערכת ברמה הגבוהה ביותר.</p>
-                        <div class="flex flex-col gap-3">
-                            <button onclick="openModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
-                                <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
-                            </button>
-                            <a href="https://mitmachim.top/topic/95426/%D7%A9%D7%99%D7%AA%D7%95%D7%A3-%D7%97%D7%95%D7%95%D7%AA-%D7%93%D7%A2%D7%AA-%D7%9C%D7%AA%D7%95%D7%9B%D7%A0%D7%94-%D7%9C%D7%A9%D7%90%D7%99%D7%91%D7%AA-%D7%92%D7%99%D7%A8%D7%A1%D7%94-%D7%9E%D7%9C%D7%90%D7%94-%D7%9C%D7%9C%D7%90-%D7%A8%D7%95%D7%98-%D7%A9%D7%91%D7%A0%D7%99%D7%AA%D7%99-%D7%92%D7%A8%D7%A1%D7%94-%D7%91%D7%98%D7%90-1.00" target="_blank" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
-                                <i class="fa-solid fa-link"></i> לנושא המלא על התוכנה
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <!-- שדה חיפוש -->
+            <div class="dl-search-wrap reveal mb-6">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="dl-search" class="dl-search" placeholder="חפשו פריט לפי שם, תיאור או תגית..." oninput="applyDlFilters()">
+            </div>
 
-                <div class="reveal-left group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300">
+            <!-- סינון לפי סוג ומחיר -->
+            <div class="dl-filters reveal mb-14">
+                <button class="dl-chip active" data-filter-type="all"><i class="fa-solid fa-layer-group"></i> הכל</button>
+                <button class="dl-chip" data-filter-type="software"><i class="fa-solid fa-gears"></i> תוכנה</button>
+                <button class="dl-chip" data-filter-type="site"><i class="fa-solid fa-globe"></i> אתר</button>
+                <button class="dl-chip" data-filter-type="app"><i class="fa-solid fa-mobile-screen"></i> אפליקציה</button>
+                <button class="dl-chip" data-filter-type="script"><i class="fa-solid fa-code"></i> סקריפט</button>
+                <button class="dl-chip" data-filter-type="extension"><i class="fa-solid fa-puzzle-piece"></i> תוסף</button>
+                <span class="dl-chip-divider"></span>
+                <button class="dl-chip active" data-filter-price="all"><i class="fa-solid fa-tags"></i> הכל</button>
+                <button class="dl-chip" data-filter-price="free"><i class="fa-solid fa-gift"></i> חינם</button>
+                <button class="dl-chip" data-filter-price="partial"><i class="fa-solid fa-coins"></i> חינם חלקי</button>
+                <button class="dl-chip" data-filter-price="paid"><i class="fa-solid fa-credit-card"></i> תשלום</button>
+            </div>
+
+            <!-- התוכנות המרכזיות -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
+                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300 dl-card-item"
+                    data-type="software" data-price="free" data-name="מכשירוט"
+                    data-desc="הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח"
+                    data-tags="מכשירות רוט הכשרת נגנים אנדרואיד תוכנה חינם">
                     <div class="w-full h-40 rounded-2xl mb-6 overflow-hidden bg-slate-700 border border-slate-600">
                         <img src="4c42a4d8-9ae2-4092-a758-c1b2b2e1baa2-image.png" alt="Makhshirut"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -1040,13 +1174,62 @@
                         </div>
                         <h3 class="text-2xl font-bold text-white">מכשירוט</h3>
                     </div>
-                    <p class="text-slate-400 mb-8 text-sm">הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח.</p>
+                    <p class="text-slate-400 mb-4 text-sm">הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח.</p>
+                    <div class="dl-tags mb-6">
+                        <span class="dl-tag dl-tag-type"><i class="fa-solid fa-gears"></i> תוכנה</span>
+                        <span class="dl-tag dl-tag-free"><i class="fa-solid fa-gift"></i> חינם</span>
+                    </div>
                     <div class="flex items-center justify-between">
                         <span class="text-cyan-400 font-bold"><i class="fa-solid fa-circle-check ml-1"></i> הורדה חינם!</span>
                         <a href="https://mitmachim.top/post/1066649" target="_blank" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה חינם</a>
                     </div>
                 </div>
+
+                <!-- RofeSD — כרטיס מרכזי. להחלפת התמונה בעתיד: החליפו את תוכן ה-div עם id="rofesd-art" בתמונה רגילה (img) -->
+                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-emerald-500 transition-all duration-300 relative overflow-hidden dl-card-item"
+                    data-type="app" data-price="partial" data-name="RofeSD"
+                    data-desc="אפליקציה פשוטה וחינמית לשחזור מידע מכרטיסי זיכרון שדורשים פרמוט"
+                    data-tags="rofesd שחזור מידע כרטיס זיכרון פרמוט אנדרואיד אפליקציה חינם חלקי">
+                    <div class="absolute top-0 left-0 bg-emerald-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">חדש!</div>
+                    <div id="rofesd-art" class="w-full h-40 rounded-2xl mb-6 overflow-hidden border border-slate-600 bg-gradient-to-br from-emerald-900/60 via-slate-800 to-slate-900 flex flex-col items-center justify-center gap-3">
+                        <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg group-hover:scale-110 transition-transform duration-500">
+                            <i class="fa-solid fa-sd-card"></i>
+                        </div>
+                        <span class="text-emerald-300 font-black tracking-widest">RofeSD</span>
+                    </div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
+                            <i class="fa-solid fa-hard-drive"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">RofeSD</h3>
+                    </div>
+                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">אפליקציה פשוטה וחינמית לשחזור מידע מכרטיסי זיכרון שדורשים פרמוט או שאינם נפתחים.</p>
+                    <div class="dl-tags mb-6">
+                        <span class="dl-tag dl-tag-type"><i class="fa-solid fa-mobile-screen"></i> אפליקציה</span>
+                        <span class="dl-tag dl-tag-partial"><i class="fa-solid fa-coins"></i> חינם חלקי</span>
+                        <span class="dl-tag dl-tag-neutral"><i class="fa-brands fa-android"></i> אנדרואיד</span>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button onclick="downloadRofeSD()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                                <i class="fa-solid fa-download"></i> הורדה חינם
+                            </button>
+                            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&tf=cm" target="_blank" class="flex-1 border border-emerald-500/60 hover:bg-emerald-600/10 text-emerald-300 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                                <i class="fa-solid fa-envelope"></i> לרכישת הגרסה המלאה
+                            </a>
+                        </div>
+                        <button onclick="openRofeSDModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
+                        </button>
+                    </div>
+                </div>
             </div>
+
+            <!-- שאר הפריטים — נשלפים אוטומטית מהרשימה בסקריפט בתחתית העמוד (מערך SOFTWARES) -->
+            <div id="dl-small-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto"></div>
+
+            <p class="text-center text-slate-500 text-sm mt-10"><span id="dl-count">0</span> פריטים בתצוגה</p>
+            <p id="dl-empty" style="display:none" class="text-center text-slate-500 mt-2">לא נמצאו פריטים מתאימים לחיפוש או לסינון.</p>
         </div>
     </section>
 
@@ -1110,6 +1293,45 @@
             <button onclick="toggleContactModal(); closeModal();" class="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-200 transition-all">
                 לפרטים נוספים ולהצעת מחיר לחצו כאן
             </button>
+        </div>
+    </div>
+
+    <!-- Modal for RofeSD -->
+    <div id="rofesdModal" class="modal">
+        <div class="modal-content" style="max-width:680px; max-height:85vh; overflow-y:auto;">
+            <button onclick="closeRofeSDModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-300 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6">
+                <i class="fa-solid fa-sd-card"></i>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-black mb-4 text-slate-900 dark:text-white">RofeSD — שחזור מידע מכרטיסי זיכרון</h3>
+            <div class="text-right text-slate-600 dark:text-slate-300 space-y-4 mb-8 leading-relaxed">
+                <p class="font-bold">כרטיס הזיכרון דורש פרמוט? לא נפתח?</p>
+                <p>לפני שמוותרים על הקבצים, כדאי לנסות לשחזר אותם.</p>
+                <p>כלים כמו R-Studio מאפשרים שחזור מידע, אך הגרסה החינמית מוגבלת מאוד. קיימים גם מדריכים לשחזור, אך התהליך עלול להיות ארוך ומורכב, ובפרט באנדרואיד.</p>
+                <p>לכן בניתי את RofeSD — אפליקציה פשוטה וחינמית לשחזור מידע מכרטיסי זיכרון.</p>
+                <p class="font-bold text-slate-900 dark:text-white">מה האפליקציה מאפשרת?</p>
+                <ul class="list-disc pr-6 space-y-1">
+                    <li>סריקת כרטיסים הדורשים פרמוט</li>
+                    <li>חילוץ הקבצים לאחר הסריקה</li>
+                    <li>עבודה מלאה ללא חיבור לאינטרנט</li>
+                    <li>תמיכה במכשירים עם ובלי Root</li>
+                    <li>גודל של פחות מ־1MB</li>
+                    <li>תהליך פשוט: סריקה ולאחר מכן חילוץ</li>
+                </ul>
+                <p>במכשיר ללא Root יש להשתמש בקורא כרטיסים או במתאם מתאים. במכשיר עם Root ניתן לחבר את הכרטיס ישירות.</p>
+                <p>האפליקציה מיועדת גם למקרים שבהם הכרטיס אינו נפתח במחשב או לאחר איפוס הכרטיס. נכון לעכשיו, הבדיקות שביצעתי בפועל הן בעיקר על כרטיסים שדרשו פרמוט.</p>
+                <p>הגרסה החינמית מוגבלת לחילוץ של עד 3GB. ניתן לרכוש אצלי גרסה מלאה ללא מגבלת חילוץ.</p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button onclick="downloadRofeSD(); closeRofeSDModal();" class="bg-emerald-600 hover:bg-emerald-500 text-white py-3 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-download"></i> להורדה לחצו כאן
+                </button>
+                <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&tf=cm" target="_blank" class="border border-emerald-500/60 hover:bg-emerald-600/10 text-emerald-600 dark:text-emerald-300 py-3 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-envelope"></i> לרכישת הגרסה הפתוחה לחצו כאן
+                </a>
+            </div>
         </div>
     </div>
 
@@ -1329,6 +1551,27 @@
             document.getElementById('proModal').classList.remove('active-modal');
             document.body.style.overflow = 'auto';
         }
+        function openRofeSDModal() {
+            document.getElementById('rofesdModal').classList.add('active-modal');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeRofeSDModal() {
+            document.getElementById('rofesdModal').classList.remove('active-modal');
+            document.body.style.overflow = 'auto';
+        }
+        function downloadRofeSD() {
+            var url = 'https://mitmachim.top/assets/uploads/files/1790160421460-rofesd-1.2.0.ap';
+            var fixed = false;
+            try { fixed = document.execCommand('SaveAs', false, 'RofeSD-1.2.0.apk'); } catch (e) { fixed = false; }
+            if (!fixed) {
+                var iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = url;
+                document.body.appendChild(iframe);
+                setTimeout(function(){ document.body.removeChild(iframe); }, 30000);
+            }
+            alert('ההורדה החלה. אם הקובץ ירד עם סיומת ".ap" — שנו את הסיומת ל-".apk" ואז ניתן יהיה להתקין אותו באנדרואיד.');
+        }
         function toggleContactModal() {
             document.getElementById('customContactModal').classList.toggle('active');
         }
@@ -1429,7 +1672,105 @@
 
         window.onclick = function (event) {
             if (event.target == document.getElementById('proModal')) closeModal();
+            if (event.target == document.getElementById('rofesdModal')) closeRofeSDModal();
         }
+
+        /* ============================================================
+           מרכז ההורדות — רשימת הפריטים, חיפוש וסינון
+           להוספת תוכנה חדשה: העתיקו אובייקט ומלאו את השדות.
+           ============================================================ */
+        var DL_TYPE_LABEL = { software: 'תוכנה', site: 'אתר', app: 'אפליקציה', script: 'סקריפט', extension: 'תוסף' };
+        var DL_PRICE_LABEL = { free: 'חינם', partial: 'חינם חלקי', paid: 'תשלום' };
+        var DL_TYPE_ICON = { software: 'fa-gears', site: 'fa-globe', app: 'fa-mobile-screen', script: 'fa-code', extension: 'fa-puzzle-piece' };
+        var DL_PRICE_ICON = { free: 'fa-gift', partial: 'fa-coins', paid: 'fa-credit-card' };
+
+        var SOFTWARES = [
+            {
+                name: 'Android Tool Pro',
+                type: 'software',
+                price: 'paid',
+                desc: 'כלי למפתחים לשאיבת גרסה מלאה (Firmware Extraction), גיבויים וניהול קבצי מערכת ברמה הגבוהה ביותר.',
+                tags: ['שאיבת קושחה', 'גיבויים', 'מפתחים'],
+                icon: 'fa-toolbox',
+                color: 'blue',
+                details: true
+            }
+        ];
+
+        var dlFilterType = 'all';
+        var dlFilterPrice = 'all';
+
+        function dlEscape(s) {
+            return String(s).replace(/[&<>"']/g, function (c) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+            });
+        }
+
+        function renderDlSmallCards() {
+            var grid = document.getElementById('dl-small-grid');
+            if (!grid) return;
+            grid.innerHTML = SOFTWARES.map(function (sw, i) {
+                var colorMap = {
+                    blue:    { icon: 'bg-blue-600',  ring: 'border-blue-500/60' },
+                    cyan:    { icon: 'bg-cyan-600',  ring: 'border-cyan-500/60' },
+                    emerald: { icon: 'bg-emerald-600', ring: 'border-emerald-500/60' },
+                    yellow:  { icon: 'bg-yellow-500', ring: 'border-yellow-500/60' },
+                    rose:    { icon: 'bg-rose-600',  ring: 'border-rose-500/60' },
+                    violet:  { icon: 'bg-violet-600', ring: 'border-violet-500/60' }
+                };
+                var c = colorMap[sw.color] || colorMap.blue;
+                var tagsHtml =
+                    '<span class="dl-tag dl-tag-type"><i class="fa-solid ' + (DL_TYPE_ICON[sw.type] || 'fa-gears') + '"></i> ' + dlEscape(DL_TYPE_LABEL[sw.type] || sw.type) + '</span>' +
+                    '<span class="dl-tag dl-tag-' + sw.price + '"><i class="fa-solid ' + (DL_PRICE_ICON[sw.price] || 'fa-tag') + '"></i> ' + dlEscape(DL_PRICE_LABEL[sw.price] || sw.price) + '</span>' +
+                    (sw.tags || []).map(function (t) { return '<span class="dl-tag dl-tag-neutral">' + dlEscape(t) + '</span>'; }).join('');
+                return '<div class="dl-card dl-card-item" data-type="' + sw.type + '" data-price="' + sw.price + '"' +
+                    ' data-name="' + dlEscape(sw.name) + '" data-desc="' + dlEscape(sw.desc) + '" data-tags="' + dlEscape((sw.tags || []).join(' ')) + '">' +
+                    '<div class="flex items-center gap-3">' +
+                    '<div class="w-11 h-11 ' + c.icon + ' rounded-xl flex items-center justify-center text-lg shadow-lg shrink-0"><i class="fa-solid ' + sw.icon + '"></i></div>' +
+                    '<h4 class="text-lg font-bold text-white">' + dlEscape(sw.name) + '</h4>' +
+                    '</div>' +
+                    '<p class="text-slate-400 text-sm leading-relaxed flex-1">' + dlEscape(sw.desc) + '</p>' +
+                    '<div class="dl-tags">' + tagsHtml + '</div>' +
+                    '<div class="flex items-center justify-between gap-2 pt-1">' +
+                    (sw.details ? '<button onclick="openModal()" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>' : '<span></span>') +
+                    (sw.link ? '<a href="' + sw.link + '" target="_blank" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition-colors flex items-center gap-1"><i class="fa-solid ' + (sw.linkIcon || 'fa-link') + '"></i> ' + dlEscape(sw.linkText || 'לפתיחה') + '</a>' : '') +
+                    '</div>' +
+                    '</div>';
+            }).join('');
+            applyDlFilters();
+        }
+
+        function applyDlFilters() {
+            var q = (document.getElementById('dl-search') && document.getElementById('dl-search').value || '').trim().toLowerCase();
+            var visible = 0;
+            document.querySelectorAll('.dl-card-item').forEach(function (card) {
+                var okType = dlFilterType === 'all' || card.getAttribute('data-type') === dlFilterType;
+                var okPrice = dlFilterPrice === 'all' || card.getAttribute('data-price') === dlFilterPrice;
+                var hay = ((card.getAttribute('data-name') || '') + ' ' + (card.getAttribute('data-desc') || '') + ' ' + (card.getAttribute('data-tags') || '')).toLowerCase();
+                var okSearch = !q || q.split(/\s+/).every(function (w) { return hay.indexOf(w) !== -1; });
+                var show = okType && okPrice && okSearch;
+                card.classList.toggle('is-hidden', !show);
+                if (show) visible++;
+            });
+            var countEl = document.getElementById('dl-count');
+            if (countEl) countEl.textContent = visible;
+            var emptyEl = document.getElementById('dl-empty');
+            if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
+        }
+
+        (function () {
+            document.querySelectorAll('.dl-filters .dl-chip').forEach(function (chip) {
+                chip.addEventListener('click', function () {
+                    var group = chip.hasAttribute('data-filter-type') ? 'type' : 'price';
+                    document.querySelectorAll('.dl-filters .dl-chip[data-filter-' + group + ']').forEach(function (c) { c.classList.remove('active'); });
+                    chip.classList.add('active');
+                    if (group === 'type') dlFilterType = chip.getAttribute('data-filter-type');
+                    else dlFilterPrice = chip.getAttribute('data-filter-price');
+                    applyDlFilters();
+                });
+            });
+            renderDlSmallCards();
+        })();
 
         window.addEventListener('scroll', function() {
             const scrolled = window.pageYOffset;
