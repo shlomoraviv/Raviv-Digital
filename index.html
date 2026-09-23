@@ -929,14 +929,14 @@
         .dl-icon-ring-violet  { border: 3px solid #8b5cf6; }
 
         /* לייטבוקס גלריית RofeSD — תמונה בגודל מלא */
-        #rofesdLightbox .modal-content {
+        #rofesdLightbox .modal-content, #dlZoomLightbox .modal-content {
             background: rgba(15, 23, 42, 0.95);
             max-width: min(94vw, 520px);
             padding: 1rem;
             border: 1px solid rgba(148, 163, 184, 0.25);
         }
 
-        #rofesdLbImg {
+        #rofesdLbImg, #dlZoomImg {
             max-height: 70vh;
             max-width: 100%;
             border-radius: 1rem;
@@ -1341,7 +1341,7 @@
 
             <!-- התוכנות המרכזיות -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300 dl-card-item"
+                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300 dl-card-item" onclick="openModal()" style="cursor:pointer"
                     data-type="software" data-price="free" data-name="מכשירוט"
                     data-desc="הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח"
                     data-tags="מכשירות רוט הכשרת נגנים אנדרואיד תוכנה חינם">
@@ -1362,12 +1362,12 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="text-cyan-400 font-bold"><i class="fa-solid fa-circle-check ml-1"></i> הורדה חינם!</span>
-                        <a href="https://mitmachim.top/post/1066649" target="_blank" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה חינם</a>
+                        <a href="https://mitmachim.top/post/1066649" target="_blank" onclick="event.stopPropagation()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה חינם</a>
                     </div>
                 </div>
 
                 <!-- RofeSD — כרטיס מרכזי עם גלריית צילומי מסך מתגלגלת. להוספת תמונה: העתיקו img חדש בתוך #rofesd-gallery -->
-                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-emerald-500 transition-all duration-300 relative overflow-hidden dl-card-item"
+                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-emerald-500 transition-all duration-300 relative overflow-hidden dl-card-item" onclick="openRofeSDModal()" style="cursor:pointer"
                     data-type="app" data-price="partial" data-name="RofeSD"
                     data-desc="אפליקציה פשוטה וחינמית לשחזור מידע מכרטיסי זיכרון שדורשים פרמוט"
                     data-tags="rofesd שחזור מידע כרטיס זיכרון פרמוט אנדרואיד אפליקציה חינם חלקי">
@@ -1383,8 +1383,8 @@
                             <img src="rofesd-shot-4.png" alt="RofeSD — הקבצים ששוחזרו" draggable="false"
                                 class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
                         </div>
-                        <button id="rofesd-gal-prev" class="dl-gal-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
-                        <button id="rofesd-gal-next" class="dl-gal-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button id="rofesd-gal-prev" class="dl-gal-btn right-2" style="display:none" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button id="rofesd-gal-next" class="dl-gal-btn left-2" style="display:none" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
                         <span class="absolute top-2 left-2 z-10 bg-slate-900/85 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-lg pointer-events-none border border-slate-600/60">
                             <i class="fa-solid fa-magnifying-glass-plus ml-1"></i> לחצו להגדלה
                         </span>
@@ -1404,14 +1404,14 @@
                     </div>
                     <div class="flex flex-col gap-3">
                         <div class="flex flex-col sm:flex-row gap-3">
-                            <button onclick="downloadRofeSD()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            <button onclick="event.stopPropagation();downloadRofeSD()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
                                 <i class="fa-solid fa-download"></i> הורדה חינם
                             </button>
-                            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&tf=cm" target="_blank" class="flex-1 border border-emerald-500/60 hover:bg-emerald-600/10 text-emerald-300 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&tf=cm" target="_blank" onclick="event.stopPropagation()" class="flex-1 border border-emerald-500/60 hover:bg-emerald-600/10 text-emerald-300 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
                                 <i class="fa-solid fa-envelope"></i> לרכישת הגרסה המלאה
                             </a>
                         </div>
-                        <button onclick="openRofeSDModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                        <button onclick="event.stopPropagation();openRofeSDModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
                             <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
                         </button>
                     </div>
@@ -1562,8 +1562,8 @@
             <div class="flex justify-center mb-6"><div class="dl-tags justify-center" id="dlItemTags"></div></div>
             <div id="dlItemGalleryWrap" style="display:none" class="relative w-full h-64 mb-6">
                 <div id="dlItemGallery" class="dl-modal-gallery w-full h-64 rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory"></div>
-                <button id="dlItemGalPrev" class="dl-gal-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
-                <button id="dlItemGalNext" class="dl-gal-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+                <button id="dlItemGalPrev" class="dl-gal-btn right-2" style="display:none" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+                <button id="dlItemGalNext" class="dl-gal-btn left-2" style="display:none" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
                 <span class="absolute top-2 left-2 z-10 bg-slate-900/85 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-lg pointer-events-none border border-slate-600/60">
                     <i class="fa-solid fa-magnifying-glass-plus ml-1"></i> לחצו להגדלה
                 </span>
@@ -1571,6 +1571,22 @@
             </div>
             <div class="text-right text-slate-600 dark:text-slate-300 leading-relaxed mb-6" id="dlItemBody"></div>
             <div class="flex flex-col sm:flex-row gap-3 justify-center" id="dlItemActions"></div>
+        </div>
+    </div>
+
+    <!-- לייטבוקס הגדלה לגלריית המודאל הכללי -->
+    <div id="dlZoomLightbox" class="modal" onclick="closeDlZoom(event)">
+        <div class="modal-content relative" onclick="event.stopPropagation()">
+            <button onclick="closeDlZoomLb()" class="absolute -top-12 left-0 text-white text-3xl hover:text-yellow-400 transition-colors" aria-label="סגירה">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button id="dlZoomPrev" class="rofesd-lb-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+            <img id="dlZoomImg" src="" alt="תצוגה מוגדלת">
+            <button id="dlZoomNext" class="rofesd-lb-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="mt-4 flex items-center justify-center gap-4">
+                <div id="dlZoomDots" class="flex items-center gap-1.5"></div>
+                <span id="dlZoomCounter" class="text-slate-400 text-sm font-bold"></span>
+            </div>
         </div>
     </div>
 
@@ -1830,6 +1846,11 @@
                 slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
 
+            // חצים רק כשיש יותר מתמונה אחת
+            if (slides.length > 1) {
+                document.getElementById('rofesd-gal-prev').style.display = '';
+                document.getElementById('rofesd-gal-next').style.display = '';
+            }
             document.getElementById('rofesd-gal-prev').addEventListener('click', function () { goTo(idx - 1); });
             document.getElementById('rofesd-gal-next').addEventListener('click', function () { goTo(idx + 1); });
 
@@ -2214,10 +2235,11 @@
                     '<span class="dl-tag dl-tag-' + sw.price + '"><i class="fa-solid ' + (DL_PRICE_ICON[sw.price] || 'fa-tag') + '"></i> ' + dlEscape(DL_PRICE_LABEL[sw.price] || sw.price) + '</span>' +
                     (sw.tags || []).map(function (t) { return '<span class="dl-tag dl-tag-neutral">' + dlEscape(t) + '</span>'; }).join('');
                 var action = sw.details
-                    ? '<button onclick="openModal()" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>'
-                    : '<button onclick="openDlItemModal(' + i + ')" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>';
+                    ? '<button onclick="event.stopPropagation();openModal()" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>'
+                    : '<button onclick="event.stopPropagation();openDlItemModal(' + i + ')" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>';
                 return '<div class="dl-card dl-card-item" data-type="' + sw.type + '" data-price="' + sw.price + '"' +
-                    ' data-name="' + dlEscape(sw.name) + '" data-desc="' + dlEscape(sw.desc) + '" data-tags="' + dlEscape((sw.tags || []).join(' ')) + '">' +
+                    ' data-name="' + dlEscape(sw.name) + '" data-desc="' + dlEscape(sw.desc) + '" data-tags="' + dlEscape((sw.tags || []).join(' ')) + '"' +
+                    ' onclick="' + (sw.details ? 'openModal()' : 'openDlItemModal(' + i + ')') + '" style="cursor:pointer">' +
                     '<div class="flex items-center gap-3">' +
                     dlIconHtml(sw, 'dl-icon-sm') +
                     '<h4 class="text-lg font-bold text-white">' + dlEscape(sw.name) + '</h4>' +
@@ -2226,7 +2248,7 @@
                     '<div class="dl-tags">' + tagsHtml + '</div>' +
                     '<div class="flex items-center justify-between gap-2 pt-1">' +
                     action +
-                    (sw.link ? '<a href="' + sw.link + '" target="_blank" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition-colors flex items-center gap-1"><i class="fa-solid ' + (sw.linkIcon || 'fa-link') + '"></i> ' + dlEscape(sw.linkText || 'לפתיחה') + '</a>' : '') +
+                    (sw.link ? '<a href="' + sw.link + '" target="_blank" onclick="event.stopPropagation()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition-colors flex items-center gap-1"><i class="fa-solid ' + (sw.linkIcon || 'fa-link') + '"></i> ' + dlEscape(sw.linkText || 'לפתיחה') + '</a>' : '') +
                     '</div>' +
                     '</div>';
             }).join('');
@@ -2279,6 +2301,13 @@
                 dlItemGalImgs = Array.prototype.slice.call(gal.querySelectorAll('img'));
                 dlItemGalIdx = 0;
                 gal.scrollLeft = 0;
+                // חצים רק כשיש יותר מתמונה אחת
+                var many = sw.gallery.length > 1;
+                document.getElementById('dlItemGalPrev').style.display = many ? '' : 'none';
+                document.getElementById('dlItemGalNext').style.display = many ? '' : 'none';
+                dlItemGalImgs.forEach(function (im, gi) {
+                    im.addEventListener('click', function () { openDlZoom(gi); });
+                });
             } else {
                 galWrap.style.display = 'none';
                 gal.innerHTML = '';
@@ -2348,6 +2377,64 @@
             }, { passive: true });
             document.getElementById('dlItemGalPrev').addEventListener('click', function () { dlItemGoTo(dlItemGalIdx - 1); });
             document.getElementById('dlItemGalNext').addEventListener('click', function () { dlItemGoTo(dlItemGalIdx + 1); });
+        })();
+
+        /* לייטבוקס הגדלה לגלריית המודאל הכללי — ניווט מעגלי, מקלדת והחלקה */
+        var dlZoomIdx = 0;
+        function openDlZoom(i) {
+            if (!dlItemGalImgs.length) return;
+            dlZoomIdx = ((i % dlItemGalImgs.length) + dlItemGalImgs.length) % dlItemGalImgs.length;
+            var lb = document.getElementById('dlZoomLightbox');
+            var img = document.getElementById('dlZoomImg');
+            var dotsWrap = document.getElementById('dlZoomDots');
+            var counter = document.getElementById('dlZoomCounter');
+            img.src = dlItemGalImgs[dlZoomIdx].src;
+            img.alt = dlItemGalImgs[dlZoomIdx].alt;
+            dotsWrap.innerHTML = dlItemGalImgs.map(function (_, j) {
+                return '<span class="dl-gal-dot' + (j === dlZoomIdx ? ' active' : '') + '"></span>';
+            }).join('');
+            dotsWrap.querySelectorAll('.dl-gal-dot').forEach(function (d, j) {
+                d.addEventListener('click', function () { dlZoomShow(j); });
+            });
+            counter.textContent = (dlZoomIdx + 1) + ' / ' + dlItemGalImgs.length;
+            lb.classList.add('active-modal');
+        }
+        function dlZoomShow(i) {
+            if (!dlItemGalImgs.length) return;
+            dlZoomIdx = ((i % dlItemGalImgs.length) + dlItemGalImgs.length) % dlItemGalImgs.length;
+            var img = document.getElementById('dlZoomImg');
+            img.src = dlItemGalImgs[dlZoomIdx].src;
+            img.alt = dlItemGalImgs[dlZoomIdx].alt;
+            document.querySelectorAll('#dlZoomDots .dl-gal-dot').forEach(function (d, j) {
+                d.classList.toggle('active', j === dlZoomIdx);
+            });
+            document.getElementById('dlZoomCounter').textContent = (dlZoomIdx + 1) + ' / ' + dlItemGalImgs.length;
+        }
+        function closeDlZoomLb() {
+            document.getElementById('dlZoomLightbox').classList.remove('active-modal');
+        }
+        function closeDlZoom(e) {
+            if (e === null || e.target === document.getElementById('dlZoomLightbox')) closeDlZoomLb();
+        }
+        (function () {
+            var lb = document.getElementById('dlZoomLightbox');
+            document.getElementById('dlZoomPrev').addEventListener('click', function () { dlZoomShow(dlZoomIdx - 1); });
+            document.getElementById('dlZoomNext').addEventListener('click', function () { dlZoomShow(dlZoomIdx + 1); });
+            var img = document.getElementById('dlZoomImg');
+            var startX = null;
+            img.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+            img.addEventListener('touchend', function (e) {
+                if (startX === null) return;
+                var dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 40) { if (dx < 0) dlZoomShow(dlZoomIdx + 1); else dlZoomShow(dlZoomIdx - 1); }
+                startX = null;
+            }, { passive: true });
+            document.addEventListener('keydown', function (e) {
+                if (!lb.classList.contains('active-modal')) return;
+                if (e.key === 'Escape') closeDlZoomLb();
+                else if (e.key === 'ArrowLeft') dlZoomShow(dlZoomIdx + 1);
+                else if (e.key === 'ArrowRight') dlZoomShow(dlZoomIdx - 1);
+            });
         })();
 
         function applyDlFilters() {
