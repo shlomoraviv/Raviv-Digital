@@ -940,6 +940,71 @@
         }
 
         .rofesd-lb-btn:hover { background: #0ea5e9; border-color: #0ea5e9; color: #fff; }
+
+        /* ============================================================
+           מרכז ההורדות — מפריד בין תוכנות הדגל לכל השאר
+           ============================================================ */
+        .dl-divider {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            max-width: 6xl;
+            margin: 0 auto;
+        }
+
+        .dl-divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.35), transparent);
+        }
+
+        .dl-divider-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            color: #cbd5e1;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.5rem 1.1rem;
+            border-radius: 9999px;
+            white-space: nowrap;
+        }
+
+        .dl-divider-badge i { color: #38bdf8; }
+
+        /* צעדי מדריך בתוך מודאל */
+        .dl-step {
+            display: flex;
+            gap: 0.9rem;
+            align-items: flex-start;
+        }
+
+        .dl-step-num {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            background: #0d9488;
+            color: #fff;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+            margin-top: 0.15rem;
+        }
+
+        /* גלריה בתוך מודאל */
+        .dl-modal-gallery {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .dl-modal-gallery::-webkit-scrollbar { display: none; }
+
+        .dl-modal-gallery img { user-select: none; -webkit-user-drag: none; }
     </style>
 </head>
 
@@ -1249,7 +1314,7 @@
             </div>
 
             <!-- התוכנות המרכזיות -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300 dl-card-item"
                     data-type="software" data-price="free" data-name="מכשירוט"
                     data-desc="הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח"
@@ -1325,6 +1390,13 @@
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <!-- מפריד בין תוכנות הדגל לכל השאר -->
+            <div class="dl-divider reveal my-12">
+                <div class="dl-divider-line"></div>
+                <span class="dl-divider-badge"><i class="fa-solid fa-layer-group"></i> כל התוכנות והכלים</span>
+                <div class="dl-divider-line"></div>
             </div>
 
             <!-- שאר הפריטים — נשלפים אוטומטית מהרשימה בסקריפט בתחתית העמוד (מערך SOFTWARES) -->
@@ -1450,6 +1522,29 @@
                 <div id="rofesdLbDots" class="flex items-center gap-1.5"></div>
                 <span id="rofesdLbCounter" class="text-slate-400 text-sm font-bold"></span>
             </div>
+        </div>
+    </div>
+
+    <!-- מודאל כללי לפריטים ברשימה — מדריך, גלריה וקישורים -->
+    <div id="dlItemModal" class="modal">
+        <div class="modal-content" style="max-width:720px; max-height:85vh; overflow-y:auto;">
+            <button onclick="closeDlItemModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6" id="dlItemIcon"></div>
+            <h3 class="text-2xl md:text-3xl font-black mb-2 text-slate-900 dark:text-white" id="dlItemTitle"></h3>
+            <div class="flex justify-center mb-6"><div class="dl-tags justify-center" id="dlItemTags"></div></div>
+            <div id="dlItemGalleryWrap" style="display:none" class="relative w-full h-64 mb-6">
+                <div id="dlItemGallery" class="dl-modal-gallery w-full h-64 rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory"></div>
+                <button id="dlItemGalPrev" class="dl-gal-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+                <button id="dlItemGalNext" class="dl-gal-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+                <span class="absolute top-2 left-2 z-10 bg-slate-900/85 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-lg pointer-events-none border border-slate-600/60">
+                    <i class="fa-solid fa-magnifying-glass-plus ml-1"></i> לחצו להגדלה
+                </span>
+                <div id="dlItemGalDots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
+            </div>
+            <div class="text-right text-slate-600 dark:text-slate-300 leading-relaxed mb-6" id="dlItemBody"></div>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center" id="dlItemActions"></div>
         </div>
     </div>
 
@@ -1879,6 +1974,7 @@
         window.onclick = function (event) {
             if (event.target == document.getElementById('proModal')) closeModal();
             if (event.target == document.getElementById('rofesdModal')) closeRofeSDModal();
+            if (event.target == document.getElementById('dlItemModal')) closeDlItemModal();
         }
 
         /* ============================================================
@@ -1900,6 +1996,48 @@
                 icon: 'fa-toolbox',
                 color: 'blue',
                 details: true
+            },
+            {
+                name: 'גוגל טרנסלייט ללא אינטרנט',
+                type: 'app',
+                price: 'free',
+                desc: 'תרגום תמונות אופליין — ערכת מדריך מלא עם קבצי שפה: אידיש, ערבית ואנגלית → עברית.',
+                tags: ['תרגום תמונות', 'אופליין', 'אידיש', 'ערבית', 'אנגלית'],
+                icon: 'fa-language',
+                color: 'violet',
+                gallery: ['translate-shot-1.png', 'translate-shot-2.png'],
+                guide: [
+                    { type: 'p', text: '<strong>הרבה משתמשים בקשו גוגל טרנסלייט ללא אינטרנט — ערכתי כמה קבצים, והנה המדריך המלא:</strong>' },
+                    { type: 'p', text: '<strong>שפות נתמכות:</strong>' },
+                    { type: 'p', text: 'אידיש → עברית · ערבית → עברית · אנגלית → עברית.<br>בטקסט ניתן לתרגם גם מעברית לשפות האחרות.<br>בתמונות ניתן לתרגם משפה זרה לעברית בלבד.' },
+                    { type: 'steps', steps: [
+                        {
+                            n: 1,
+                            title: 'התקנת האפליקציה',
+                            lines: ['מורידים את קובץ ההתקנה מהכפתור למטה, מחלצים ומתקינים את האפליקציה.', 'לאחר מכן נותנים לה הרשאת גישה לקבצים דרך הגדרות המכשיר.']
+                        },
+                        {
+                            n: 2,
+                            title: 'העתקת התיקייה',
+                            lines: ['מחלצים את תיקיית השפות המצורפת ומעתיקים את כל התיקייה לאחסון הפנימי של המכשיר.', 'התיקייה זמינה בכפתור «תיקיית השפות» למטה.']
+                        },
+                        {
+                            n: 3,
+                            title: 'הפעלת הקבצים',
+                            lines: ['פותחים את האפליקציה שהתקנו בשלב הראשון ולוחצים על Copy.', 'ממתינים עד שמופיעה הודעת הצלחה — התהליך אורך בדרך כלל כ־20 שניות.']
+                        },
+                        {
+                            n: 4,
+                            title: 'התקנת Google Translate',
+                            lines: ['חוזרים למנהל הקבצים ומתקינים את Google Translate מהכפתור למטה.', 'לאחר סיום התהליך יהיה לכם תרגום תמונות באמצעות Google Translate — גם בלי אינטרנט!']
+                        }
+                    ] }
+                ],
+                downloads: [
+                    { label: 'הורדת קובץ ההתקנה', url: 'https://mitmachim.top/assets/uploads/files/1754813545237-0d6b2b0b-d873-44e8-a66f-63ad115c0724-%D7%94%D7%A2%D7%AA%D7%A7.rar', icon: 'fa-download' },
+                    { label: 'תיקיית השפות (Google Drive)', url: 'https://drive.google.com/file/d/1uXn46XVvK7Uq2Np_Ked9DYuUvA5kezKe/view', icon: 'fa-folder' },
+                    { label: 'הורדת Google Translate', url: 'https://mitmachim.top/assets/uploads/files/1754813970155-translate_6.49.0.485157701.1-release.ap', icon: 'fa-download' }
+                ]
             }
         ];
 
@@ -1917,34 +2055,162 @@
             if (!grid) return;
             grid.innerHTML = SOFTWARES.map(function (sw, i) {
                 var colorMap = {
-                    blue:    { icon: 'bg-blue-600',  ring: 'border-blue-500/60' },
-                    cyan:    { icon: 'bg-cyan-600',  ring: 'border-cyan-500/60' },
-                    emerald: { icon: 'bg-emerald-600', ring: 'border-emerald-500/60' },
-                    yellow:  { icon: 'bg-yellow-500', ring: 'border-yellow-500/60' },
-                    rose:    { icon: 'bg-rose-600',  ring: 'border-rose-500/60' },
-                    violet:  { icon: 'bg-violet-600', ring: 'border-violet-500/60' }
+                    blue:    { icon: 'bg-blue-600',    iconText: 'text-white' },
+                    cyan:    { icon: 'bg-cyan-600',    iconText: 'text-white' },
+                    emerald: { icon: 'bg-emerald-600', iconText: 'text-white' },
+                    yellow:  { icon: 'bg-yellow-500',  iconText: 'text-slate-900' },
+                    rose:    { icon: 'bg-rose-600',    iconText: 'text-white' },
+                    violet:  { icon: 'bg-violet-600',  iconText: 'text-white' }
                 };
                 var c = colorMap[sw.color] || colorMap.blue;
                 var tagsHtml =
                     '<span class="dl-tag dl-tag-type"><i class="fa-solid ' + (DL_TYPE_ICON[sw.type] || 'fa-gears') + '"></i> ' + dlEscape(DL_TYPE_LABEL[sw.type] || sw.type) + '</span>' +
                     '<span class="dl-tag dl-tag-' + sw.price + '"><i class="fa-solid ' + (DL_PRICE_ICON[sw.price] || 'fa-tag') + '"></i> ' + dlEscape(DL_PRICE_LABEL[sw.price] || sw.price) + '</span>' +
                     (sw.tags || []).map(function (t) { return '<span class="dl-tag dl-tag-neutral">' + dlEscape(t) + '</span>'; }).join('');
+                var action = sw.details
+                    ? '<button onclick="openModal()" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>'
+                    : '<button onclick="openDlItemModal(' + i + ')" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>';
                 return '<div class="dl-card dl-card-item" data-type="' + sw.type + '" data-price="' + sw.price + '"' +
                     ' data-name="' + dlEscape(sw.name) + '" data-desc="' + dlEscape(sw.desc) + '" data-tags="' + dlEscape((sw.tags || []).join(' ')) + '">' +
                     '<div class="flex items-center gap-3">' +
-                    '<div class="w-11 h-11 ' + c.icon + ' rounded-xl flex items-center justify-center text-lg shadow-lg shrink-0"><i class="fa-solid ' + sw.icon + '"></i></div>' +
+                    '<div class="w-11 h-11 ' + c.icon + ' ' + c.iconText + ' rounded-xl flex items-center justify-center text-lg shadow-lg shrink-0"><i class="fa-solid ' + sw.icon + '"></i></div>' +
                     '<h4 class="text-lg font-bold text-white">' + dlEscape(sw.name) + '</h4>' +
                     '</div>' +
                     '<p class="text-slate-400 text-sm leading-relaxed flex-1">' + dlEscape(sw.desc) + '</p>' +
                     '<div class="dl-tags">' + tagsHtml + '</div>' +
                     '<div class="flex items-center justify-between gap-2 pt-1">' +
-                    (sw.details ? '<button onclick="openModal()" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>' : '<span></span>') +
+                    action +
                     (sw.link ? '<a href="' + sw.link + '" target="_blank" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition-colors flex items-center gap-1"><i class="fa-solid ' + (sw.linkIcon || 'fa-link') + '"></i> ' + dlEscape(sw.linkText || 'לפתיחה') + '</a>' : '') +
                     '</div>' +
                     '</div>';
             }).join('');
             applyDlFilters();
         }
+
+        /* ============================================================
+           מודאל כללי לפריטים ברשימה — מדריך מלא, גלריה והורדות
+           ============================================================ */
+        var dlItemGalIdx = 0;
+        var dlItemGalImgs = [];
+
+        function dlItemGoTo(i) {
+            dlItemGalIdx = Math.max(0, Math.min(dlItemGalImgs.length - 1, i));
+            var gal = document.getElementById('dlItemGallery');
+            if (dlItemGalImgs[dlItemGalIdx]) {
+                dlItemGalImgs[dlItemGalIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+            document.querySelectorAll('#dlItemGalDots .dl-gal-dot').forEach(function (d, j) {
+                d.classList.toggle('active', j === dlItemGalIdx);
+            });
+        }
+
+        function openDlItemModal(i) {
+            var sw = SOFTWARES[i];
+            if (!sw) return;
+            var colorMap = {
+                blue: 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300',
+                cyan: 'bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300',
+                emerald: 'bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-300',
+                yellow: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-300',
+                rose: 'bg-rose-100 dark:bg-rose-900 text-rose-600 dark:text-rose-300',
+                violet: 'bg-violet-100 dark:bg-violet-900 text-violet-600 dark:text-violet-300'
+            };
+            document.getElementById('dlItemIcon').className = 'w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6 ' + (colorMap[sw.color] || colorMap.blue);
+            document.getElementById('dlItemIcon').innerHTML = '<i class="fa-solid ' + sw.icon + '"></i>';
+            document.getElementById('dlItemTitle').textContent = sw.name;
+            document.getElementById('dlItemTags').innerHTML =
+                '<span class="dl-tag dl-tag-type"><i class="fa-solid ' + (DL_TYPE_ICON[sw.type] || 'fa-gears') + '"></i> ' + dlEscape(DL_TYPE_LABEL[sw.type] || sw.type) + '</span>' +
+                '<span class="dl-tag dl-tag-' + sw.price + '"><i class="fa-solid ' + (DL_PRICE_ICON[sw.price] || 'fa-tag') + '"></i> ' + dlEscape(DL_PRICE_LABEL[sw.price] || sw.price) + '</span>' +
+                (sw.tags || []).map(function (t) { return '<span class="dl-tag dl-tag-neutral">' + dlEscape(t) + '</span>'; }).join('');
+
+            // גלריה
+            var galWrap = document.getElementById('dlItemGalleryWrap');
+            var gal = document.getElementById('dlItemGallery');
+            var dotsWrap = document.getElementById('dlItemGalDots');
+            if (sw.gallery && sw.gallery.length) {
+                galWrap.style.display = 'block';
+                gal.innerHTML = sw.gallery.map(function (src, gi) {
+                    return '<img src="' + src + '" alt="' + dlEscape(sw.name) + ' — צילום מסך ' + (gi + 1) + '" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">';
+                }).join('');
+                dotsWrap.innerHTML = sw.gallery.map(function (_, gi) {
+                    return '<span class="dl-gal-dot' + (gi === 0 ? ' active' : '') + '" data-gi="' + gi + '"></span>';
+                }).join('');
+                dotsWrap.querySelectorAll('.dl-gal-dot').forEach(function (d) {
+                    d.addEventListener('click', function () { dlItemGoTo(parseInt(d.getAttribute('data-gi'), 10)); });
+                });
+                dlItemGalImgs = Array.prototype.slice.call(gal.querySelectorAll('img'));
+                dlItemGalIdx = 0;
+                gal.scrollLeft = 0;
+            } else {
+                galWrap.style.display = 'none';
+                gal.innerHTML = '';
+                dlItemGalImgs = [];
+            }
+
+            // תוכן המדריך
+            var body = document.getElementById('dlItemBody');
+            if (sw.guide && sw.guide.length) {
+                body.innerHTML = sw.guide.map(function (g) {
+                    if (g.type === 'p') return '<p class="mb-3">' + g.text + '</p>';
+                    if (g.type === 'steps') {
+                        return g.steps.map(function (s) {
+                            return '<div class="dl-step mb-4">' +
+                                '<div class="dl-step-num">' + s.n + '</div>' +
+                                '<div class="flex-1">' +
+                                '<p class="font-bold text-slate-900 dark:text-white mb-1">' + s.title + '</p>' +
+                                s.lines.map(function (l) { return '<p class="text-sm mb-1">' + l + '</p>'; }).join('') +
+                                '</div></div>';
+                        }).join('');
+                    }
+                    return '';
+                }).join('');
+            } else {
+                body.innerHTML = '<p>' + dlEscape(sw.desc) + '</p>';
+            }
+
+            // כפתורים
+            var actions = document.getElementById('dlItemActions');
+            actions.innerHTML = (sw.downloads || []).map(function (d) {
+                return '<a href="' + d.url + '" target="_blank" rel="noopener" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 px-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors text-sm">' +
+                    '<i class="fa-solid ' + (d.icon || 'fa-download') + '"></i> ' + dlEscape(d.label) + '</a>';
+            }).join('');
+
+            document.getElementById('dlItemModal').classList.add('active-modal');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDlItemModal() {
+            document.getElementById('dlItemModal').classList.remove('active-modal');
+            document.body.style.overflow = 'auto';
+        }
+
+        (function () {
+            var gal = document.getElementById('dlItemGallery');
+            if (!gal) return;
+            var ticking = false;
+            gal.addEventListener('scroll', function () {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(function () {
+                    ticking = false;
+                    var center = gal.scrollLeft + gal.clientWidth / 2;
+                    var best = 0, bestDist = Infinity;
+                    dlItemGalImgs.forEach(function (s, i) {
+                        var sc = s.offsetLeft + s.offsetWidth / 2;
+                        var dist = Math.abs(sc - center);
+                        if (dist < bestDist) { bestDist = dist; best = i; }
+                    });
+                    if (best !== dlItemGalIdx) {
+                        dlItemGalIdx = best;
+                        document.querySelectorAll('#dlItemGalDots .dl-gal-dot').forEach(function (d, j) {
+                            d.classList.toggle('active', j === dlItemGalIdx);
+                        });
+                    }
+                });
+            }, { passive: true });
+            document.getElementById('dlItemGalPrev').addEventListener('click', function () { dlItemGoTo(dlItemGalIdx - 1); });
+            document.getElementById('dlItemGalNext').addEventListener('click', function () { dlItemGoTo(dlItemGalIdx + 1); });
+        })();
 
         function applyDlFilters() {
             var q = (document.getElementById('dl-search') && document.getElementById('dl-search').value || '').trim().toLowerCase();
