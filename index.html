@@ -7,6 +7,8 @@
     <title>רביב דיגיטל | Raviv Digital - בניית אתרים ופתרונות טכנולוגיים</title>
     <meta name="description" content="רביב דיגיטל מתמחים בבניית אתרים מקצועיים, פיתוח אפליקציות, צריבת גרסאות והכשרת נגנים. פתרונות טכנולוגיים מתקדמים לעסק שלך.">
     <meta name="google-site-verification" content="4p9_-F7Bkbex4LJKxkmlQohUipwA6DX7kiUCAh-otbg" />
+    <!-- פאביקון מוטמע (Data URI) — מונע בקשת /favicon.ico שחוסמי סינון עלולים לתפוס -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f59e0b'/%3E%3Ctext x='32' y='44' font-size='34' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%231e3263'&gt;ר&lt;/text&gt;%3C/svg%3E">
     <!-- Google Fonts: Heebo for Hebrew support -->
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
     <!-- Tailwind CSS CDN -->
@@ -148,7 +150,8 @@
         }
 
         .hero-pattern {
-            background-image: linear-gradient(rgba(26, 50, 99, 0.76), rgba(26, 50, 99, 0.85)), url('hero-bg.jpg');
+            /* ניתן לדריסה מ-JS: אם hero-bg.jpg נחסם ע"י סינון, מוגדר --hero-img לעותק jsDelivr */
+            background-image: linear-gradient(rgba(26, 50, 99, 0.76), rgba(26, 50, 99, 0.85)), var(--hero-img, url('hero-bg.jpg'));
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -1047,6 +1050,65 @@
 </head>
 
 <body class="text-slate-800 leading-relaxed overflow-x-hidden">
+
+    <!-- תמיכת רשתות סינון (נטפרי וכד'): אם תמונה מקומית נחסמת, מוחלפת אוטומטית בעותק מ-CDN jsDelivr -->
+    <script>
+        (function () {
+            if (location.protocol === 'file:') return;
+            var CDN = 'https://cdn.jsdelivr.net/gh/shlomoraviv/Raviv-Digital@main/';
+            var tried = new WeakSet();
+            function cdnUrl(rel) {
+                return CDN + rel.split('/').map(encodeURIComponent).join('/');
+            }
+            // ניסיון חוזר: לפעמים jsDelivr מחזיר שגיאה זמנית ב-fetch ראשון של קובץ קר
+            function retry(img) {
+                var n = parseInt(img.dataset.cdnRetry || '0', 10);
+                if (n >= 2) return;
+                img.dataset.cdnRetry = String(n + 1);
+                var src = img.src;
+                img.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+                setTimeout(function () { img.src = src; }, 1500 * (n + 1));
+            }
+            function fix(img) {
+                var raw = img.getAttribute('src') || '';
+                if (!raw || raw.indexOf('data:') === 0 || raw.indexOf('http:') === 0 || raw.indexOf('https:') === 0 || raw.indexOf('//') === 0) {
+                    if (raw.indexOf(CDN) === 0) retry(img);
+                    return;
+                }
+                if (tried.has(img)) return;
+                tried.add(img);
+                img.src = cdnUrl(raw);
+            }
+            // לוכד שגיאות טעינה של תמונות (כולל אלה שנוצרות דינמית במודאלים ובלייטבוקסים)
+            document.addEventListener('error', function (e) {
+                var t = e.target;
+                if (t && t.tagName === 'IMG') fix(t);
+            }, true);
+            // תמונות שנכשלו עוד לפני שהמאזין נרשם
+            window.addEventListener('load', function () {
+                document.querySelectorAll('img').forEach(function (img) {
+                    if (img.complete && img.naturalWidth === 0) fix(img);
+                });
+            });
+            // תמונת רקע ה-hero: CSS לא מדווח על כשל, לכן בודקים ידנית ומחליפים במשתנה --hero-img (עם ניסיון חוזר)
+            window.addEventListener('load', function () {
+                var attempts = 0;
+                var probe = new Image();
+                function tryCdn() {
+                    probe.src = cdnUrl('hero-bg.jpg');
+                }
+                probe.onerror = function () {
+                    if (attempts++ < 2) setTimeout(tryCdn, 2000 * attempts);
+                };
+                probe.onload = function () {
+                    document.documentElement.style.setProperty('--hero-img', "url('" + probe.src + "')");
+                };
+                var local = new Image();
+                local.onerror = tryCdn;
+                local.src = 'hero-bg.jpg';
+            });
+        })();
+    </script>
 
     <!-- מסך פתיחה אנימטי -->
     <div id="intro-overlay" role="dialog" aria-modal="true" aria-label="מסך פתיחה">
