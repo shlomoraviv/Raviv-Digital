@@ -899,6 +899,47 @@
             background: #38bdf8;
             width: 1.25rem;
         }
+
+        #rofesd-gallery img { cursor: zoom-in; }
+
+        /* לייטבוקס גלריית RofeSD — תמונה בגודל מלא */
+        #rofesdLightbox .modal-content {
+            background: rgba(15, 23, 42, 0.95);
+            max-width: min(94vw, 520px);
+            padding: 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        #rofesdLbImg {
+            max-height: 70vh;
+            max-width: 100%;
+            border-radius: 1rem;
+            object-fit: contain;
+            user-select: none;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .rofesd-lb-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 9999px;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 10;
+        }
+
+        .rofesd-lb-btn:hover { background: #0ea5e9; border-color: #0ea5e9; color: #fff; }
     </style>
 </head>
 
@@ -1253,6 +1294,9 @@
                         </div>
                         <button id="rofesd-gal-prev" class="dl-gal-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
                         <button id="rofesd-gal-next" class="dl-gal-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+                        <span class="absolute top-2 left-2 z-10 bg-slate-900/85 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-lg pointer-events-none border border-slate-600/60">
+                            <i class="fa-solid fa-magnifying-glass-plus ml-1"></i> לחצו להגדלה
+                        </span>
                         <div id="rofesd-gal-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
                     </div>
                     <div class="flex items-center gap-4 mb-4">
@@ -1389,6 +1433,22 @@
                 <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&tf=cm" target="_blank" class="border border-emerald-500/60 hover:bg-emerald-600/10 text-emerald-600 dark:text-emerald-300 py-3 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all">
                     <i class="fa-solid fa-envelope"></i> לרכישת הגרסה הפתוחה לחצו כאן
                 </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- לייטבוקס גלריית RofeSD — צפייה בגודל מלא עם ניווט -->
+    <div id="rofesdLightbox" class="modal" onclick="closeRofeSdLb(event)">
+        <div class="modal-content relative" onclick="event.stopPropagation()">
+            <button onclick="closeRofeSdLightbox()" class="absolute -top-12 left-0 text-white text-3xl hover:text-yellow-400 transition-colors" aria-label="סגירה">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button id="rofesdLbPrev" class="rofesd-lb-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+            <img id="rofesdLbImg" src="" alt="צילום מסך RofeSD בגודל מלא">
+            <button id="rofesdLbNext" class="rofesd-lb-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="mt-4 flex items-center justify-center gap-4">
+                <div id="rofesdLbDots" class="flex items-center gap-1.5"></div>
+                <span id="rofesdLbCounter" class="text-slate-400 text-sm font-bold"></span>
             </div>
         </div>
     </div>
@@ -1671,6 +1731,52 @@
                     }
                 });
             }, { passive: true });
+        })();
+
+        /* לייטבוקס גלריית RofeSD — לחיצה על תמונה פותחת צפייה בגודל מלא עם ניווט */
+        (function () {
+            var gal = document.getElementById('rofesd-gallery');
+            var lb = document.getElementById('rofesdLightbox');
+            var lbImg = document.getElementById('rofesdLbImg');
+            var lbDotsWrap = document.getElementById('rofesdLbDots');
+            var lbCounter = document.getElementById('rofesdLbCounter');
+            if (!gal || !lb || !lbImg) return;
+            var imgs = Array.prototype.slice.call(gal.querySelectorAll('img'));
+            var idx = 0;
+            var dots = imgs.map(function (_, i) {
+                var d = document.createElement('span');
+                d.className = 'dl-gal-dot' + (i === 0 ? ' active' : '');
+                d.addEventListener('click', function () { show(i); });
+                lbDotsWrap.appendChild(d);
+                return d;
+            });
+            function show(i) {
+                idx = (i + imgs.length) % imgs.length;
+                lbImg.src = imgs[idx].src;
+                lbImg.alt = imgs[idx].alt;
+                dots.forEach(function (d, j) { d.classList.toggle('active', j === idx); });
+                lbCounter.textContent = (idx + 1) + ' / ' + imgs.length;
+            }
+            function open(i) { show(i); lb.classList.add('active-modal'); document.body.style.overflow = 'hidden'; }
+            window.closeRofeSdLightbox = function () { lb.classList.remove('active-modal'); document.body.style.overflow = 'auto'; };
+            window.closeRofeSdLb = function (e) { if (e === null || e.target === lb) closeRofeSdLightbox(); };
+            imgs.forEach(function (im, i) { im.addEventListener('click', function () { open(i); }); });
+            document.getElementById('rofesdLbPrev').addEventListener('click', function () { show(idx - 1); });
+            document.getElementById('rofesdLbNext').addEventListener('click', function () { show(idx + 1); });
+            var startX = null;
+            lbImg.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+            lbImg.addEventListener('touchend', function (e) {
+                if (startX === null) return;
+                var dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 40) { if (dx < 0) show(idx + 1); else show(idx - 1); }
+                startX = null;
+            }, { passive: true });
+            document.addEventListener('keydown', function (e) {
+                if (!lb.classList.contains('active-modal')) return;
+                if (e.key === 'Escape') closeRofeSdLightbox();
+                else if (e.key === 'ArrowLeft') show(idx + 1);
+                else if (e.key === 'ArrowRight') show(idx - 1);
+            });
         })();
         function toggleContactModal() {
             document.getElementById('customContactModal').classList.toggle('active');
