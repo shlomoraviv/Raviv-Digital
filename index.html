@@ -825,6 +825,21 @@
 
         .dl-card:hover::before { opacity: 1; }
 
+        /* תחושת לחיצה פיזית — כרטיסי מרכז ההורדות (כולל כרטיסי הדגל) */
+        .dl-card-item {
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.3s ease;
+        }
+        .dl-card-item:hover {
+            transform: translateY(-3px) scale(1.01);
+        }
+        .dl-card-item:active {
+            transform: translateY(1px) scale(0.97);
+            box-shadow: 0 2px 8px rgba(2, 8, 23, 0.45);
+            filter: brightness(1.12);
+        }
+
         .dl-card.is-hidden { display: none; }
 
         .dl-tags {
@@ -2503,6 +2518,53 @@
                 ],
                 downloads: [
                     { label: 'הורדת התוסף (ZIP)', url: 'yad2-highlighter-v1.5.2.zip', icon: 'fa-download' }
+                ]
+            },
+            {
+                name: 'תיקון שגיאות כתיב',
+                type: 'extension',
+                price: 'free',
+                desc: 'תוסף לבדיקת שגיאות כתיב בעזרת AI במייל/פורומים — בודק אוטומטית את ההודעה לפני שליחה ומציע תיקונים.',
+                tags: ['בדיקת כתיב', 'AI', 'מייל', 'פורומים', 'Gemini'],
+                icon: 'fa-spell-check',
+                iconImg: 'icon-spellcheck.png',
+                color: 'rose',
+                gallery: ['spellcheck-shot-1.png', 'spellcheck-shot-2.png'],
+                guide: [
+                    { type: 'p', text: 'פיתחתי תוסף Chrome פשוט ונוח לבדיקת שגיאות כתיב לפני שליחת הודעות.' },
+                    { type: 'p', text: 'התוסף פועל באופן אוטומטי בעת לחיצה על כפתור השליחה ובודק את תוכן ההודעה:' },
+                    { type: 'p', text: '• כאשר לא נמצאו שגיאות כתיב, ההודעה נשלחת באופן מיידי.<br>• כאשר נמצאו שגיאות, מוצגת חלונית ובה המילה השגויה והתיקון המוצע.<br>• המשתמש יכול לבחור בין תיקון ושליחה, שליחה ללא שינוי או ביטול השליחה.' },
+                    { type: 'p', text: 'התוסף עובד גם במייל וגם בפורומים כמו מתמחים טופ, ניתן להוסיף בהגדרות אתרים חדשים.' },
+                    { type: 'steps', steps: [
+                        {
+                            n: 1,
+                            title: 'הורדת התוסף',
+                            lines: ['לוחצים על כפתור «הורדת התוסף (ZIP)» למטה ומחלצים את קובץ ה־ZIP לתיקייה.']
+                        },
+                        {
+                            n: 2,
+                            title: 'פתיחת עמוד התוספים',
+                            lines: ['פותחים בדפדפן את <strong dir="ltr">chrome://extensions</strong>.']
+                        },
+                        {
+                            n: 3,
+                            title: 'מצב מפתח',
+                            lines: ['מפעילים את המתג «מצב מפתח» (Developer mode) בפינה העליונה.']
+                        },
+                        {
+                            n: 4,
+                            title: 'טעינת התוסף',
+                            lines: ['לוחצים «טעינת תוסף לא ארוז» (Load unpacked) ובוחרים את התיקייה שחילצו.']
+                        },
+                        {
+                            n: 5,
+                            title: 'הגדרת מפתח AI',
+                            lines: ['פותחים את הגדרות התוסף, מזינים מפתח Gemini API חינמי מ־Google AI Studio ולוחצים שמירה.', 'מפעילים את האתרים הרצויים (Gmail, מתמחים טופ) או מוסיפים אתרים חדשים.']
+                        }
+                    ] }
+                ],
+                downloads: [
+                    { label: 'הורדת התוסף (ZIP)', url: 'raviv-spellcheck-extension-3.zip', icon: 'fa-download' }
                 ]
             }
         ];
