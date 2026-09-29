@@ -1079,10 +1079,25 @@
                 tried.add(img);
                 img.src = cdnUrl(raw);
             }
-            // לוכד שגיאות טעינה של תמונות (כולל אלה שנוצרות דינמית במודאלים ובלייטבוקסים)
+            // לוכד שגיאות טעינה של תמונות (כולל אלה שנוצרות דינמית במודאלים ובלייטבוקסים) ושל וידאו/מקורות
             document.addEventListener('error', function (e) {
                 var t = e.target;
                 if (t && t.tagName === 'IMG') fix(t);
+                else if (t && (t.tagName === 'VIDEO' || t.tagName === 'SOURCE')) {
+                    // חשוב: getAttribute מחזיר את הכתובת המקורית היחסית, בניגוד ל-currentSrc המוחלטת
+                    var raw = t.getAttribute('src') || (t.tagName === 'VIDEO' ? (t.querySelector('source') ? t.querySelector('source').getAttribute('src') : '') : '');
+                    if (raw && raw.indexOf('http') !== 0 && t.dataset.cdnDone !== '1') {
+                        t.dataset.cdnDone = '1';
+                        if (t.tagName === 'SOURCE') {
+                            var vid = t.parentElement;
+                            vid.src = cdnUrl(raw);
+                            vid.load();
+                        } else {
+                            t.src = cdnUrl(raw);
+                            t.load();
+                        }
+                    }
+                }
             }, true);
             // תמונות שנכשלו עוד לפני שהמאזין נרשם
             window.addEventListener('load', function () {
@@ -1415,28 +1430,48 @@
 
             <!-- התוכנות המרכזיות -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300 dl-card-item" onclick="openModal()" style="cursor:pointer"
+                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300 relative overflow-hidden dl-card-item" onclick="openMakhshirutModal()" style="cursor:pointer"
                     data-type="software" data-price="free" data-name="מכשירוט"
-                    data-desc="הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח"
-                    data-tags="מכשירות רוט הכשרת נגנים אנדרואיד תוכנה חינם">
-                    <div class="w-full h-40 rounded-2xl mb-6 overflow-hidden bg-slate-700 border border-slate-600">
-                        <img src="4c42a4d8-9ae2-4092-a758-c1b2b2e1baa2-image.png" alt="Makhshirut"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    data-desc="תוכנת Windows מקצועית לניהול ותחזוקת מכשירי Android — 400+ פקודות ADB, Root, שיתוף מסך ועוד"
+                    data-tags="מכשירות ADB Root שיתוף מסך MDM אנדרואיד תוכנה חינם">
+                    <div class="absolute top-0 left-0 bg-cyan-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">תוכנת דגל</div>
+                    <div class="relative w-full h-40 mb-6">
+                        <div id="makhshirut-gallery" class="dl-gallery w-full h-40 rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory">
+                            <img src="makhshirut-shot-1.png" alt="מכשירוט — הממשק הראשי עם כרטיסיות הפעולות" draggable="false"
+                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
+                            <img src="makhshirut-shot-2.png" alt="מכשירוט — עוז קטגוריות הפקודות" draggable="false"
+                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
+                            <img src="makhshirut-shot-3.png" alt="מכשירוט — הגדרות מתקדמות וצ'אט AI" draggable="false"
+                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
+                        </div>
+                        <button id="makh-gal-prev" class="dl-gal-btn right-2" style="display:none" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button id="makh-gal-next" class="dl-gal-btn left-2" style="display:none" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+                        <span class="absolute top-2 left-2 z-10 bg-slate-900/85 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-lg pointer-events-none border border-slate-600/60">
+                            <i class="fa-solid fa-magnifying-glass-plus ml-1"></i> לחצו להגדלה
+                        </span>
+                        <div id="makh-gal-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
                     </div>
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-12 h-12 bg-cyan-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
-                            <i class="fa-solid fa-fire"></i>
+                            <i class="fa-solid fa-mobile-screen-button"></i>
                         </div>
                         <h3 class="text-2xl font-bold text-white">מכשירוט</h3>
                     </div>
-                    <p class="text-slate-400 mb-4 text-sm">הכלי המושלם לביצוע רוט והכשרת נגנים בלחיצת כפתור אחת. פשוט, מהיר ובטוח.</p>
+                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">תוכנת Windows מקצועית לניהול ותחזוקת מכשירי Android, שמרכזת במקום אחד מאות פעולות וכלי ADB בממשק נוח ומסודר.</p>
                     <div class="dl-tags mb-6">
                         <span class="dl-tag dl-tag-type"><i class="fa-solid fa-gears"></i> תוכנה</span>
                         <span class="dl-tag dl-tag-free"><i class="fa-solid fa-gift"></i> חינם</span>
+                        <span class="dl-tag dl-tag-neutral"><i class="fa-brands fa-android"></i> אנדרואיד</span>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-cyan-400 font-bold"><i class="fa-solid fa-circle-check ml-1"></i> הורדה חינם!</span>
-                        <a href="https://mitmachim.top/post/1066649" target="_blank" onclick="event.stopPropagation()" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-colors">הורדה חינם</a>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button onclick="event.stopPropagation();downloadMakhshirut()" class="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                                <i class="fa-solid fa-download"></i> הורדה חינם
+                            </button>
+                            <button onclick="event.stopPropagation();openMakhshirutModal()" class="flex-1 border border-cyan-500/60 hover:bg-cyan-600/10 text-cyan-300 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                                <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -1552,19 +1587,83 @@
 
     <!-- Floating Modal for Android Tool Pro -->
     <div id="proModal" class="modal">
+        <div class="modal-content" style="max-width:760px; max-height:90vh; overflow-y:auto;">
+            <button onclick="closeModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors z-10">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <div class="w-20 h-20 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-black mb-4 text-slate-900 dark:text-white text-center">מכשירוט — כלי לניהול אנדרואיד</h3>
+            <div class="text-right text-slate-600 dark:text-slate-300 space-y-4 mb-6 leading-relaxed">
+                <p>מכשירוט היא תוכנת Windows מקצועית לניהול ותחזוקת מכשירי Android, שמרכזת במקום אחד מאות פעולות וכלי ADB בממשק נוח ומסודר.</p>
+                <p>בין היתר היא כוללת 400+ פקודות ADB, כלי Root, ניהול ומחיקת אפליקציות מערכת, התקנה מרובה של אפליקציות, מידע ואבחון סוללה, סריקת מכשיר, שיתוף מסך בזמן אמת, פעולות MDM וצ'אט AI.</p>
+                <p>התוכנה מיועדת במיוחד למפתחים, טכנאים ומשתמשים מתקדמים, ומטרתה להפוך פעולות Android מורכבות לפשוטות ומהירות יותר.</p>
+            </div>
+            <!-- סרטון הדגמה בגודל מלא -->
+            <div class="rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 mb-6">
+                <video controls preload="metadata" playsinline style="width:100%; max-height:60vh; display:block; background:#0f172a;">
+                    <source src="makhshirut-demo.mp4" type="video/mp4">
+                    הדפדפן שלך לא תומך בהצגת וידאו. <a href="makhshirut-demo.mp4" target="_blank" style="color:#22d3ee">לצפייה ישירה בסרטון</a>.
+                </video>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center mb-6">
+                <button onclick="downloadMakhshirut()" class="bg-cyan-600 hover:bg-cyan-500 text-white py-3 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-download"></i> הורדת התוכנה
+                </button>
+                <button id="makhMoreToggle" onclick="toggleMakhMore()" class="border border-slate-500/60 hover:bg-slate-700/30 text-slate-700 dark:text-slate-200 py-3 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-list-check"></i> פונקציות נוספות
+                    <i id="makhMoreChevron" class="fa-solid fa-chevron-down text-sm transition-transform"></i>
+                </button>
+            </div>
+            <!-- לשונית פונקציות נוספות — נפתחת בלחיצה -->
+            <div id="makhMorePanel" style="display:none" class="rounded-2xl border border-slate-600 bg-slate-800/40 p-5 mb-2">
+                <h4 class="font-black text-slate-900 dark:text-white mb-3 text-lg">הפונקציות המרכזיות:</h4>
+                <ul class="space-y-2.5 text-right text-slate-600 dark:text-slate-300 leading-relaxed text-sm">
+                    <li><i class="fa-solid fa-terminal text-cyan-500 ml-2"></i><strong>400+ פקודות ADB</strong> — מגוון פעולות Android מחולקות לקטגוריות ומוצגות בממשק נוח.</li>
+                    <li><i class="fa-solid fa-unlock text-cyan-500 ml-2"></i><strong>Root</strong> — כלים המסייעים בתהליך צריבת וביצוע Root.</li>
+                    <li><i class="fa-solid fa-mobile-screen text-cyan-500 ml-2"></i><strong>ניהול אפליקציות</strong> — הצגת כל האפליקציות, התקנה, הסרה ומחיקת אפליקציות מערכת.</li>
+                    <li><i class="fa-solid fa-shield-halved text-cyan-500 ml-2"></i><strong>הרשאות MDM</strong> — מתן הרשאות MDM ופעולות הקשורות לניהול המכשיר.</li>
+                    <li><i class="fa-solid fa-layer-group text-cyan-500 ml-2"></i><strong>התקנת אפליקציות מרובה</strong> — התקנת מספר APK-ים ברצף.</li>
+                    <li><i class="fa-solid fa-mobile-retro text-cyan-500 ml-2"></i><strong>זיהוי מכשיר אוטומטי</strong> — זיהוי המכשיר והצגת פרטיו בעת חיבור עם ניפוי USB.</li>
+                    <li><i class="fa-solid fa-display text-cyan-500 ml-2"></i><strong>שיתוף מסך</strong> — צפייה במסך המכשיר בזמן אמת מהמחשב.</li>
+                    <li><i class="fa-solid fa-magnifying-glass-chart text-cyan-500 ml-2"></i><strong>סריקה מתקדמת</strong> — סריקה מהירה לקבלת מידע ואבחון המכשיר.</li>
+                    <li><i class="fa-solid fa-battery-three-quarters text-cyan-500 ml-2"></i><strong>מידע על הסוללה</strong> — בדיקת בריאות הסוללה ונתונים נוספים.</li>
+                    <li><i class="fa-solid fa-robot text-cyan-500 ml-2"></i><strong>צ'אט AI</strong> — עוזר AI לפעולות ושאלות הקשורות ל Android.</li>
+                    <li><i class="fa-solid fa-sliders text-cyan-500 ml-2"></i><strong>הגדרות מתקדמות</strong> — מגוון אפשרויות להתאמת התוכנה.</li>
+                    <li><i class="fa-brands fa-bluetooth-b text-cyan-500 ml-2"></i><strong>פעולות Bluetooth</strong> — כולל אפשרות לשינוי כתובת Bluetooth.</li>
+                    <li><i class="fa-solid fa-shield text-cyan-500 ml-2"></i><strong>פעולות MDM מתקדמות</strong> — פונקציות להתקנת חסימות וניהול מכשירים, כגון אייבלוק וקיידרואיד.</li>
+                </ul>
+            </div>
+            <!-- גלריית צילומי מסך -->
+            <div class="relative w-full h-64 mb-2">
+                <div id="makh-modal-gallery" class="dl-modal-gallery w-full h-64 rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory">
+                    <img src="makhshirut-shot-1.png" alt="מכשירוט — הממשק הראשי" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                    <img src="makhshirut-shot-2.png" alt="מכשירוט — עוז קטגוריות הפקודות" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                    <img src="makhshirut-shot-3.png" alt="מכשירוט — הגדרות מתקדמות" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                </div>
+                <button id="makh-modal-gal-prev" class="dl-gal-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+                <button id="makh-modal-gal-next" class="dl-gal-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+                <div id="makh-modal-gal-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Android Tool Pro -->
+    <div id="androidToolModal" class="modal">
         <div class="modal-content">
-            <button onclick="closeModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors">
+            <button onclick="closeAndroidToolModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors">
                 <i class="fa-solid fa-times"></i>
             </button>
             <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">
-                <i class="fa-solid fa-info-circle"></i>
+                <i class="fa-solid fa-toolbox"></i>
             </div>
             <h3 class="text-3xl font-black mb-6 text-slate-900 dark:text-white">Android Tool Pro - פרטים נוספים</h3>
             <div class="text-right text-slate-600 dark:text-slate-300 space-y-4 mb-8 text-lg leading-relaxed">
                 <p>שלום חברים, במשך הרבה זמן פיתחתי תוכנה שתעזור לנו בתור מפתחי אנדרואיד במקום לשאוב ידני בלחיצת כפתור.</p>
                 <p>כל הפרויקטים שלי היו חינמיים לגמרי אבל בגלל שזה ברמה אחרת אני צריך לכסות את העלויות הגבוהות אז אני לוקח תשלום סמלי.</p>
             </div>
-            <button onclick="toggleContactModal(); closeModal();" class="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-200 transition-all">
+            <button onclick="toggleContactModal(); closeAndroidToolModal();" class="bg-blue-600 hover:bg-blue-700 text-white py-4 px-8 rounded-2xl font-bold flex items-center justify-center gap-2 text-lg shadow-xl shadow-blue-200 transition-all">
                 לפרטים נוספים ולהצעת מחיר לחצו כאן
             </button>
         </div>
@@ -1879,6 +1978,17 @@
         function closeModal() {
             document.getElementById('proModal').classList.remove('active-modal');
             document.body.style.overflow = 'auto';
+            var v = document.querySelector('#proModal video');
+            if (v) v.pause();
+        }
+        /* מודאל פרטים של Android Tool Pro (הישן — היה ב-proModal לפני מכשירוט) */
+        function openAndroidToolModal() {
+            document.getElementById('androidToolModal').classList.add('active-modal');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeAndroidToolModal() {
+            document.getElementById('androidToolModal').classList.remove('active-modal');
+            document.body.style.overflow = 'auto';
         }
         function openRofeSDModal() {
             document.getElementById('rofesdModal').classList.add('active-modal');
@@ -1887,6 +1997,27 @@
         function closeRofeSDModal() {
             document.getElementById('rofesdModal').classList.remove('active-modal');
             document.body.style.overflow = 'auto';
+        }
+        /* מכשירוט — מודאל, הורדה מ-Google Drive וטוגל פונקציות נוספות */
+        function openMakhshirutModal() {
+            document.getElementById('proModal').classList.add('active-modal');
+            document.body.style.overflow = 'hidden';
+        }
+        function downloadMakhshirut() {
+            var a = document.createElement('a');
+            a.href = 'https://drive.google.com/file/d/1hih0fQNo-IIyP-_F1JNFo4CVIqHTSeMj/view?usp=drive_link';
+            a.download = 'Makhshirut.zip';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        function toggleMakhMore() {
+            var panel = document.getElementById('makhMorePanel');
+            var chevron = document.getElementById('makhMoreChevron');
+            var open = panel.style.display !== 'none';
+            panel.style.display = open ? 'none' : 'block';
+            chevron.classList.toggle('rotate-180', !open);
         }
         function downloadRofeSD() {
             var url = 'RofeSD-1.2.0.apk';
@@ -1898,6 +2029,99 @@
             a.click();
             document.body.removeChild(a);
         }
+
+        /* גלריית צילומי המסך של מכשירוט בכרטיס — חצים, נקודות והחלקה במגע */
+        (function () {
+            var gal = document.getElementById('makhshirut-gallery');
+            if (!gal) return;
+            var slides = Array.prototype.slice.call(gal.querySelectorAll('img'));
+            var dotsWrap = document.getElementById('makh-gal-dots');
+            var idx = 0;
+            var dots = slides.map(function (_, i) {
+                var d = document.createElement('span');
+                d.className = 'dl-gal-dot' + (i === 0 ? ' active' : '');
+                d.addEventListener('click', function () { goTo(i); });
+                dotsWrap.appendChild(d);
+                return d;
+            });
+            function goTo(i) {
+                idx = Math.max(0, Math.min(slides.length - 1, i));
+                slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+            if (slides.length > 1) {
+                document.getElementById('makh-gal-prev').style.display = '';
+                document.getElementById('makh-gal-next').style.display = '';
+            }
+            document.getElementById('makh-gal-prev').addEventListener('click', function () { goTo(idx - 1); });
+            document.getElementById('makh-gal-next').addEventListener('click', function () { goTo(idx + 1); });
+            var ticking = false;
+            gal.addEventListener('scroll', function () {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(function () {
+                    ticking = false;
+                    var center = gal.scrollLeft + gal.clientWidth / 2;
+                    var best = 0, bestDist = Infinity;
+                    slides.forEach(function (s, i) {
+                        var sc = s.offsetLeft + s.offsetWidth / 2;
+                        var dist = Math.abs(sc - center);
+                        if (dist < bestDist) { bestDist = dist; best = i; }
+                    });
+                    if (best !== idx) {
+                        idx = best;
+                        dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+                    }
+                });
+            }, { passive: true });
+        })();
+
+        /* גלריית המודאל של מכשירוט — חצים, נקודות והחלקה */
+        (function () {
+            var gal = document.getElementById('makh-modal-gallery');
+            if (!gal) return;
+            var slides = Array.prototype.slice.call(gal.querySelectorAll('img'));
+            var dotsWrap = document.getElementById('makh-modal-gal-dots');
+            var idx = 0;
+            var dots = slides.map(function (_, i) {
+                var d = document.createElement('span');
+                d.className = 'dl-gal-dot' + (i === 0 ? ' active' : '');
+                d.addEventListener('click', function () { goTo(i); });
+                dotsWrap.appendChild(d);
+                return d;
+            });
+            function goTo(i) {
+                idx = Math.max(0, Math.min(slides.length - 1, i));
+                slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+            document.getElementById('makh-modal-gal-prev').addEventListener('click', function () { goTo(idx - 1); });
+            document.getElementById('makh-modal-gal-next').addEventListener('click', function () { goTo(idx + 1); });
+            // לחיצה על תמונה פותחת את לייטבוקס הזום הכללי
+            slides.forEach(function (im, i) {
+                im.addEventListener('click', function () {
+                    dlItemGalImgs = slides;
+                    openDlZoom(i);
+                });
+            });
+            var ticking = false;
+            gal.addEventListener('scroll', function () {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(function () {
+                    ticking = false;
+                    var center = gal.scrollLeft + gal.clientWidth / 2;
+                    var best = 0, bestDist = Infinity;
+                    slides.forEach(function (s, i) {
+                        var sc = s.offsetLeft + s.offsetWidth / 2;
+                        var dist = Math.abs(sc - center);
+                        if (dist < bestDist) { bestDist = dist; best = i; }
+                    });
+                    if (best !== idx) {
+                        idx = best;
+                        dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
+                    }
+                });
+            }, { passive: true });
+        })();
 
         /* גלריית צילומי המסך של RofeSD — חצים, נקודות והחלקה במגע */
         (function () {
@@ -2102,6 +2326,7 @@
 
         window.onclick = function (event) {
             if (event.target == document.getElementById('proModal')) closeModal();
+            if (event.target == document.getElementById('androidToolModal')) closeAndroidToolModal();
             if (event.target == document.getElementById('rofesdModal')) closeRofeSDModal();
             if (event.target == document.getElementById('dlItemModal')) closeDlItemModal();
         }
@@ -2317,11 +2542,11 @@
                     '<span class="dl-tag dl-tag-' + sw.price + '"><i class="fa-solid ' + (DL_PRICE_ICON[sw.price] || 'fa-tag') + '"></i> ' + dlEscape(DL_PRICE_LABEL[sw.price] || sw.price) + '</span>' +
                     (sw.tags || []).map(function (t) { return '<span class="dl-tag dl-tag-neutral">' + dlEscape(t) + '</span>'; }).join('');
                 var action = sw.details
-                    ? '<button onclick="event.stopPropagation();openModal()" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>'
+                    ? '<button onclick="event.stopPropagation();openAndroidToolModal()" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>'
                     : '<button onclick="event.stopPropagation();openDlItemModal(' + i + ')" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>';
                 return '<div class="dl-card dl-card-item" data-type="' + sw.type + '" data-price="' + sw.price + '"' +
                     ' data-name="' + dlEscape(sw.name) + '" data-desc="' + dlEscape(sw.desc) + '" data-tags="' + dlEscape((sw.tags || []).join(' ')) + '"' +
-                    ' onclick="' + (sw.details ? 'openModal()' : 'openDlItemModal(' + i + ')') + '" style="cursor:pointer">' +
+                    ' onclick="' + (sw.details ? 'openAndroidToolModal()' : 'openDlItemModal(' + i + ')') + '" style="cursor:pointer">' +
                     '<div class="flex items-center gap-3">' +
                     dlIconHtml(sw, 'dl-icon-sm') +
                     '<h4 class="text-lg font-bold text-white">' + dlEscape(sw.name) + '</h4>' +
