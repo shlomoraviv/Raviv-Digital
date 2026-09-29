@@ -793,8 +793,8 @@
 
         /* כרטיס קטן ברשימה */
         .dl-card {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid #334155;
+            background: rgba(51, 65, 85, 0.72);
+            border: 1px solid #4b5b74;
             border-radius: 1.5rem;
             padding: 1.25rem;
             display: flex;
@@ -803,6 +803,43 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+        }
+
+        /* תיאור אחיד — מקסימום 3 שורות בכל כרטיס לסידור אחיד */
+        .dl-card > p {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 4.25rem;
+        }
+
+        /* כותרות קטגוריה ברשימת הכלים */
+        .dl-cat-head {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0 0.35rem;
+        }
+        .dl-cat-head:first-child { margin-top: 0; }
+        .dl-cat-head.is-hidden { display: none; }
+        .dl-cat-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.45), transparent);
+        }
+        .dl-cat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(14, 165, 233, 0.14);
+            border: 1px solid rgba(14, 165, 233, 0.4);
+            color: #7dd3fc;
+            font-weight: 800;
+            font-size: 0.9rem;
+            padding: 0.4rem 1.1rem;
+            border-radius: 9999px;
+            white-space: nowrap;
         }
 
         .dl-card::before {
@@ -1448,7 +1485,7 @@
 
             <!-- התוכנות המרכזיות -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-cyan-500 transition-all duration-300 relative overflow-hidden dl-card-item" onclick="openMakhshirutModal()" style="cursor:pointer"
+                <div class="reveal-right group bg-slate-700/60 p-8 rounded-[2.5rem] border border-slate-600 hover:border-cyan-500 transition-all duration-300 relative overflow-hidden dl-card-item" onclick="openMakhshirutModal()" style="cursor:pointer"
                     data-type="software" data-price="free" data-name="מכשירוט"
                     data-desc="תוכנת Windows מקצועית לניהול ותחזוקת מכשירי Android — 400+ פקודות ADB, Root, שיתוף מסך ועוד"
                     data-tags="מכשירות ADB Root שיתוף מסך MDM אנדרואיד תוכנה חינם">
@@ -1494,7 +1531,7 @@
                 </div>
 
                 <!-- RofeSD — כרטיס מרכזי עם גלריית צילומי מסך מתגלגלת. להוספת תמונה: העתיקו img חדש בתוך #rofesd-gallery -->
-                <div class="reveal-right group bg-slate-800/50 p-8 rounded-[2.5rem] border border-slate-700 hover:border-emerald-500 transition-all duration-300 relative overflow-hidden dl-card-item" onclick="openRofeSDModal()" style="cursor:pointer"
+                <div class="reveal-right group bg-slate-700/60 p-8 rounded-[2.5rem] border border-slate-600 hover:border-emerald-500 transition-all duration-300 relative overflow-hidden dl-card-item" onclick="openRofeSDModal()" style="cursor:pointer"
                     data-type="app" data-price="partial" data-name="RofeSD"
                     data-desc="אפליקציה פשוטה וחינמית לשחזור מידע מכרטיסי זיכרון שדורשים פרמוט"
                     data-tags="rofesd שחזור מידע כרטיס זיכרון פרמוט אנדרואיד אפליקציה חינם חלקי">
@@ -2627,10 +2664,40 @@
             return '<div class="' + size + ' ' + c.icon + ' ' + c.iconText + ' flex items-center justify-center shadow-lg shrink-0"><i class="fa-solid ' + sw.icon + '"></i></div>';
         }
 
+        /* סדר הקטגוריות ברשימה + כותרותיהן */
+        var DL_TYPE_ORDER = ['software', 'app', 'extension', 'site', 'script'];
+        var DL_TYPE_HEAD = {
+            software:  { label: 'תוכנות',      icon: 'fa-gears' },
+            app:       { label: 'אפליקציות',   icon: 'fa-mobile-screen' },
+            extension: { label: 'תוספים',      icon: 'fa-puzzle-piece' },
+            site:      { label: 'אתרים',       icon: 'fa-globe' },
+            script:    { label: 'סקריפטים',    icon: 'fa-code' }
+        };
+
         function renderDlSmallCards() {
             var grid = document.getElementById('dl-small-grid');
             if (!grid) return;
-            grid.innerHTML = SOFTWARES.map(function (sw, i) {
+            // מיון לפי סדר הקטגוריות, ובתוך קטגוריה — לפי הסדר המקורי
+            var orderIdx = {};
+            DL_TYPE_ORDER.forEach(function (t, j) { orderIdx[t] = j; });
+            var items = SOFTWARES.map(function (sw, i) { return { sw: sw, i: i }; })
+                .sort(function (a, b) {
+                    var d = (orderIdx[a.sw.type] !== undefined ? orderIdx[a.sw.type] : 99) - (orderIdx[b.sw.type] !== undefined ? orderIdx[b.sw.type] : 99);
+                    return d !== 0 ? d : a.i - b.i;
+                });
+            var html = '';
+            var lastType = null;
+            items.forEach(function (it) {
+                var sw = it.sw, i = it.i;
+                // כותרת קטגוריה לפני כל קבוצה
+                if (sw.type !== lastType) {
+                    var head = DL_TYPE_HEAD[sw.type] || { label: DL_TYPE_LABEL[sw.type] || sw.type, icon: 'fa-layer-group' };
+                    html += '<div class="dl-cat-head dl-cat-item" data-cat-type="' + sw.type + '">' +
+                        '<span class="dl-cat-badge"><i class="fa-solid ' + head.icon + '"></i> ' + dlEscape(head.label) + '</span>' +
+                        '<div class="dl-cat-line"></div>' +
+                        '</div>';
+                    lastType = sw.type;
+                }
                 var tagsHtml =
                     '<span class="dl-tag dl-tag-type"><i class="fa-solid ' + (DL_TYPE_ICON[sw.type] || 'fa-gears') + '"></i> ' + dlEscape(DL_TYPE_LABEL[sw.type] || sw.type) + '</span>' +
                     '<span class="dl-tag dl-tag-' + sw.price + '"><i class="fa-solid ' + (DL_PRICE_ICON[sw.price] || 'fa-tag') + '"></i> ' + dlEscape(DL_PRICE_LABEL[sw.price] || sw.price) + '</span>' +
@@ -2638,21 +2705,22 @@
                 var action = sw.details
                     ? '<button onclick="event.stopPropagation();openAndroidToolModal()" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>'
                     : '<button onclick="event.stopPropagation();openDlItemModal(' + i + ')" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>';
-                return '<div class="dl-card dl-card-item" data-type="' + sw.type + '" data-price="' + sw.price + '"' +
+                html += '<div class="dl-card dl-card-item" data-type="' + sw.type + '" data-price="' + sw.price + '"' +
                     ' data-name="' + dlEscape(sw.name) + '" data-desc="' + dlEscape(sw.desc) + '" data-tags="' + dlEscape((sw.tags || []).join(' ')) + '"' +
                     ' onclick="' + (sw.details ? 'openAndroidToolModal()' : 'openDlItemModal(' + i + ')') + '" style="cursor:pointer">' +
                     '<div class="flex items-center gap-3">' +
                     dlIconHtml(sw, 'dl-icon-sm') +
                     '<h4 class="text-lg font-bold text-white">' + dlEscape(sw.name) + '</h4>' +
                     '</div>' +
-                    '<p class="text-slate-400 text-sm leading-relaxed flex-1">' + dlEscape(sw.desc) + '</p>' +
+                    '<p class="text-slate-300 text-sm leading-relaxed flex-1">' + dlEscape(sw.desc) + '</p>' +
                     '<div class="dl-tags">' + tagsHtml + '</div>' +
                     '<div class="flex items-center justify-between gap-2 pt-1">' +
                     action +
                     (sw.link ? '<a href="' + sw.link + '" target="_blank" onclick="event.stopPropagation()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition-colors flex items-center gap-1"><i class="fa-solid ' + (sw.linkIcon || 'fa-link') + '"></i> ' + dlEscape(sw.linkText || 'לפתיחה') + '</a>' : '') +
                     '</div>' +
                     '</div>';
-            }).join('');
+            });
+            grid.innerHTML = html;
             applyDlFilters();
         }
 
@@ -2856,14 +2924,23 @@
         function applyDlFilters() {
             var q = (document.getElementById('dl-search') && document.getElementById('dl-search').value || '').trim().toLowerCase();
             var visible = 0;
-            document.querySelectorAll('.dl-card-item').forEach(function (card) {
+            // מצב תצוגה לכל קטגוריה — הכותרת מוצגת רק אם יש פריט גלוי מתחתיה
+            var catVisible = {};
+            document.querySelectorAll('#dl-small-grid .dl-card-item').forEach(function (card) {
                 var okType = dlFilterType === 'all' || card.getAttribute('data-type') === dlFilterType;
                 var okPrice = dlFilterPrice === 'all' || card.getAttribute('data-price') === dlFilterPrice;
                 var hay = ((card.getAttribute('data-name') || '') + ' ' + (card.getAttribute('data-desc') || '') + ' ' + (card.getAttribute('data-tags') || '')).toLowerCase();
                 var okSearch = !q || q.split(/\s+/).every(function (w) { return hay.indexOf(w) !== -1; });
                 var show = okType && okPrice && okSearch;
                 card.classList.toggle('is-hidden', !show);
-                if (show) visible++;
+                if (show) {
+                    visible++;
+                    catVisible[card.getAttribute('data-type')] = true;
+                }
+            });
+            document.querySelectorAll('#dl-small-grid .dl-cat-item').forEach(function (head) {
+                var t = head.getAttribute('data-cat-type');
+                head.classList.toggle('is-hidden', !catVisible[t]);
             });
             var countEl = document.getElementById('dl-count');
             if (countEl) countEl.textContent = visible;
