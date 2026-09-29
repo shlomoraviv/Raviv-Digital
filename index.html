@@ -961,14 +961,17 @@
         /* לייטבוקס גלריית RofeSD — תמונה בגודל מלא */
         #rofesdLightbox .modal-content, #dlZoomLightbox .modal-content {
             background: rgba(15, 23, 42, 0.95);
-            max-width: min(94vw, 520px);
+            max-width: min(96vw, 1500px);
             padding: 1rem;
             border: 1px solid rgba(148, 163, 184, 0.25);
         }
 
         #rofesdLbImg, #dlZoomImg {
-            max-height: 70vh;
-            max-width: 100%;
+            /* תמונה בגודל מלא — מנצלת כמעט את כל המסך */
+            max-height: 92vh;
+            max-width: 94vw;
+            width: auto;
+            height: auto;
             border-radius: 1rem;
             object-fit: contain;
             user-select: none;
@@ -1630,6 +1633,10 @@
                     <i class="fa-solid fa-list-check"></i> פונקציות נוספות
                     <i id="makhMoreChevron" class="fa-solid fa-chevron-down text-sm transition-transform"></i>
                 </button>
+                <button id="makhShotsToggle" onclick="toggleMakhShots()" class="border border-cyan-500/60 hover:bg-cyan-600/10 text-cyan-700 dark:text-cyan-300 py-3 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-images"></i> צילומי מסך
+                    <i id="makhShotsChevron" class="fa-solid fa-chevron-down text-sm transition-transform"></i>
+                </button>
             </div>
             <!-- לשונית פונקציות נוספות — נפתחת בלחיצה -->
             <div id="makhMorePanel" style="display:none" class="rounded-2xl border border-slate-600 bg-slate-800/40 p-5 mb-2">
@@ -1650,16 +1657,18 @@
                     <li><i class="fa-solid fa-shield text-cyan-500 ml-2"></i><strong>פעולות MDM מתקדמות</strong> — פונקציות להתקנת חסימות וניהול מכשירים, כגון אייבלוק וקיידרואיד.</li>
                 </ul>
             </div>
-            <!-- גלריית צילומי מסך -->
-            <div class="relative w-full h-64 mb-2">
-                <div id="makh-modal-gallery" class="dl-modal-gallery w-full h-64 rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory">
-                    <img src="makhshirut-shot-1.png" alt="מכשירוט — הממשק הראשי" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
-                    <img src="makhshirut-shot-2.png" alt="מכשירוט — עוז קטגוריות הפקודות" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
-                    <img src="makhshirut-shot-3.png" alt="מכשירוט — הגדרות מתקדמות" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+            <!-- צילומי מסך — נפתחים בכפתור נפרד -->
+            <div id="makhGallerySection" style="display:none" class="mb-2">
+                <div class="relative w-full h-64">
+                    <div id="makh-modal-gallery" class="dl-modal-gallery w-full h-64 rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory">
+                        <img src="makhshirut-shot-1.png" alt="מכשירוט — הממשק הראשי" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                        <img src="makhshirut-shot-2.png" alt="מכשירוט — עוז קטגוריות הפקודות" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                        <img src="makhshirut-shot-3.png" alt="מכשירוט — הגדרות מתקדמות" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                    </div>
+                    <button id="makh-modal-gal-prev" class="dl-gal-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button id="makh-modal-gal-next" class="dl-gal-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div id="makh-modal-gal-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
                 </div>
-                <button id="makh-modal-gal-prev" class="dl-gal-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
-                <button id="makh-modal-gal-next" class="dl-gal-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
-                <div id="makh-modal-gal-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
             </div>
         </div>
     </div>
@@ -2020,7 +2029,7 @@
         }
         function downloadMakhshirut() {
             var a = document.createElement('a');
-            a.href = 'https://drive.google.com/file/d/1aJjQ7apnlvlD_sucY81tvzA3WhcDqjQ5/view?usp=sharing';
+            a.href = 'https://github.com/shlomoraviv/Raviv-Digital/releases/download/makhshirut-v1.0/makhshirut-MTK-setup.exe';
             a.download = 'Makhshirut.zip';
             a.rel = 'noopener';
             document.body.appendChild(a);
@@ -2033,6 +2042,14 @@
             var open = panel.style.display !== 'none';
             panel.style.display = open ? 'none' : 'block';
             chevron.classList.toggle('rotate-180', !open);
+        }
+        function toggleMakhShots() {
+            var sec = document.getElementById('makhGallerySection');
+            var chevron = document.getElementById('makhShotsChevron');
+            var open = sec.style.display !== 'none';
+            sec.style.display = open ? 'none' : 'block';
+            chevron.classList.toggle('rotate-180', !open);
+            if (!open) sec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
         function downloadRofeSD() {
             var url = 'RofeSD-1.2.0.apk';
