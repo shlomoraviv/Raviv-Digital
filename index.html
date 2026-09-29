@@ -803,6 +803,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            height: 100%;
         }
 
         /* תיאור אחיד — מקסימום 3 שורות בכל כרטיס לסידור אחיד */
@@ -814,14 +815,15 @@
             min-height: 4.25rem;
         }
 
-        /* כותרות קטגוריה ברשימת הכלים */
+        /* כותרות קטגוריה ברשימת הכלים — נמתחות על כל רוחב השורה בלי שטח מת */
         .dl-cat-head {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin: 1.5rem 0 0.35rem;
+            grid-column: 1 / -1;
+            margin: 1.5rem 0 0.15rem;
         }
-        .dl-cat-head:first-child { margin-top: 0; }
+        .dl-cat-head:first-child { margin-top: 0.15rem; }
         .dl-cat-head.is-hidden { display: none; }
         .dl-cat-line {
             flex: 1;
@@ -878,6 +880,15 @@
         }
 
         .dl-card.is-hidden { display: none; }
+
+        /* השלמת שורה: הכרטיס האחרון בכל קטגוריה ממלא את שארית השורה — בלי שטח מת */
+        .dl-card.dl-fill-row { grid-column: span 2; }
+        @media (max-width: 640px) {
+            .dl-card.dl-fill-row { grid-column: auto; }
+        }
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .dl-card.dl-fill-row { grid-column: span 2; }   /* טאבלט: 2 עמודות → שורה מלאה */
+        }
 
         .dl-tags {
             display: flex;
@@ -2721,6 +2732,30 @@
                     '</div>';
             });
             grid.innerHTML = html;
+            // השלמת שורה: הכרטיס האחרון בכל קטגוריה ממלא את שארית השורה לפי מספר העמודות בפועל
+            function fillRows() {
+                var cols = getComputedStyle(grid).gridTemplateColumns.split(' ').length;
+                grid.querySelectorAll('.dl-fill-row').forEach(function (el) { el.classList.remove('dl-fill-row'); });
+                var byCat = {};
+                [...grid.children].forEach(function (el) {
+                    if (el.classList.contains('dl-cat-head')) return;
+                    if (el.classList.contains('is-hidden')) return;
+                    var head = el.previousElementSibling;
+                    while (head && !head.classList.contains('dl-cat-head')) head = head.previousElementSibling;
+                    var cat = head ? head.dataset.catType : 'none';
+                    (byCat[cat] = byCat[cat] || []).push(el);
+                });
+                Object.keys(byCat).forEach(function (cat) {
+                    var list = byCat[cat];
+                    var rem = list.length % cols;
+                    if (rem !== 0 && cols > 1 && list[list.length - 1]) {
+                        list[list.length - 1].classList.add('dl-fill-row');
+                    }
+                });
+            }
+            fillRows();
+            window.dlFillRows = fillRows;
+            window.addEventListener('resize', fillRows);
             applyDlFilters();
         }
 
@@ -2942,6 +2977,7 @@
                 var t = head.getAttribute('data-cat-type');
                 head.classList.toggle('is-hidden', !catVisible[t]);
             });
+            if (window.dlFillRows) window.dlFillRows();   // השלמת שורה אחרי הסינון
             var countEl = document.getElementById('dl-count');
             if (countEl) countEl.textContent = visible;
             var emptyEl = document.getElementById('dl-empty');
