@@ -719,6 +719,122 @@
         /* ============================================================
            מרכז ההורדות — חיפוש, סינון ותגיות
            ============================================================ */
+        /* ============================================================
+           מרכז ההורדות — ערכת צבעים בהירה, נקייה וחדה (קרם)
+           ============================================================ */
+        #downloads {
+            --dl-bg: #faf7f0;
+            --dl-surface: #ffffff;
+            --dl-surface-2: #f4f1e9;
+            --dl-line: rgba(15, 23, 42, 0.10);
+            --dl-line-2: rgba(15, 23, 42, 0.06);
+            --dl-heading: #0f172a;
+            --dl-body: #4b5563;
+            --dl-dim: #6b7280;
+            --dl-shadow: 0 14px 34px -20px rgba(15, 23, 42, 0.28);
+            background: var(--dl-bg);
+            color: var(--dl-body);
+        }
+
+        .dark #downloads {
+            --dl-bg: #070c16;
+            --dl-surface: #101827;
+            --dl-surface-2: #172033;
+            --dl-line: rgba(148, 163, 184, 0.22);
+            --dl-line-2: rgba(148, 163, 184, 0.10);
+            --dl-heading: #f8fafc;
+            --dl-body: #cbd5e1;
+            --dl-dim: #94a3b8;
+            --dl-shadow: 0 14px 34px -20px rgba(0, 0, 0, 0.85);
+        }
+
+        #downloads h2, #downloads h3 { color: var(--dl-heading); }
+        #downloads .dl-sub { color: var(--dl-dim); }
+
+        #downloads .dl-search-wrap i { color: var(--dl-dim); }
+        #downloads .dl-search {
+            background: var(--dl-surface);
+            border: 1px solid var(--dl-line);
+            color: var(--dl-heading);
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        }
+        #downloads .dl-search::placeholder { color: var(--dl-dim); }
+        #downloads .dl-search:focus { border-color: #38bdf8; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.18); }
+
+        #downloads .dl-chip { background: var(--dl-surface); border: 1px solid var(--dl-line); color: var(--dl-body); }
+        #downloads .dl-chip:hover { border-color: var(--dl-heading); color: var(--dl-heading); }
+        #downloads .dl-chip.active { background: #0ea5e9; border-color: #0ea5e9; color: #fff; }
+        #downloads .dl-chip-divider { background: var(--dl-line); }
+
+        #downloads .dl-card {
+            background: var(--dl-surface);
+            border: 1px solid var(--dl-line-2);
+            box-shadow: 0 8px 22px -18px rgba(15, 23, 42, 0.35);
+        }
+        #downloads .dl-card:hover { border-color: rgba(14, 165, 233, 0.55); box-shadow: 0 20px 38px -24px rgba(15, 23, 42, 0.45); }
+        #downloads .dl-card-title { color: var(--dl-heading); font-size: 1.05rem; font-weight: 800; }
+        #downloads .dl-card-desc { color: var(--dl-body); font-size: 0.875rem; line-height: 1.6; }
+        #downloads .dl-card-link { color: #0284c7; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem; }
+        .dark #downloads .dl-card-link { color: #38bdf8; }
+        #downloads .dl-card-ext { background: var(--dl-surface-2); border: 1px solid var(--dl-line); color: var(--dl-heading); padding: 0.5rem 0.9rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem; }
+        #downloads .dl-card-ext:hover { border-color: var(--dl-heading); }
+
+        #downloads .dl-icon-ring { background: #fff; box-shadow: 0 6px 16px -8px rgba(15, 23, 42, 0.4), inset 0 0 0 1px rgba(15, 23, 42, 0.06); }
+
+        #downloads .dl-cat-line { background: linear-gradient(90deg, transparent, var(--dl-line), transparent); }
+        #downloads .dl-cat-badge { background: rgba(14, 165, 233, 0.10); border-color: rgba(14, 165, 233, 0.28); color: #0369a1; }
+        .dark #downloads .dl-cat-badge { background: rgba(14, 165, 233, 0.14); border-color: rgba(14, 165, 233, 0.4); color: #7dd3fc; }
+
+        #downloads .dl-divider-line { background: linear-gradient(90deg, transparent, var(--dl-line), transparent); }
+        #downloads .dl-divider-badge { background: var(--dl-surface); border: 1px solid var(--dl-line); color: var(--dl-body); }
+        #downloads .dl-divider-badge i { color: #0284c7; }
+        .dark #downloads .dl-divider-badge i { color: #38bdf8; }
+
+        #downloads .dl-count { text-align: center; color: var(--dl-dim); font-size: 0.875rem; margin-top: 2.5rem; }
+        #downloads .dl-count + .dl-count { margin-top: 0.6rem; }
+
+        /* כפתור הצגת שאר התוכנות והכלים */
+        .dl-more-wrap { display: flex; justify-content: center; margin-top: 2.75rem; }
+        .dl-more-btn {
+            display: inline-flex; align-items: center; gap: 0.65rem;
+            background: var(--dl-surface); border: 1px solid var(--dl-line); color: var(--dl-heading);
+            font-weight: 800; font-size: 1rem; padding: 0.95rem 2rem; border-radius: 9999px;
+            cursor: pointer; box-shadow: var(--dl-shadow); transition: all 0.25s ease;
+        }
+        .dl-more-btn:hover { transform: translateY(-2px); border-color: rgba(14, 165, 233, 0.5); color: #0284c7; }
+        .dl-more-btn i { transition: transform 0.3s ease; }
+        .dl-more-btn.is-open i { transform: rotate(180deg); }
+        .dl-more-count { background: rgba(14, 165, 233, 0.12); color: #0369a1; border-radius: 9999px; font-size: 0.78rem; font-weight: 800; padding: 0.15rem 0.6rem; }
+        .dark .dl-more-count { background: rgba(14, 165, 233, 0.18); color: #7dd3fc; }
+        #dl-more[hidden] { display: none !important; }
+
+        /* כרטיסי תוכנות הדגל — אייקון בלבד, בלי צילומי מסך */
+        .dl-hero-card {
+            position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+            gap: 0.9rem; background: var(--dl-surface); border: 1px solid var(--dl-line-2);
+            border-radius: 2rem; padding: 2.5rem 1.75rem 1.75rem; box-shadow: var(--dl-shadow);
+            overflow: hidden; transition: box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .dl-hero-card:hover { border-color: rgba(14, 165, 233, 0.45); box-shadow: 0 26px 48px -26px rgba(15, 23, 42, 0.5); }
+        .dl-hero-badge { position: absolute; top: 0; left: 0; color: #fff; font-size: 0.72rem; font-weight: 800; padding: 0.45rem 1.15rem; border-radius: 0 0 1rem 0; }
+        .dl-hero-icon { width: 6.5rem; height: 6.5rem; border-radius: 9999px; overflow: hidden; background: #fff; box-shadow: 0 10px 26px -14px rgba(15, 23, 42, 0.5); flex-shrink: 0; }
+        .dl-hero-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .dl-hero-card h3 { font-size: 1.6rem; font-weight: 900; margin: 0; }
+        .dl-hero-card > p { color: var(--dl-body); font-size: 0.95rem; line-height: 1.7; margin: 0; max-width: 36ch; }
+        .dl-hero-actions { width: 100%; margin-top: 0.35rem; }
+
+        /* כפתורים במרכז ההורדות */
+        .dl-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 700; padding: 0.8rem 1.2rem; border-radius: 1rem; font-size: 0.95rem; transition: all 0.2s ease; cursor: pointer; }
+        .dl-btn-primary { background: #0891b2; color: #fff; }
+        .dl-btn-primary:hover { background: #06b6d4; transform: translateY(-1px); }
+        .dl-btn-emerald { background: #059669; color: #fff; }
+        .dl-btn-emerald:hover { background: #10b981; transform: translateY(-1px); }
+        .dl-btn-ghost { background: var(--dl-surface-2); border: 1px solid var(--dl-line); color: var(--dl-heading); }
+        .dl-btn-ghost:hover { border-color: var(--dl-heading); }
+        .dl-btn-emerald-ghost { background: transparent; border: 1px solid rgba(5, 150, 105, 0.45); color: #047857; }
+        .dl-btn-emerald-ghost:hover { background: rgba(16, 185, 129, 0.1); border-color: #059669; }
+        .dark .dl-btn-emerald-ghost { color: #34d399; }
+
         .dl-search-wrap {
             max-width: 640px;
             margin: 0 auto;
@@ -908,11 +1024,16 @@
             white-space: nowrap;
         }
 
-        .dl-tag-type   { background: rgba(14, 165, 233, 0.12); color: #7dd3fc; border-color: rgba(14, 165, 233, 0.35); }
-        .dl-tag-free   { background: rgba(16, 185, 129, 0.12); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.35); }
-        .dl-tag-paid   { background: rgba(244, 63, 94, 0.12);  color: #fda4af; border-color: rgba(244, 63, 94, 0.35); }
-        .dl-tag-partial{ background: rgba(245, 158, 11, 0.12); color: #fcd34d; border-color: rgba(245, 158, 11, 0.35); }
-        .dl-tag-neutral{ background: rgba(100, 116, 139, 0.15); color: #cbd5e1; border-color: rgba(100, 116, 139, 0.4); }
+        .dl-tag-type   { background: rgba(14, 165, 233, 0.10); color: #0369a1; border-color: rgba(14, 165, 233, 0.28); }
+        .dark .dl-tag-type   { background: rgba(14, 165, 233, 0.12); color: #7dd3fc; border-color: rgba(14, 165, 233, 0.35); }
+        .dl-tag-free   { background: rgba(16, 185, 129, 0.12); color: #047857; border-color: rgba(16, 185, 129, 0.30); }
+        .dark .dl-tag-free   { background: rgba(16, 185, 129, 0.12); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.35); }
+        .dl-tag-paid   { background: rgba(244, 63, 94, 0.10);  color: #be123c; border-color: rgba(244, 63, 94, 0.28); }
+        .dark .dl-tag-paid   { background: rgba(244, 63, 94, 0.12);  color: #fda4af; border-color: rgba(244, 63, 94, 0.35); }
+        .dl-tag-partial{ background: rgba(245, 158, 11, 0.14); color: #b45309; border-color: rgba(245, 158, 11, 0.32); }
+        .dark .dl-tag-partial{ background: rgba(245, 158, 11, 0.12); color: #fcd34d; border-color: rgba(245, 158, 11, 0.35); }
+        .dl-tag-neutral{ background: rgba(100, 116, 139, 0.10); color: #475569; border-color: rgba(100, 116, 139, 0.28); }
+        .dark .dl-tag-neutral{ background: rgba(100, 116, 139, 0.15); color: #cbd5e1; border-color: rgba(100, 116, 139, 0.4); }
 
         /* תגיות בתוך המודאל — ניגודיות תקינה גם על רקע בהיר */
         #dlItemTags .dl-tag-type   { color: #0369a1; }
@@ -978,7 +1099,7 @@
             width: 1.25rem;
         }
 
-        #rofesd-gallery img { cursor: zoom-in; }
+        #rofesd-modal-gallery img { cursor: zoom-in; }
 
         /* אייקון עגול עם תמונה לכרטיסים במרכז ההורדות */
         .dl-icon-sm { width: 3.5rem; height: 3.5rem; }
@@ -1007,14 +1128,14 @@
         .dl-icon-ring-violet  { border: 3px solid #8b5cf6; }
 
         /* לייטבוקס גלריית RofeSD — תמונה בגודל מלא */
-        #rofesdLightbox .modal-content, #dlZoomLightbox .modal-content {
+        #dlZoomLightbox .modal-content {
             background: rgba(15, 23, 42, 0.95);
             max-width: min(96vw, 1500px);
             padding: 1rem;
             border: 1px solid rgba(148, 163, 184, 0.25);
         }
 
-        #rofesdLbImg, #dlZoomImg {
+        #dlZoomImg {
             /* תמונה בגודל מלא — מנצלת כמעט את כל המסך */
             max-height: 92vh;
             max-width: 94vw;
@@ -1466,11 +1587,11 @@
     </section>
 
     <!-- Downloads Area -->
-    <section id="downloads" class="py-24 bg-slate-900 dark:bg-black text-white relative">
+    <section id="downloads" class="py-24 relative">
         <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="reveal text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-black mb-4">מרכז ההורדות</h2>
-                <p class="text-slate-400">כלים שפיתחתי — תוכנות, אפליקציות וסקריפטים. חפשו וסננו לפי סוג או מחיר.</p>
+                <p class="dl-sub">כלים שפיתחתי — תוכנות, אפליקציות וסקריפטים. חפשו וסננו לפי סוג או מחיר.</p>
             </div>
 
             <!-- שדה חיפוש -->
@@ -1495,116 +1616,89 @@
             </div>
 
             <!-- התוכנות המרכזיות -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <div class="reveal-right group bg-slate-700/60 p-8 rounded-[2.5rem] border border-slate-600 hover:border-cyan-500 transition-all duration-300 relative overflow-hidden dl-card-item" onclick="openMakhshirutModal()" style="cursor:pointer"
+            <!-- תוכנות הדגל — אייקון בלבד; צילומי המסך מוצגים בכניסה לתוכנה עצמה -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <article class="dl-hero-card dl-card-item reveal-right" onclick="openMakhshirutModal()"
                     data-type="software" data-price="free" data-name="מכשירוט"
                     data-desc="תוכנת Windows מקצועית לניהול ותחזוקת מכשירי Android — 400+ פקודות ADB, Root, שיתוף מסך ועוד"
                     data-tags="מכשירות ADB Root שיתוף מסך MDM אנדרואיד תוכנה חינם">
-                    <div class="absolute top-0 left-0 bg-cyan-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">תוכנת דגל</div>
-                    <div class="relative w-full h-40 mb-6">
-                        <div id="makhshirut-gallery" class="dl-gallery w-full h-40 rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory">
-                            <img src="makhshirut-shot-1.png" alt="מכשירוט — הממשק הראשי עם כרטיסיות הפעולות" draggable="false"
-                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
-                            <img src="makhshirut-shot-2.png" alt="מכשירוט — עוז קטגוריות הפקודות" draggable="false"
-                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
-                            <img src="makhshirut-shot-3.png" alt="מכשירוט — הגדרות מתקדמות וצ'אט AI" draggable="false"
-                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
-                        </div>
-                        <button id="makh-gal-prev" class="dl-gal-btn right-2" style="display:none" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
-                        <button id="makh-gal-next" class="dl-gal-btn left-2" style="display:none" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
-                        <span class="absolute top-2 left-2 z-10 bg-slate-900/85 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-lg pointer-events-none border border-slate-600/60">
-                            <i class="fa-solid fa-magnifying-glass-plus ml-1"></i> לחצו להגדלה
-                        </span>
-                        <div id="makh-gal-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
+                    <span class="dl-hero-badge bg-cyan-600">תוכנת דגל</span>
+                    <div class="dl-hero-icon">
+                        <img src="icon-makhshirut.png" alt="אייקון מכשירוט" draggable="false">
                     </div>
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden p-0.5">
-                            <img src="icon-makhshirut.png" alt="אייקון מכשירוט" draggable="false" class="w-full h-full object-contain">
-                        </div>
-                        <h3 class="text-2xl font-bold text-white">מכשירוט</h3>
-                    </div>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">תוכנת Windows מקצועית לניהול ותחזוקת מכשירי Android, שמרכזת במקום אחד מאות פעולות וכלי ADB בממשק נוח ומסודר.</p>
-                    <div class="dl-tags mb-6">
+                    <h3>מכשירוט</h3>
+                    <p>תוכנת Windows מקצועית לניהול ותחזוקת מכשירי Android, שמרכזת במקום אחד מאות פעולות וכלי ADB בממשק נוח ומסודר.</p>
+                    <div class="dl-tags justify-center">
                         <span class="dl-tag dl-tag-type"><i class="fa-solid fa-gears"></i> תוכנה</span>
                         <span class="dl-tag dl-tag-free"><i class="fa-solid fa-gift"></i> חינם</span>
                         <span class="dl-tag dl-tag-neutral"><i class="fa-brands fa-android"></i> אנדרואיד</span>
                     </div>
-                    <div class="flex flex-col gap-3">
+                    <div class="dl-hero-actions">
                         <div class="flex flex-col sm:flex-row gap-3">
-                            <button onclick="event.stopPropagation();downloadMakhshirut()" class="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            <button onclick="event.stopPropagation();downloadMakhshirut()" class="dl-btn dl-btn-primary flex-1">
                                 <i class="fa-solid fa-download"></i> הורדה חינם
                             </button>
-                            <button onclick="event.stopPropagation();openMakhshirutModal()" class="flex-1 border border-cyan-500/60 hover:bg-cyan-600/10 text-cyan-300 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            <button onclick="event.stopPropagation();openMakhshirutModal()" class="dl-btn dl-btn-ghost flex-1">
                                 <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
                             </button>
                         </div>
                     </div>
-                </div>
+                </article>
 
-                <!-- RofeSD — כרטיס מרכזי עם גלריית צילומי מסך מתגלגלת. להוספת תמונה: העתיקו img חדש בתוך #rofesd-gallery -->
-                <div class="reveal-right group bg-slate-700/60 p-8 rounded-[2.5rem] border border-slate-600 hover:border-emerald-500 transition-all duration-300 relative overflow-hidden dl-card-item" onclick="openRofeSDModal()" style="cursor:pointer"
+                <article class="dl-hero-card dl-card-item reveal-left" onclick="openRofeSDModal()"
                     data-type="app" data-price="partial" data-name="RofeSD"
                     data-desc="אפליקציה פשוטה וחינמית לשחזור מידע מכרטיסי זיכרון שדורשים פרמוט"
                     data-tags="rofesd שחזור מידע כרטיס זיכרון פרמוט אנדרואיד אפליקציה חינם חלקי">
-                    <div class="absolute top-0 left-0 bg-emerald-600 text-white text-xs font-bold px-6 py-2 rounded-br-2xl z-20">חדש!</div>
-                    <div class="relative w-full h-40 mb-6">
-                        <div id="rofesd-gallery" class="dl-gallery w-full h-40 rounded-2xl overflow-hidden border border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory">
-                            <img src="rofesd-shot-1.png" alt="RofeSD — מסך סריקת כרטיס" draggable="false"
-                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
-                            <img src="rofesd-shot-2.png" alt="RofeSD — בחירת קבצים לחילוץ" draggable="false"
-                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
-                            <img src="rofesd-shot-3.png" alt="RofeSD — בדיקת תוכן הקבצים" draggable="false"
-                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
-                            <img src="rofesd-shot-4.png" alt="RofeSD — הקבצים ששוחזרו" draggable="false"
-                                class="w-full h-40 object-contain bg-slate-900 snap-center shrink-0">
-                        </div>
-                        <button id="rofesd-gal-prev" class="dl-gal-btn right-2" style="display:none" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
-                        <button id="rofesd-gal-next" class="dl-gal-btn left-2" style="display:none" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
-                        <span class="absolute top-2 left-2 z-10 bg-slate-900/85 text-slate-200 text-[10px] font-bold px-2.5 py-1 rounded-lg pointer-events-none border border-slate-600/60">
-                            <i class="fa-solid fa-magnifying-glass-plus ml-1"></i> לחצו להגדלה
-                        </span>
-                        <div id="rofesd-gal-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
+                    <span class="dl-hero-badge bg-emerald-600">חדש!</span>
+                    <div class="dl-hero-icon">
+                        <img src="icon-rofesd.png" alt="אייקון RofeSD" draggable="false">
                     </div>
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
-                            <i class="fa-solid fa-hard-drive"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white">RofeSD</h3>
-                    </div>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">אפליקציה פשוטה וחינמית לשחזור מידע מכרטיסי זיכרון שדורשים פרמוט או שאינם נפתחים.</p>
-                    <div class="dl-tags mb-6">
+                    <h3>RofeSD</h3>
+                    <p>אפליקציה פשוטה וחינמית לשחזור מידע מכרטיסי זיכרון שדורשים פרמוט או שאינם נפתחים.</p>
+                    <div class="dl-tags justify-center">
                         <span class="dl-tag dl-tag-type"><i class="fa-solid fa-mobile-screen"></i> אפליקציה</span>
                         <span class="dl-tag dl-tag-partial"><i class="fa-solid fa-coins"></i> חינם חלקי</span>
                         <span class="dl-tag dl-tag-neutral"><i class="fa-brands fa-android"></i> אנדרואיד</span>
                     </div>
-                    <div class="flex flex-col gap-3">
+                    <div class="dl-hero-actions">
                         <div class="flex flex-col sm:flex-row gap-3">
-                            <button onclick="event.stopPropagation();downloadRofeSD()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            <button onclick="event.stopPropagation();downloadRofeSD()" class="dl-btn dl-btn-emerald flex-1">
                                 <i class="fa-solid fa-download"></i> הורדה חינם
                             </button>
-                            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&tf=cm" target="_blank" onclick="event.stopPropagation()" class="flex-1 border border-emerald-500/60 hover:bg-emerald-600/10 text-emerald-300 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&tf=cm" target="_blank" onclick="event.stopPropagation()" class="dl-btn dl-btn-emerald-ghost flex-1">
                                 <i class="fa-solid fa-envelope"></i> לרכישת הגרסה המלאה
                             </a>
                         </div>
-                        <button onclick="event.stopPropagation();openRofeSDModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                        <button onclick="event.stopPropagation();openRofeSDModal()" class="dl-btn dl-btn-ghost w-full mt-3">
                             <i class="fa-solid fa-circle-info"></i> לפרטים נוספים
                         </button>
                     </div>
+                </article>
+            </div>
+
+            <!-- כפתור הצגת שאר התוכנות והכלים -->
+            <div class="dl-more-wrap reveal">
+                <button id="dlMoreToggle" class="dl-more-btn" onclick="toggleDlMore()" aria-expanded="false" aria-controls="dl-more">
+                    <i class="fa-solid fa-chevron-down"></i>
+                    <span id="dlMoreLabel">הצג עוד תוכנות וכלים</span>
+                    <span id="dlMoreCount" class="dl-more-count"></span>
+                </button>
+            </div>
+
+            <!-- שאר התוכנות והכלים — מוסתרים כברירת מחדל, נחשפים בלחיצה -->
+            <div id="dl-more" hidden>
+                <div class="dl-divider reveal my-12">
+                    <div class="dl-divider-line"></div>
+                    <span class="dl-divider-badge"><i class="fa-solid fa-layer-group"></i> כל התוכנות והכלים</span>
+                    <div class="dl-divider-line"></div>
                 </div>
+
+                <!-- הפריטים — נשלפים אוטומטית מהרשימה בסקריפט בתחתית העמוד (מערך SOFTWARES) -->
+                <div id="dl-small-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto"></div>
+
+                <p class="dl-count"><span id="dl-count">0</span> פריטים בתצוגה</p>
+                <p id="dl-empty" style="display:none" class="dl-count">לא נמצאו פריטים מתאימים לחיפוש או לסינון.</p>
             </div>
-
-            <!-- מפריד בין תוכנות הדגל לכל השאר -->
-            <div class="dl-divider reveal my-12">
-                <div class="dl-divider-line"></div>
-                <span class="dl-divider-badge"><i class="fa-solid fa-layer-group"></i> כל התוכנות והכלים</span>
-                <div class="dl-divider-line"></div>
-            </div>
-
-            <!-- שאר הפריטים — נשלפים אוטומטית מהרשימה בסקריפט בתחתית העמוד (מערך SOFTWARES) -->
-            <div id="dl-small-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto"></div>
-
-            <p class="text-center text-slate-500 text-sm mt-10"><span id="dl-count">0</span> פריטים בתצוגה</p>
-            <p id="dl-empty" style="display:none" class="text-center text-slate-500 mt-2">לא נמצאו פריטים מתאימים לחיפוש או לסינון.</p>
         </div>
     </section>
 
@@ -1747,8 +1841,8 @@
             <button onclick="closeRofeSDModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600 text-2xl transition-colors">
                 <i class="fa-solid fa-times"></i>
             </button>
-            <div class="w-20 h-20 bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-300 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6">
-                <i class="fa-solid fa-sd-card"></i>
+            <div class="w-20 h-20 rounded-2xl overflow-hidden bg-white dark:bg-slate-800 shadow-lg mx-auto mb-6">
+                <img src="icon-rofesd.png" alt="אייקון RofeSD" draggable="false" class="w-full h-full object-cover">
             </div>
             <h3 class="text-2xl md:text-3xl font-black mb-4 text-slate-900 dark:text-white">RofeSD — שחזור מידע מכרטיסי זיכרון</h3>
             <div class="text-right text-slate-600 dark:text-slate-300 space-y-4 mb-8 leading-relaxed">
@@ -1769,6 +1863,18 @@
                 <p>האפליקציה מיועדת גם למקרים שבהם הכרטיס אינו נפתח במחשב או לאחר איפוס הכרטיס. נכון לעכשיו, הבדיקות שביצעתי בפועל הן בעיקר על כרטיסים שדרשו פרמוט.</p>
                 <p>הגרסה החינמית מוגבלת לחילוץ של עד 3GB. ניתן לרכוש אצלי גרסה מלאה ללא מגבלת חילוץ.</p>
             </div>
+            <!-- צילומי מסך — מוצגים כאן, בכניסה לאפליקציה -->
+            <div class="relative w-full h-64 mb-6">
+                <div id="rofesd-modal-gallery" class="dl-modal-gallery w-full h-64 rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-600 bg-slate-900 flex overflow-x-auto snap-x snap-mandatory">
+                    <img src="rofesd-shot-1.png" alt="RofeSD — מסך סריקת כרטיס" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                    <img src="rofesd-shot-2.png" alt="RofeSD — בחירת קבצים לחילוץ" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                    <img src="rofesd-shot-3.png" alt="RofeSD — בדיקת תוכן הקבצים" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                    <img src="rofesd-shot-4.png" alt="RofeSD — הקבצים ששוחזרו" draggable="false" class="w-full h-64 object-contain bg-slate-900 snap-center shrink-0 cursor-zoom-in">
+                </div>
+                <button id="rofesd-modal-gal-prev" class="dl-gal-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
+                <button id="rofesd-modal-gal-next" class="dl-gal-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
+                <div id="rofesd-modal-gal-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10"></div>
+            </div>
             <div class="flex flex-col sm:flex-row gap-3 justify-center">
                 <button onclick="downloadRofeSD(); closeRofeSDModal();" class="bg-emerald-600 hover:bg-emerald-500 text-white py-3 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all">
                     <i class="fa-solid fa-download"></i> להורדה לחצו כאן
@@ -1776,22 +1882,6 @@
                 <a href="https://mail.google.com/mail/u/0/?fs=1&to=0556798858b@gmail.com&tf=cm" target="_blank" class="border border-emerald-500/60 hover:bg-emerald-600/10 text-emerald-600 dark:text-emerald-300 py-3 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all">
                     <i class="fa-solid fa-envelope"></i> לרכישת הגרסה הפתוחה לחצו כאן
                 </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- לייטבוקס גלריית RofeSD — צפייה בגודל מלא עם ניווט -->
-    <div id="rofesdLightbox" class="modal" onclick="closeRofeSdLb(event)">
-        <div class="modal-content relative" onclick="event.stopPropagation()">
-            <button onclick="closeRofeSdLightbox()" class="absolute -top-12 left-0 text-white text-3xl hover:text-yellow-400 transition-colors" aria-label="סגירה">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <button id="rofesdLbPrev" class="rofesd-lb-btn right-2" aria-label="תמונה קודמת"><i class="fa-solid fa-chevron-right"></i></button>
-            <img id="rofesdLbImg" src="" alt="צילום מסך RofeSD בגודל מלא">
-            <button id="rofesdLbNext" class="rofesd-lb-btn left-2" aria-label="תמונה הבאה"><i class="fa-solid fa-chevron-left"></i></button>
-            <div class="mt-4 flex items-center justify-center gap-4">
-                <div id="rofesdLbDots" class="flex items-center gap-1.5"></div>
-                <span id="rofesdLbCounter" class="text-slate-400 text-sm font-bold"></span>
             </div>
         </div>
     </div>
@@ -2110,51 +2200,6 @@
             document.body.removeChild(a);
         }
 
-        /* גלריית צילומי המסך של מכשירוט בכרטיס — חצים, נקודות והחלקה במגע */
-        (function () {
-            var gal = document.getElementById('makhshirut-gallery');
-            if (!gal) return;
-            var slides = Array.prototype.slice.call(gal.querySelectorAll('img'));
-            var dotsWrap = document.getElementById('makh-gal-dots');
-            var idx = 0;
-            var dots = slides.map(function (_, i) {
-                var d = document.createElement('span');
-                d.className = 'dl-gal-dot' + (i === 0 ? ' active' : '');
-                d.addEventListener('click', function () { goTo(i); });
-                dotsWrap.appendChild(d);
-                return d;
-            });
-            function goTo(i) {
-                idx = Math.max(0, Math.min(slides.length - 1, i));
-                slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
-            if (slides.length > 1) {
-                document.getElementById('makh-gal-prev').style.display = '';
-                document.getElementById('makh-gal-next').style.display = '';
-            }
-            document.getElementById('makh-gal-prev').addEventListener('click', function () { goTo(idx - 1); });
-            document.getElementById('makh-gal-next').addEventListener('click', function () { goTo(idx + 1); });
-            var ticking = false;
-            gal.addEventListener('scroll', function () {
-                if (ticking) return;
-                ticking = true;
-                requestAnimationFrame(function () {
-                    ticking = false;
-                    var center = gal.scrollLeft + gal.clientWidth / 2;
-                    var best = 0, bestDist = Infinity;
-                    slides.forEach(function (s, i) {
-                        var sc = s.offsetLeft + s.offsetWidth / 2;
-                        var dist = Math.abs(sc - center);
-                        if (dist < bestDist) { bestDist = dist; best = i; }
-                    });
-                    if (best !== idx) {
-                        idx = best;
-                        dots.forEach(function (d, i) { d.classList.toggle('active', i === idx); });
-                    }
-                });
-            }, { passive: true });
-        })();
-
         /* גלריית המודאל של מכשירוט — חצים, נקודות והחלקה */
         (function () {
             var gal = document.getElementById('makh-modal-gallery');
@@ -2205,10 +2250,10 @@
 
         /* גלריית צילומי המסך של RofeSD — חצים, נקודות והחלקה במגע */
         (function () {
-            var gal = document.getElementById('rofesd-gallery');
+            var gal = document.getElementById('rofesd-modal-gallery');
             if (!gal) return;
             var slides = Array.prototype.slice.call(gal.querySelectorAll('img'));
-            var dotsWrap = document.getElementById('rofesd-gal-dots');
+            var dotsWrap = document.getElementById('rofesd-modal-gal-dots');
             var idx = 0;
 
             var dots = slides.map(function (_, i) {
@@ -2226,11 +2271,15 @@
 
             // חצים רק כשיש יותר מתמונה אחת
             if (slides.length > 1) {
-                document.getElementById('rofesd-gal-prev').style.display = '';
-                document.getElementById('rofesd-gal-next').style.display = '';
+                document.getElementById('rofesd-modal-gal-prev').style.display = '';
+                document.getElementById('rofesd-modal-gal-next').style.display = '';
             }
-            document.getElementById('rofesd-gal-prev').addEventListener('click', function () { goTo(idx - 1); });
-            document.getElementById('rofesd-gal-next').addEventListener('click', function () { goTo(idx + 1); });
+            document.getElementById('rofesd-modal-gal-prev').addEventListener('click', function () { goTo(idx - 1); });
+            document.getElementById('rofesd-modal-gal-next').addEventListener('click', function () { goTo(idx + 1); });
+            // לחיצה על תמונה פותחת צפייה מוגדלת
+            slides.forEach(function (im, i) {
+                im.addEventListener('click', function () { dlItemGalImgs = slides; openDlZoom(i); });
+            });
 
             var ticking = false;
             gal.addEventListener('scroll', function () {
@@ -2253,59 +2302,6 @@
             }, { passive: true });
         })();
 
-        /* לייטבוקס גלריית RofeSD — לחיצה על תמונה פותחת צפייה בגודל מלא עם ניווט */
-        (function () {
-            var gal = document.getElementById('rofesd-gallery');
-            var lb = document.getElementById('rofesdLightbox');
-            var lbImg = document.getElementById('rofesdLbImg');
-            var lbDotsWrap = document.getElementById('rofesdLbDots');
-            var lbCounter = document.getElementById('rofesdLbCounter');
-            if (!gal || !lb || !lbImg) return;
-            var imgs = Array.prototype.slice.call(gal.querySelectorAll('img'));
-            var idx = 0;
-            var dots = imgs.map(function (_, i) {
-                var d = document.createElement('span');
-                d.className = 'dl-gal-dot' + (i === 0 ? ' active' : '');
-                d.addEventListener('click', function () { show(i); });
-                lbDotsWrap.appendChild(d);
-                return d;
-            });
-            function show(i) {
-                idx = (i + imgs.length) % imgs.length;
-                lbImg.src = imgs[idx].src;
-                lbImg.alt = imgs[idx].alt;
-                dots.forEach(function (d, j) { d.classList.toggle('active', j === idx); });
-                lbCounter.textContent = (idx + 1) + ' / ' + imgs.length;
-            }
-            function open(i) { show(i); lb.classList.add('active-modal'); document.body.style.overflow = 'hidden'; }
-            window.closeRofeSdLightbox = function () { lb.classList.remove('active-modal'); document.body.style.overflow = 'auto'; };
-            window.closeRofeSdLb = function (e) { if (e === null || e.target === lb) closeRofeSdLightbox(); };
-            imgs.forEach(function (im, i) { im.addEventListener('click', function () { open(i); }); });
-            document.getElementById('rofesdLbPrev').addEventListener('click', function () { show(idx - 1); });
-            document.getElementById('rofesdLbNext').addEventListener('click', function () { show(idx + 1); });
-            var startX = null;
-            lbImg.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
-            lbImg.addEventListener('touchend', function (e) {
-                if (startX === null) return;
-                var dx = e.changedTouches[0].clientX - startX;
-                if (Math.abs(dx) > 40) { if (dx < 0) show(idx + 1); else show(idx - 1); }
-                startX = null;
-            }, { passive: true });
-            // גרירה בעכבר (מחשב)
-            lbImg.addEventListener('mousedown', function (e) { startX = e.clientX; e.preventDefault(); });
-            lbImg.addEventListener('mouseup', function (e) {
-                if (startX === null) return;
-                var dx = e.clientX - startX;
-                if (Math.abs(dx) > 40) { if (dx < 0) show(idx + 1); else show(idx - 1); }
-                startX = null;
-            });
-            document.addEventListener('keydown', function (e) {
-                if (!lb.classList.contains('active-modal')) return;
-                if (e.key === 'Escape') closeRofeSdLightbox();
-                else if (e.key === 'ArrowLeft') show(idx + 1);
-                else if (e.key === 'ArrowRight') show(idx - 1);
-            });
-        })();
         function toggleContactModal() {
             document.getElementById('customContactModal').classList.toggle('active');
         }
@@ -2685,9 +2681,34 @@
             script:    { label: 'סקריפטים',    icon: 'fa-code' }
         };
 
+        /* ============================================================
+           מרכז ההורדות — מצב מצומצם (ברירת מחדל): רק תוכנות הדגל
+           ============================================================ */
+        var dlMoreOpen = false;
+
+        function setDlMore(open) {
+            var wrap = document.getElementById('dl-more');
+            var btn = document.getElementById('dlMoreToggle');
+            if (!wrap) return;
+            dlMoreOpen = !!open;
+            wrap.hidden = !dlMoreOpen;
+            if (btn) {
+                btn.classList.toggle('is-open', dlMoreOpen);
+                btn.setAttribute('aria-expanded', dlMoreOpen ? 'true' : 'false');
+            }
+            var lbl = document.getElementById('dlMoreLabel');
+            if (lbl) lbl.textContent = dlMoreOpen ? 'הצג פחות' : 'הצג עוד תוכנות וכלים';
+            // אחרי ההרחבה צריך לחשב מחדש את מספר העמודות והשלמת השורות
+            if (window.dlFillRows) requestAnimationFrame(window.dlFillRows);
+        }
+
+        function toggleDlMore() { setDlMore(!dlMoreOpen); }
+
         function renderDlSmallCards() {
             var grid = document.getElementById('dl-small-grid');
             if (!grid) return;
+            var moreCount = document.getElementById('dlMoreCount');
+            if (moreCount) moreCount.textContent = '+' + SOFTWARES.length;
             // מיון לפי סדר הקטגוריות, ובתוך קטגוריה — לפי הסדר המקורי
             var orderIdx = {};
             DL_TYPE_ORDER.forEach(function (t, j) { orderIdx[t] = j; });
@@ -2714,20 +2735,20 @@
                     '<span class="dl-tag dl-tag-' + sw.price + '"><i class="fa-solid ' + (DL_PRICE_ICON[sw.price] || 'fa-tag') + '"></i> ' + dlEscape(DL_PRICE_LABEL[sw.price] || sw.price) + '</span>' +
                     (sw.tags || []).map(function (t) { return '<span class="dl-tag dl-tag-neutral">' + dlEscape(t) + '</span>'; }).join('');
                 var action = sw.details
-                    ? '<button onclick="event.stopPropagation();openAndroidToolModal()" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>'
-                    : '<button onclick="event.stopPropagation();openDlItemModal(' + i + ')" class="text-sky-400 hover:text-sky-300 text-sm font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>';
+                    ? '<button onclick="event.stopPropagation();openAndroidToolModal()" class="dl-card-link"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>'
+                    : '<button onclick="event.stopPropagation();openDlItemModal(' + i + ')" class="dl-card-link"><i class="fa-solid fa-circle-info"></i> לפרטים נוספים</button>';
                 html += '<div class="dl-card dl-card-item" data-type="' + sw.type + '" data-price="' + sw.price + '"' +
                     ' data-name="' + dlEscape(sw.name) + '" data-desc="' + dlEscape(sw.desc) + '" data-tags="' + dlEscape((sw.tags || []).join(' ')) + '"' +
                     ' onclick="' + (sw.details ? 'openAndroidToolModal()' : 'openDlItemModal(' + i + ')') + '" style="cursor:pointer">' +
                     '<div class="flex items-center gap-3">' +
                     dlIconHtml(sw, 'dl-icon-sm') +
-                    '<h4 class="text-lg font-bold text-white">' + dlEscape(sw.name) + '</h4>' +
+                    '<h4 class="dl-card-title">' + dlEscape(sw.name) + '</h4>' +
                     '</div>' +
-                    '<p class="text-slate-300 text-sm leading-relaxed flex-1">' + dlEscape(sw.desc) + '</p>' +
+                    '<p class="dl-card-desc flex-1">' + dlEscape(sw.desc) + '</p>' +
                     '<div class="dl-tags">' + tagsHtml + '</div>' +
                     '<div class="flex items-center justify-between gap-2 pt-1">' +
                     action +
-                    (sw.link ? '<a href="' + sw.link + '" target="_blank" onclick="event.stopPropagation()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition-colors flex items-center gap-1"><i class="fa-solid ' + (sw.linkIcon || 'fa-link') + '"></i> ' + dlEscape(sw.linkText || 'לפתיחה') + '</a>' : '') +
+                    (sw.link ? '<a href="' + sw.link + '" target="_blank" onclick="event.stopPropagation()" class="dl-card-ext"><i class="fa-solid ' + (sw.linkIcon || 'fa-link') + '"></i> ' + dlEscape(sw.linkText || 'לפתיחה') + '</a>' : '') +
                     '</div>' +
                     '</div>';
             });
@@ -2959,6 +2980,8 @@
         function applyDlFilters() {
             var q = (document.getElementById('dl-search') && document.getElementById('dl-search').value || '').trim().toLowerCase();
             var visible = 0;
+            // חיפוש או סינון פעילים → פותחים אוטומטית את שאר התוכנות והכלים
+            if (!dlMoreOpen && (q || dlFilterType !== 'all' || dlFilterPrice !== 'all')) setDlMore(true);
             // מצב תצוגה לכל קטגוריה — הכותרת מוצגת רק אם יש פריט גלוי מתחתיה
             var catVisible = {};
             document.querySelectorAll('#dl-small-grid .dl-card-item').forEach(function (card) {
