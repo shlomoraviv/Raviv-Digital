@@ -2199,6 +2199,16 @@
             a.click();
             document.body.removeChild(a);
         }
+        /* QuickNote Genius — הורדת קובץ ההתקנה מהאתר עצמו (במקום קישור חיצוני) */
+        function downloadQuickNote() {
+            var a = document.createElement('a');
+            a.href = 'quicknote-genius-setup-v14.exe';
+            a.download = 'QuickNote-Genius-Setup-v14.exe';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
 
         /* גלריית המודאל של מכשירוט — חצים, נקודות והחלקה */
         (function () {
@@ -2531,7 +2541,7 @@
                     { type: 'p', text: 'עיצוב חדש בסגנון מחברת דיגיטלית · אפשרות לבחור צליל אישי מתוך המחשב · בחירת משך הצלצול של התזכורת · תזכורות שעובדות גם כשהתוכנה סגורה · פתיחה אוטומטית של התוכנה בזמן התזכורת · מצב כהה ובהיר · הסברים על הפונקציות השונות · כפתור לפתיחת התיקייה שבה נשמרים כל הפתקים · שני סוגי פתקים: רשימת מטלות ופנקס רגיל' }
                 ],
                 downloads: [
-                    { label: 'הורדת QuickNote Genius', url: 'https://mitmachim.top/assets/uploads/files/1765660697317-cebf3b91-5b0f-4bc4-88e8-31161952aa2e-quicknote_genius_setup_v14.exe', icon: 'fa-download' }
+                    { label: 'הורדת QuickNote Genius', action: 'downloadQuickNote()', icon: 'fa-download' }
                 ]
             },
             {
@@ -2862,9 +2872,11 @@
 
             // כפתורים
             var actions = document.getElementById('dlItemActions');
+            var actionCls = 'flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 px-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors text-sm';
             actions.innerHTML = (sw.downloads || []).map(function (d) {
-                return '<a href="' + d.url + '" target="_blank" rel="noopener" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 px-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-colors text-sm">' +
-                    '<i class="fa-solid ' + (d.icon || 'fa-download') + '"></i> ' + dlEscape(d.label) + '</a>';
+                var inner = '<i class="fa-solid ' + (d.icon || 'fa-download') + '"></i> ' + dlEscape(d.label);
+                if (d.action) return '<button type="button" onclick="' + d.action + '" class="' + actionCls + '">' + inner + '</button>';
+                return '<a href="' + d.url + '" target="_blank" rel="noopener" class="' + actionCls + '">' + inner + '</a>';
             }).join('');
 
             document.getElementById('dlItemModal').classList.add('active-modal');
