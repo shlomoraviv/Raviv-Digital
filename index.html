@@ -2209,6 +2209,26 @@
             a.click();
             document.body.removeChild(a);
         }
+        /* גוגל טרנסלייט ללא אינטרנט — הורדת ה-APK מהאתר עצמו (במקום קישור חיצוני) */
+        function downloadTranslate() {
+            var a = document.createElement('a');
+            a.href = 'translate_6.49.0.485157701.1-release.apk';
+            a.download = 'translate_6.49.0.485157701.1-release.apk';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        /* ADB & Fastboot Pro — הורדת קובץ ההתקנה מהאתר עצמו (במקום קישור חיצוני) */
+        function downloadShlomoTool() {
+            var a = document.createElement('a');
+            a.href = 'shlomo-tool-setup.exe';
+            a.download = 'shlomo_tool_setup.exe';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
 
         /* גלריית המודאל של מכשירוט — חצים, נקודות והחלקה */
         (function () {
@@ -2478,7 +2498,7 @@
                 downloads: [
                     { label: 'הורדת קובץ ההתקנה', url: 'https://mitmachim.top/assets/uploads/files/1754813545237-0d6b2b0b-d873-44e8-a66f-63ad115c0724-%D7%94%D7%A2%D7%AA%D7%A7.rar', icon: 'fa-download' },
                     { label: 'תיקיית השפות (Google Drive)', url: 'https://drive.google.com/file/d/1uXn46XVvK7Uq2Np_Ked9DYuUvA5kezKe/view', icon: 'fa-folder' },
-                    { label: 'הורדת Google Translate', url: 'https://mitmachim.top/assets/uploads/files/1754813970155-translate_6.49.0.485157701.1-release.ap', icon: 'fa-download' }
+                    { label: 'הורדת Google Translate (APK)', action: 'downloadTranslate()', icon: 'fa-download' }
                 ]
             },
             {
@@ -2562,7 +2582,7 @@
                     { type: 'p', text: '<strong class="text-rose-500">חשוב:</strong> נדרש Bootloader פתוח לצורך הצריבה. שימו לב: פתיחת Bootloader עלולה לאפס את המכשיר לחלוטין.' }
                 ],
                 downloads: [
-                    { label: 'הורדת התוכנה', url: 'https://mitmachim.top/assets/uploads/files/1771089312845-febdcb1e-7d31-406d-bb2a-018c5dc29ccc-shlomo_tool_setup.exe', icon: 'fa-download' }
+                    { label: 'הורדת התוכנה', action: 'downloadShlomoTool()', icon: 'fa-download' }
                 ]
             },
             {
