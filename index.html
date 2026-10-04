@@ -2199,6 +2199,17 @@
             a.click();
             document.body.removeChild(a);
         }
+        /* הפנס — הורדת ה-APK מהאתר עצמו */
+        function downloadFlashlight() {
+            var url = 'Flashlight-1.1.apk';
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'Flashlight-1.1.apk';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
         /* QuickNote Genius — הורדת קובץ ההתקנה מהאתר עצמו (במקום קישור חיצוני) */
         function downloadQuickNote() {
             var a = document.createElement('a');
@@ -2671,6 +2682,36 @@
                 guide: [
                     { type: 'p', text: 'אפליקציה לצפייה בתוכן פורום מתמחים טופ באופן אופליין לחלוטין — חינמית.' },
                     { type: 'p', text: 'ניתן לקרוא דיונים, מאמרים והודעות מערכת בלי חיבור לאינטרנט, עם ניווט נוח לפי קטגוריות וחיפוש.' }
+                ]
+            },
+            {
+                name: 'הפנס',
+                type: 'app',
+                price: 'free',
+                desc: 'אפליקציית פנס פשוטה ונוחה, שפותחה במיוחד עבור M36, עם הפעלה באמצעות ניעור, כפתור המצלמה, אריח מהיר, טיימר, SOS ועוד — ללא Root.',
+                tags: ['ניעור', 'כפתור המצלמה', 'אריח מהיר', 'טיימר', 'SOS'],
+                icon: 'fa-lightbulb',
+                iconImg: 'icon-flashlight.png',
+                color: 'blue',
+                gallery: ['flashlight-shot-1.png'],
+                guide: [
+                    { type: 'p', text: '<span class="block rounded-2xl border border-blue-500/30 bg-blue-500/5 dark:bg-blue-500/10 p-4">פיתחתי, במיוחד עבור מכשיר <strong>M36</strong>, אפליקציית פנס פשוטה, נוחה ויעילה, הכוללת מגוון פונקציות שימושיות — <strong>ללא צורך בהרשאות Root</strong>.</span>' },
+                    { type: 'p', text: '<strong>ממשק נקי ונוח</strong>, עם אפשרות להדליק את הפנס במהירות בלחיצה על כפתור המצלמה.' },
+                    { type: 'p', text: '<strong>מה האפליקציה כוללת?</strong>' },
+                    { type: 'steps', steps: [
+                        { n: '◆', title: 'הפעלה וכיבוי באמצעות ניעור', lines: ['ניעור המכשיר מדליק ומכבה את הפנס — עם אפשרות להתאים את רגישות הניעור.'] },
+                        { n: '◆', title: 'כפתור המצלמה ב-M36', lines: ['הפעלה וכיבוי של הפנס בלחיצה על כפתור המצלמה — ללא Root.'] },
+                        { n: '◆', title: 'אריח מהיר', lines: ['הוספת הפנס לאריחים המהירים של מערכת Android.'] },
+                        { n: '◆', title: 'טיימר לכיבוי אוטומטי', lines: ['קביעת משך זמן שהפנס יישאר דלוק — וכיבוי אוטומטי בסיומו.'] },
+                        { n: '◆', title: 'מצב SOS', lines: ['מצב חירום מהבהב, לזיהוי מהיר בשעת הצורך.'] },
+                        { n: '◆', title: 'פונקציות שימושיות נוספות', lines: [] },
+                        { n: '◆', title: 'ממשק פשוט, נקי ונוח לשימוש', lines: [] }
+                    ] },
+                    { type: 'p', text: '<span class="block rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4"><strong class="text-amber-600 dark:text-amber-400">הפונקציה השימושית ביותר מבחינתי:</strong><br>היכולת להפעיל את הפנס בלחיצה על כפתור המצלמה — פתרון מהיר ונוח במיוחד, שמאפשר להדליק את הפנס בלי לפתוח את האפליקציה או לחפש את הפנס בתפריטים.</span>' },
+                    { type: 'p', text: '<span class="block rounded-2xl border border-rose-500/40 bg-rose-500/10 p-4"><strong class="text-rose-600 dark:text-rose-400">חשוב לדעת:</strong><br>כדי לאפשר את הפעלת הפנס באמצעות כפתור המצלמה, יש לאשר לאפליקציה הרשאת נגישות. הרשאה זו נדרשת כדי שהאפליקציה תוכל לזהות את הלחיצה על הכפתור ולהפעיל את הפנס בהתאם.</span>' }
+                ],
+                downloads: [
+                    { label: 'הורדת האפליקציה (APK)', action: 'downloadFlashlight()', icon: 'fa-download' }
                 ]
             }
         ];
