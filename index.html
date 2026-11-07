@@ -1398,111 +1398,88 @@
             direction: ltr;
         }
 
-        /* המחשת פורום */
-        .df-top {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.7rem 0.9rem;
-            background: var(--deep-blue);
-            color: #fff;
+        /* צילום מסך אמיתי של הפורום */
+        .demo-shot { margin: 0; }
+        .demo-shot-btn {
+            position: relative;
+            display: block;
+            width: 100%;
+            padding: 0;
+            border: 0;
+            background: #fff;
+            cursor: zoom-in;
+            overflow: hidden;
         }
-        .df-logo {
-            width: 30px;
-            height: 30px;
-            border-radius: 9px;
-            background: var(--digital-yellow);
-            color: var(--deep-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            flex-shrink: 0;
+        .dark .demo-shot-btn { background: #0f172a; }
+        .demo-shot-btn img { display: block; width: 100%; height: auto; }
+        .demo-shot-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26, 50, 99, 0.18), transparent 45%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
-        .df-title { font-size: 0.82rem; font-weight: 800; line-height: 1.25; }
-        .df-title small { display: block; font-size: 0.62rem; font-weight: 500; color: #c7d2fe; }
-        .df-icons { margin-right: auto; display: flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; color: #c7d2fe; }
-        .df-avatar {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.18);
-            color: #fff;
-            display: flex;
+        .demo-shot-btn:hover::after { opacity: 1; }
+        .demo-shot-zoom {
+            position: absolute;
+            bottom: 0.8rem;
+            left: 0.8rem;
+            z-index: 2;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 0.6rem;
-            font-weight: 700;
-        }
-        .df-body { display: flex; min-height: 192px; }
-        .df-cats {
-            width: 34%;
-            min-width: 110px;
-            padding: 0.55rem 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.22rem;
-            background: #fbfcfe;
-            border-left: 1px solid #e2e8f0;
-        }
-        .dark .df-cats { background: #111c33; border-color: #334155; }
-        .df-cat {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             gap: 0.4rem;
-            padding: 0.4rem 0.55rem;
-            border-radius: 0.55rem;
-            font-size: 0.68rem;
-            font-weight: 700;
-            color: #64748b;
+            background: rgba(26, 50, 99, 0.9);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            padding: 0.38rem 0.78rem;
+            border-radius: 9999px;
+            backdrop-filter: blur(6px);
+            transition: background 0.25s ease, color 0.25s ease;
         }
-        .df-cat.active { background: var(--deep-blue); color: #fff; }
-        .df-cat b {
-            font-size: 0.58rem;
-            padding: 0.05rem 0.35rem;
-            border-radius: 99px;
-            background: rgba(100, 116, 139, 0.16);
+        .demo-shot-btn:hover .demo-shot-zoom { background: var(--digital-yellow); color: var(--dark-gray); }
+        .demo-shot figcaption {
+            margin-top: 0.55rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #94a3b8;
+            text-align: center;
         }
-        .df-cat.active b { background: var(--digital-yellow); color: var(--deep-blue); }
-        .df-threads { flex: 1; padding: 0.6rem 0.65rem; display: flex; flex-direction: column; gap: 0.5rem; }
-        .df-thread {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.45rem 0.5rem;
-            border: 1px solid #eef2f7;
-            border-radius: 0.6rem;
+
+        /* תצוגה מוגדלת של צילום המסך */
+        #demoZoom { z-index: 10050; }
+        #demoZoom .zoom-wrap { position: relative; width: min(96vw, 1500px); }
+        #demoZoom img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 1rem;
+            background: #fff;
+            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
         }
-        .dark .df-thread { border-color: #1e293b; }
-        .df-thread b { display: block; font-size: 0.7rem; font-weight: 800; color: #334155; }
-        .dark .df-thread b { color: #e2e8f0; }
-        .df-thread small { font-size: 0.6rem; color: #94a3b8; }
-        .df-av {
-            width: 26px;
-            height: 26px;
+        .zoom-close {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            width: 2.4rem;
+            height: 2.4rem;
+            border: none;
             border-radius: 50%;
+            background: rgba(15, 23, 42, 0.72);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.62rem;
-            font-weight: 800;
-            color: #fff;
-            flex-shrink: 0;
+            backdrop-filter: blur(6px);
+            transition: background 0.25s ease, color 0.25s ease;
         }
-        .df-av.a1 { background: #1A3263; }
-        .df-av.a2 { background: var(--digital-yellow); color: var(--dark-gray); }
-        .df-av.a3 { background: #7c3aed; }
-        .df-tag {
-            margin-right: auto;
-            font-size: 0.58rem;
-            font-weight: 800;
-            padding: 0.12rem 0.45rem;
-            border-radius: 99px;
-            background: #eef4ff;
-            color: #1A3263;
-        }
-        .dark .df-tag { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+        .zoom-close:hover { background: var(--digital-yellow); color: var(--dark-gray); }
 
         /* המחשת צ'אט "הערוץ" */
         .dc-body { display: flex; min-height: 200px; }
@@ -1644,7 +1621,7 @@
         .demo-cta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem; }
 
         @media (max-width: 640px) {
-            .df-cats, .dc-side { display: none; }
+            .dc-side { display: none; }
             .demo-modal-head { padding: 1.1rem 1.15rem; }
             .demo-modal-body { padding: 1.1rem 1.15rem 1.4rem; }
             .demo-modal-head h3 { font-size: 1.1rem; }
@@ -2460,49 +2437,22 @@
                     וממשק ניהול פשוט. אנחנו מתקינים, מעצבים בהתאמה למותג שלכם ומתחזקים את הפורום על השרת שלנו.
                 </p>
 
-                <!-- הדמיית ממשק הפורום -->
-                <div class="demo-window" aria-hidden="true">
-                    <div class="demo-window-bar">
-                        <span class="dot r"></span>
-                        <span class="dot y"></span>
-                        <span class="dot g"></span>
-                        <span class="demo-url">forum.your-brand.co.il</span>
-                    </div>
-                    <div class="df-top">
-                        <div class="df-logo"><i class="fa-solid fa-comments"></i></div>
-                        <div class="df-title">פורום הקהילה<small>קהילה טכנולוגית · 1,248 חברים</small></div>
-                        <div class="df-icons">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="df-avatar">ש</span>
+                <!-- צילום מסך מתוך פורום אמיתי -->
+                <figure class="demo-shot">
+                    <div class="demo-window">
+                        <div class="demo-window-bar">
+                            <span class="dot r"></span>
+                            <span class="dot y"></span>
+                            <span class="dot g"></span>
+                            <span class="demo-url">forum.your-brand.co.il</span>
                         </div>
+                        <button type="button" class="demo-shot-btn" onclick="openDemoZoom('forum-demo.jpg', 'פורום קהילתי בעברית מלאה')" aria-label="הגדלת צילום המסך">
+                            <img src="forum-demo.jpg" alt="צילום מסך של פורום קהילתי בעברית מבוסס NodeBB" width="1778" height="919" loading="lazy">
+                            <span class="demo-shot-zoom"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> להגדלה</span>
+                        </button>
                     </div>
-                    <div class="df-body">
-                        <div class="df-cats">
-                            <div class="df-cat active">כללי <b>128</b></div>
-                            <div class="df-cat">פיתוח ואתרים <b>64</b></div>
-                            <div class="df-cat">אנדרואיד <b>41</b></div>
-                            <div class="df-cat">עזרה הדדית <b>27</b></div>
-                        </div>
-                        <div class="df-threads">
-                            <div class="df-thread">
-                                <span class="df-av a1">ד</span>
-                                <div><b>איך מתקינים NodeBB על שרת פרטי?</b><small>דוד לוי · 12 תגובות · לפני 5 דק'</small></div>
-                                <span class="df-tag">מדריך</span>
-                            </div>
-                            <div class="df-thread">
-                                <span class="df-av a2">ר</span>
-                                <div><b>עיצוב מותאם לפורום — התרשמויות</b><small>רוחי · 8 תגובות · לפני שעה</small></div>
-                                <span class="df-tag">עיצוב</span>
-                            </div>
-                            <div class="df-thread">
-                                <span class="df-av a3">מ</span>
-                                <div><b>הרשאות לקבוצות משתמשים</b><small>מנהל הפורום · 3 תגובות · אתמול</small></div>
-                                <span class="df-tag">ניהול</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <figcaption>צילום מסך מתוך פורום אמיתי שהקמנו — עברית מלאה, קטגוריות וניהול</figcaption>
+                </figure>
 
                 <div class="demo-label">מה כלול</div>
                 <div class="demo-features">
@@ -2547,6 +2497,16 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- תצוגה מוגדלת של צילום מסך -->
+    <div id="demoZoom" class="modal" onclick="if (event.target === this) closeDemoZoom()">
+        <div class="zoom-wrap">
+            <button type="button" class="zoom-close" onclick="closeDemoZoom()" aria-label="סגירה">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="demoZoomImg" src="" alt="">
         </div>
     </div>
 
@@ -3044,8 +3004,31 @@
             document.body.style.overflow = 'auto';
         }
 
+        function openDemoZoom(src, alt) {
+            var modal = document.getElementById('demoZoom');
+            var img = document.getElementById('demoZoomImg');
+            if (!modal || !img) return;
+            img.src = src;
+            img.alt = alt || 'תצוגה מוגדלת';
+            modal.classList.add('active-modal');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDemoZoom() {
+            var modal = document.getElementById('demoZoom');
+            if (!modal) return;
+            modal.classList.remove('active-modal');
+            var stillOpen = document.querySelector('.modal.active-modal');
+            document.body.style.overflow = stillOpen ? 'hidden' : 'auto';
+        }
+
         document.addEventListener('keydown', function (e) {
             if (e.key !== 'Escape') return;
+            var zoom = document.getElementById('demoZoom');
+            if (zoom && zoom.classList.contains('active-modal')) {
+                closeDemoZoom();
+                return;
+            }
             ['forumDemoModal', 'channelDemoModal'].forEach(function (id) {
                 var modal = document.getElementById(id);
                 if (modal && modal.classList.contains('active-modal')) closeDemo(id);
