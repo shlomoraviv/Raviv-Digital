@@ -652,46 +652,8 @@
         }
 
         /* ============================================================
-           עוקב עכבר (Cursor Follower) + ספוטלייט Hero
+           ספוטלייט Hero
            ============================================================ */
-        #cursor-glow, #cursor-dot, #cursor-ring {
-            position: fixed; top: 0; left: 0;
-            pointer-events: none; opacity: 0;
-            transition: opacity .4s ease;
-        }
-
-        #cursor-glow.on, #cursor-dot.on, #cursor-ring.on { opacity: 1; }
-
-        #cursor-glow {
-            z-index: 150000; width: 380px; height: 380px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(242, 181, 11, .16) 0%, rgba(59, 130, 246, .12) 38%, transparent 68%);
-            mix-blend-mode: screen;
-            will-change: transform;
-        }
-
-        #cursor-ring {
-            z-index: 200000; width: 36px; height: 36px;
-            border: 1.5px solid rgba(242, 181, 11, .8);
-            border-radius: 50%;
-            background: rgba(242, 181, 11, .06);
-            transition: opacity .4s ease, background .25s ease, border-color .25s ease;
-            will-change: transform;
-        }
-
-        #cursor-ring.hot { background: rgba(242, 181, 11, .14); border-color: rgba(242, 181, 11, 1); }
-
-        #cursor-dot {
-            z-index: 200001; width: 8px; height: 8px;
-            background: var(--digital-yellow); border-radius: 50%;
-            box-shadow: 0 0 12px rgba(242, 181, 11, .85);
-            will-change: transform;
-        }
-
-        @media (pointer: coarse) {
-            #cursor-glow, #cursor-dot, #cursor-ring { display: none; }
-        }
-
         #hero-spotlight {
             position: absolute; inset: 0; pointer-events: none; opacity: 0;
             background: radial-gradient(430px circle at var(--sx, 50%) var(--sy, 50%), rgba(242, 181, 11, .13), rgba(59, 130, 246, .09) 42%, transparent 66%);
@@ -1726,9 +1688,6 @@
     </div>
 
     <!-- עוקב עכבר: זוהר סביבתי + טבעת + נקודה -->
-    <div id="cursor-glow" aria-hidden="true"></div>
-    <div id="cursor-ring" aria-hidden="true"></div>
-    <div id="cursor-dot" aria-hidden="true"></div>
 
     <!-- Navbar -->
     <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-500 py-4">
@@ -2667,62 +2626,20 @@
         })();
 
         /* ============================================================
-           עוקב עכבר: זוהר + טבעת + נקודה + ספוטלייט Hero
+           ספוטלייט Hero (תאורה עדינה שעוקבת אחרי העכבר ברקע הכותרת)
            ============================================================ */
         (function () {
-            const fine = window.matchMedia('(pointer: fine)').matches;
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const glow = document.getElementById('cursor-glow');
-            const ring = document.getElementById('cursor-ring');
-            const dot = document.getElementById('cursor-dot');
             const hero = document.getElementById('home');
             const spotlight = document.getElementById('hero-spotlight');
+            if (!hero || !spotlight) return;
 
-            if (!fine || reduceMotion) return;
-
-            let mx = innerWidth / 2, my = innerHeight / 2;
-            let gx = mx, gy = my, rx = mx, ry = my;
-            let raf = null;
-
-            function tick() {
-                gx += (mx - gx) * 0.08;
-                gy += (my - gy) * 0.08;
-                rx += (mx - rx) * 0.22;
-                ry += (my - ry) * 0.22;
-                glow.style.transform = 'translate3d(' + (gx - 190) + 'px,' + (gy - 190) + 'px,0)';
-                ring.style.transform = 'translate3d(' + (rx - 18) + 'px,' + (ry - 18) + 'px,0)';
-                dot.style.transform = 'translate3d(' + (mx - 4) + 'px,' + (my - 4) + 'px,0)';
-                if (Math.abs(mx - gx) > 0.4 || Math.abs(my - gy) > 0.4 || Math.abs(mx - rx) > 0.4 || Math.abs(my - ry) > 0.4) {
-                    raf = requestAnimationFrame(tick);
-                } else {
-                    raf = null;
-                }
-            }
-
-            function wake() { if (!raf) raf = requestAnimationFrame(tick); }
-
-            document.addEventListener('pointermove', e => {
-                mx = e.clientX; my = e.clientY;
-                glow.classList.add('on'); ring.classList.add('on'); dot.classList.add('on');
-                wake();
-                const t = e.target;
-                const hot = t && t.closest && t.closest('a, button, .portfolio-item, input, textarea, select, [onclick]');
-                ring.classList.toggle('hot', !!hot);
-            }, { passive: true });
-
-            document.addEventListener('pointerleave', () => {
-                glow.classList.remove('on'); ring.classList.remove('on'); dot.classList.remove('on');
+            hero.addEventListener('pointermove', e => {
+                const r = hero.getBoundingClientRect();
+                spotlight.style.setProperty('--sx', (e.clientX - r.left) + 'px');
+                spotlight.style.setProperty('--sy', (e.clientY - r.top) + 'px');
+                spotlight.classList.add('on');
             });
-
-            if (hero && spotlight) {
-                hero.addEventListener('pointermove', e => {
-                    const r = hero.getBoundingClientRect();
-                    spotlight.style.setProperty('--sx', (e.clientX - r.left) + 'px');
-                    spotlight.style.setProperty('--sy', (e.clientY - r.top) + 'px');
-                    spotlight.classList.add('on');
-                });
-                hero.addEventListener('pointerleave', () => spotlight.classList.remove('on'));
-            }
+            hero.addEventListener('pointerleave', () => spotlight.classList.remove('on'));
         })();
 
         // אנימציית גלילה איטית
