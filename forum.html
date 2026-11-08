@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פורום קהילתי בעברית מלאה | רביב דיגיטל</title>
+    <meta name="description" content="פורום קהילתי מבוסס NodeBB בעברית מלאה — עיצוב מודרני, הרשאות מתקדמות, קטגוריות, הודעות פרטיות והתראות בזמן אמת. מותקן, מעוצב ומתוחזק אצלנו.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f59e0b'/%3E%3Ctext x='32' y='44' font-size='34' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%231e3263'%3E%D7%A8%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --deep-blue: #1A3263;
+            --dark-gray: #37353E;
+            --digital-yellow: #F2B50B;
+            --action-blue: #1d4ed8;
+        }
+
+        * { -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            transition: background-color .4s ease, color .4s ease;
+            overflow-x: hidden;
+        }
+
+        .dark body { background-color: #0f172a; color: #f1f5f9; }
+
+        .hero-pattern {
+            background-image: linear-gradient(rgba(26, 50, 99, .92), rgba(26, 50, 99, .96)), url('hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            pointer-events: none;
+        }
+
+        .btn-yellow {
+            background-color: var(--digital-yellow);
+            color: var(--dark-gray);
+            border-radius: 9999px;
+            transition: all .3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .btn-yellow:hover {
+            background-color: #d9a308;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -8px rgba(242, 181, 11, .55);
+        }
+
+        .btn-blue {
+            background-color: var(--deep-blue);
+            color: #fff;
+            border-radius: 9999px;
+            transition: all .3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .btn-blue:hover {
+            background-color: #152952;
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(148, 163, 184, .35);
+            background: rgba(255, 255, 255, .08);
+            color: #fff;
+            transition: all .3s ease;
+        }
+
+        .theme-toggle-btn:hover { background: rgba(255, 255, 255, .18); transform: translateY(-2px); }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity .75s cubic-bezier(.4, 0, .2, 1), transform .75s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ---------- כרטיס צילום המסך ---------- */
+        .shot-card {
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(226, 232, 240, .8);
+            background: #fff;
+            box-shadow: 0 30px 60px -30px rgba(15, 23, 42, .35);
+        }
+
+        .dark .shot-card { background: #1e293b; border-color: #334155; }
+
+        .shot-bar {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .8rem 1.1rem;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .dark .shot-bar { background: #0f172a; border-color: #334155; }
+
+        .shot-bar .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+        .dot.r { background: #f87171; }
+        .dot.y { background: #fbbf24; }
+        .dot.g { background: #34d399; }
+
+        .shot-url {
+            margin-inline-start: auto;
+            font-size: .75rem;
+            color: #64748b;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 9999px;
+            padding: .16rem .85rem;
+            direction: ltr;
+        }
+
+        .dark .shot-url { background: #1e293b; border-color: #334155; color: #94a3b8; }
+
+        .shot-btn { position: relative; display: block; width: 100%; cursor: zoom-in; border: 0; padding: 0; background: none; }
+
+        .shot-btn img { display: block; width: 100%; height: auto; }
+
+        .shot-zoom {
+            position: absolute;
+            bottom: 1rem;
+            inset-inline-start: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            font-size: .78rem;
+            font-weight: 800;
+            color: #fff;
+            background: rgba(26, 50, 99, .88);
+            padding: .42rem .92rem;
+            border-radius: 9999px;
+            backdrop-filter: blur(6px);
+            transition: background .25s ease, transform .25s ease;
+        }
+
+        .shot-btn:hover .shot-zoom { background: var(--deep-blue); transform: translateY(-2px); }
+
+        /* ---------- מלבני הפיצ'רים (אקורדיון) ---------- */
+        .feat-card {
+            align-self: start;
+            background: #fff;
+            border: 1px solid rgba(226, 232, 240, .9);
+            border-radius: 1.6rem;
+            transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+            overflow: hidden;
+        }
+
+        .dark .feat-card { background: #1e293b; border-color: #334155; }
+
+        .feat-card:hover {
+            border-color: rgba(26, 50, 99, .35);
+            box-shadow: 0 18px 40px -26px rgba(26, 50, 99, .5);
+        }
+
+        .feat-card[open] {
+            border-color: rgba(242, 181, 11, .85);
+            box-shadow: 0 24px 50px -28px rgba(26, 50, 99, .55);
+        }
+
+        .feat-card summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.35rem 1.5rem;
+            outline: none;
+        }
+
+        .feat-card summary::-webkit-details-marker { display: none; }
+
+        .feat-ico {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border-radius: .95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+            background: rgba(26, 50, 99, .07);
+            color: var(--deep-blue);
+            transition: background .3s ease, color .3s ease;
+        }
+
+        .dark .feat-ico { background: rgba(59, 130, 246, .16); color: #93c5fd; }
+
+        .feat-card[open] .feat-ico { background: var(--deep-blue); color: var(--digital-yellow); }
+
+        .feat-title {
+            font-weight: 900;
+            font-size: 1.05rem;
+            line-height: 1.35;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .dark .feat-title { color: #fff; }
+
+        .feat-sub {
+            font-size: .8rem;
+            color: #64748b;
+            margin: .18rem 0 0;
+            line-height: 1.5;
+        }
+
+        .dark .feat-sub { color: #94a3b8; }
+
+        .feat-chev {
+            margin-inline-start: auto;
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .75rem;
+            color: #64748b;
+            background: #f1f5f9;
+            transition: transform .35s ease, background .3s ease, color .3s ease;
+        }
+
+        .dark .feat-chev { background: #334155; color: #cbd5e1; }
+        .feat-card[open] .feat-chev { transform: rotate(-180deg); background: var(--digital-yellow); color: var(--dark-gray); }
+
+        .feat-body {
+            padding: 0 1.5rem 1.5rem;
+            border-top: 1px dashed #e2e8f0;
+            margin: 0 1.5rem;
+            padding-inline: 0;
+        }
+
+        .dark .feat-body { border-color: #334155; }
+
+        .feat-body p {
+            padding-top: 1.1rem;
+            font-size: .95rem;
+            line-height: 1.85;
+            color: #475569;
+            margin: 0;
+        }
+
+        .dark .feat-body p { color: #cbd5e1; }
+
+        .feat-card[open] .feat-body { animation: featIn .4s cubic-bezier(.4, 0, .2, 1); }
+
+        @keyframes featIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- מחירים ---------- */
+        .price-card {
+            background: #fff;
+            border: 1px solid rgba(226, 232, 240, .9);
+            border-radius: 1.6rem;
+            padding: 1.7rem 1.6rem;
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .dark .price-card { background: #1e293b; border-color: #334155; }
+        .price-card:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -30px rgba(15, 23, 42, .5); }
+
+        .price-card.hl {
+            background: linear-gradient(150deg, var(--deep-blue), #2c4f8f);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 26px 50px -28px rgba(26, 50, 99, .8);
+        }
+
+        .price-card small { display: block; font-size: .82rem; font-weight: 700; color: #64748b; }
+        .price-card.hl small { color: #c7d2fe; }
+
+        .price-card b { display: block; font-size: 2.4rem; font-weight: 900; line-height: 1.15; margin: .5rem 0 .2rem; color: var(--deep-blue); }
+        .price-card.hl b { color: var(--digital-yellow); }
+        .price-card b span { font-size: 1.15rem; font-weight: 700; }
+        .price-card em { display: block; font-style: normal; font-size: .8rem; color: #94a3b8; line-height: 1.6; }
+        .price-card.hl em { color: #cbd5e1; }
+
+        /* ---------- לייטבוקס ---------- */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            background: rgba(8, 15, 30, .92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .lightbox.open { display: flex; animation: featIn .25s ease; }
+
+        .lightbox img {
+            max-width: 96vw;
+            max-height: 88vh;
+            border-radius: 1rem;
+            box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .9);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1.4rem;
+            inset-inline-end: 1.4rem;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 0;
+            background: rgba(255, 255, 255, .14);
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background .25s ease;
+        }
+
+        .lightbox-close:hover { background: rgba(255, 255, 255, .3); }
+
+        @media (max-width: 640px) {
+            .feat-card summary { padding: 1.15rem 1.15rem; gap: .8rem; }
+            .feat-ico { width: 42px; height: 42px; font-size: .95rem; }
+            .feat-title { font-size: .98rem; }
+            .feat-body { padding: 0 1.15rem 1.25rem; margin: 0 1.15rem; padding-inline: 0; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- כותרת -->
+    <header class="hero-pattern relative overflow-hidden">
+        <div class="hero-glow" style="width:420px;height:420px;background:rgba(242,181,11,.16);top:-160px;inset-inline-start:-80px;"></div>
+        <div class="hero-glow" style="width:360px;height:360px;background:rgba(59,130,246,.22);bottom:-180px;inset-inline-end:-60px;"></div>
+
+        <nav class="relative z-10 max-w-6xl mx-auto px-6 py-6 flex items-center justify-between gap-4">
+            <a href="index.html" class="flex items-center gap-3 text-white/85 hover:text-white font-bold text-sm md:text-base transition-colors">
+                <i class="fa-solid fa-arrow-right"></i> חזרה לאתר
+            </a>
+            <a href="index.html" class="text-xl md:text-2xl font-black text-white tracking-tighter">
+                רביב <span class="text-yellow-500">דיגיטל</span>
+            </a>
+            <button onclick="toggleDarkMode()" class="theme-toggle-btn" title="שינוי מצב תצוגה" aria-label="שינוי מצב תצוגה">
+                <i id="theme-icon" class="fa-solid fa-moon"></i>
+            </button>
+        </nav>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-6 pt-10 pb-24 md:pt-16 md:pb-32 text-center">
+            <span class="inline-flex items-center gap-2 bg-yellow-400 text-slate-900 text-xs font-black px-4 py-1.5 rounded-full shadow-lg shadow-yellow-500/20">
+                <i class="fa-solid fa-comments"></i> מבוסס NodeBB
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-white leading-[1.15] mt-6 tracking-tight">
+                פורום קהילתי <span class="text-yellow-400">בעברית מלאה</span>
+            </h1>
+            <p class="text-blue-100/90 text-lg md:text-xl leading-relaxed mt-5 max-w-2xl mx-auto">
+                פורום שהוא באמת בית לקהילה שלכם — עיצוב מודרני, מערכת משתמשים והרשאות מלאה,
+                קטגוריות מסודרות, הודעות פרטיות והתראות בזמן אמת. אנחנו מתקינים, מעצבים ומתחזקים.
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-3 mt-8">
+                <span class="inline-flex items-center gap-2 text-sm font-bold text-white/90 bg-white/10 border border-white/15 rounded-full px-4 py-2">
+                    <i class="fa-solid fa-server text-yellow-400"></i> שרת ₪35 לחודש
+                </span>
+                <span class="inline-flex items-center gap-2 text-sm font-bold text-white/90 bg-white/10 border border-white/15 rounded-full px-4 py-2">
+                    <i class="fa-solid fa-globe text-yellow-400"></i> תת-דומיין ₪45 לשנה
+                </span>
+                <span class="inline-flex items-center gap-2 text-sm font-bold text-white/90 bg-white/10 border border-white/15 rounded-full px-4 py-2">
+                    <i class="fa-solid fa-language text-yellow-400"></i> עברית מלאה ו-RTL
+                </span>
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-4 mt-9">
+                <a href="index.html#contact" class="btn-yellow px-8 py-4 font-black text-base inline-flex items-center gap-2">
+                    להצעת מחיר <i class="fa-solid fa-paper-plane"></i>
+                </a>
+                <a href="#features" class="px-8 py-4 font-bold text-base text-white border border-white/25 rounded-full hover:bg-white/10 transition-all inline-flex items-center gap-2">
+                    מה כלול בפורום <i class="fa-solid fa-arrow-down"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- צילום מסך -->
+    <section class="max-w-5xl mx-auto px-6 -mt-16 md:-mt-24 relative z-20">
+        <figure class="shot-card reveal">
+            <div class="shot-bar">
+                <span class="dot r"></span>
+                <span class="dot y"></span>
+                <span class="dot g"></span>
+                <span class="shot-url">forum.your-brand.co.il</span>
+            </div>
+            <button type="button" class="shot-btn" onclick="openLightbox()" aria-label="הגדלת צילום המסך">
+                <img src="forum-demo.jpg" alt="צילום מסך של פורום קהילתי בעברית מבוסס NodeBB" width="1778" height="919">
+                <span class="shot-zoom"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> להגדלה</span>
+            </button>
+        </figure>
+        <figcaption class="text-center text-sm text-slate-500 dark:text-slate-400 mt-5 reveal">
+            צילום מסך מתוך פורום אמיתי שהקמנו — עברית מלאה, קטגוריות וניהול
+        </figcaption>
+    </section>
+
+    <!-- הפיצ'רים -->
+    <section id="features" class="max-w-5xl mx-auto px-6 pt-20 md:pt-28 pb-6">
+        <div class="text-center mb-12 reveal">
+            <span class="text-yellow-500 font-black text-sm tracking-wide">מה מקבלים</span>
+            <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mt-3">כל מה שפורום טוב צריך — במקום אחד</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-lg mt-4 max-w-2xl mx-auto leading-relaxed">
+                לחצו על כל כותרת כדי לפתוח את הפירוט המלא.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
+
+            <details class="feat-card reveal" open>
+                <summary>
+                    <span class="feat-ico"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                    <span>
+                        <h3 class="feat-title">עיצוב מודרני</h3>
+                        <p class="feat-sub">ממשק שנראה הרבה יותר עדכני מפורומים ישנים</p>
+                    </span>
+                    <span class="feat-chev"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <div class="feat-body">
+                    <p>
+                        ממשק נקי עם טיפוגרפיה מודרנית, ריווח נדיב, כרטיסים מעוגלים ואנימציות עדינות —
+                        בלי העומס החזותי של פורומים מסורתיים. כל עמוד נבנה מחדש כדי שיראה טוב גם במובייל,
+                        עם מצב בהיר וכהה, סרגל ניווט מהיר ותצוגת אשכולות קריאה וברורה.
+                    </p>
+                </div>
+            </details>
+
+            <details class="feat-card reveal">
+                <summary>
+                    <span class="feat-ico"><i class="fa-solid fa-palette"></i></span>
+                    <span>
+                        <h3 class="feat-title">התאמה אישית גבוהה</h3>
+                        <p class="feat-sub">אפשר לשנות עיצוב, צבעים, מבנה ורכיבים</p>
+                    </span>
+                    <span class="feat-chev"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <div class="feat-body">
+                    <p>
+                        צבעי המותג, לוגו, פונטים, תמונות רקע, סדר הרכיבים ומבנה העמודים — הכל מתאים את עצמו לכם.
+                        אפשר לשנות עיצוב מתוך ממשק הניהול בלי לגעת בקוד, ולהחליף רכיבים או להוסיף אזורים חדשים
+                        בהתאם לצרכים של הקהילה. התוצאה: פורום שנראה כמו הרחבה טבעית של האתר שלכם.
+                    </p>
+                </div>
+            </details>
+
+            <details class="feat-card reveal">
+                <summary>
+                    <span class="feat-ico"><i class="fa-solid fa-users"></i></span>
+                    <span>
+                        <h3 class="feat-title">מערכת משתמשים מלאה</h3>
+                        <p class="feat-sub">פרופילים, הרשמה, התחברות, הרשאות ותפקידים</p>
+                    </span>
+                    <span class="feat-chev"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <div class="feat-body">
+                    <p>
+                        הרשמה והתחברות במייל או בחשבון גוגל, שחזור סיסמה, אימות כתובת מייל וניהול סשנים.
+                        לכל משתמש יש פרופיל אישי עם תמונת פרופיל, ביוגרפיה, חתימה, שדות מותאמים, מוניטין,
+                        היסטוריית פרסומים ומעקב אחרי תוכן וקטגוריות.
+                    </p>
+                </div>
+            </details>
+
+            <details class="feat-card reveal">
+                <summary>
+                    <span class="feat-ico"><i class="fa-solid fa-user-shield"></i></span>
+                    <span>
+                        <h3 class="feat-title">מערכת הרשאות מתקדמת</h3>
+                        <p class="feat-sub">מנהלים, מנהלי קטגוריות, משתמשים וקבוצות</p>
+                    </span>
+                    <span class="feat-chev"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <div class="feat-body">
+                    <p>
+                        מנהל ראשי, מנהלי קטגוריה, חברי צוות, משתמשים רשומים ואורחים — לכל אחד הרשאות משלו.
+                        אפשר להגדיר לכל קטגוריה בנפרד מי קורא, מי כותב, מי מפרסם הודעות דביקות, מי מאשר תוכן
+                        ומי רואה קטגוריות פרטיות. קבוצות משתמשים חוסכות הגדרה חוזרת לכל חבר חדש.
+                    </p>
+                </div>
+            </details>
+
+            <details class="feat-card reveal">
+                <summary>
+                    <span class="feat-ico"><i class="fa-solid fa-layer-group"></i></span>
+                    <span>
+                        <h3 class="feat-title">קטגוריות ותתי-קטגוריות</h3>
+                        <p class="feat-sub">מאפשר לארגן קהילה גדולה בצורה מסודרת</p>
+                    </span>
+                    <span class="feat-chev"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <div class="feat-body">
+                    <p>
+                        עץ קטגוריות בעומק כמה רמות, עם אייקון, תיאור, הרשאות וסדר תצוגה לכל אחת.
+                        קהילה עם עשרות נושאים נשארת מסודרת וקלה לניווט — גם כשמצטברים אלפי אשכולות,
+                        עם תגיות, חיפוש מהיר וסינון לפי נושא, תאריך ופופולריות.
+                    </p>
+                </div>
+            </details>
+
+            <details class="feat-card reveal">
+                <summary>
+                    <span class="feat-ico"><i class="fa-solid fa-envelope-open-text"></i></span>
+                    <span>
+                        <h3 class="feat-title">הודעות פרטיות</h3>
+                        <p class="feat-sub">משתמשים יכולים לתקשר אחד עם השני</p>
+                    </span>
+                    <span class="feat-chev"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <div class="feat-body">
+                    <p>
+                        שיחות אישיות בין משתמשים עם אפשרות לצירוף משתתפים נוספים, שליחת קבצים ותמונות,
+                        חיפוש בתוך השיחות וסימון כנקראו. כל שיחה מרוכזת בתיבה אחת נוחה, עם התראה על הודעה חדשה
+                        ואפשרות לחסום משתמשים לא רצויים.
+                    </p>
+                </div>
+            </details>
+
+            <details class="feat-card reveal">
+                <summary>
+                    <span class="feat-ico"><i class="fa-solid fa-bell"></i></span>
+                    <span>
+                        <h3 class="feat-title">התראות בזמן אמת</h3>
+                        <p class="feat-sub">עדכונים על תגובות, אזכורים ועוד</p>
+                    </span>
+                    <span class="feat-chev"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <div class="feat-body">
+                    <p>
+                        המשתמשים מקבלים התראה חיה על תגובה לאשכול שלהם, אזכור בשם (@), לייק, הודעה פרטית
+                        או ציון — בלי לרענן את העמוד. התגיות והמונים מתעדכנים מיד, ואפשר לבחור אילו
+                        התראות לקבל במייל ואילו באתר בלבד.
+                    </p>
+                </div>
+            </details>
+
+            <details class="feat-card reveal">
+                <summary>
+                    <span class="feat-ico"><i class="fa-solid fa-server"></i></span>
+                    <span>
+                        <h3 class="feat-title">מתאים לקהילות גדולות</h3>
+                        <p class="feat-sub">כמה שתרצו משתמשים — בלי שהממשק יאט</p>
+                    </span>
+                    <span class="feat-chev"><i class="fa-solid fa-chevron-down"></i></span>
+                </summary>
+                <div class="feat-body">
+                    <p>
+                        מבוסס NodeBB ו-Redis עם קאשינג, חיפוש מהיר וניהול עומסים — כך שגם אלפי משתמשים
+                        והודעות נטענים במהירות. כולל כלי מודרציה, דוחות, חסימות, גיבוי יומי ועדכוני אבטחה
+                        שוטפים מצוות השרת שלנו, כדי שהקהילה שלכם תישאר זמינה ובטוחה.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+
+        <p class="text-center text-slate-400 dark:text-slate-500 text-sm mt-8 reveal">
+            <i class="fa-solid fa-circle-info text-yellow-500"></i>
+            כל פורום מגיע מותקן, מתורגם לעברית מלאה ומוכן לעבודה — כולל לוגו, צבעים ותמונות שלכם.
+        </p>
+    </section>
+
+    <!-- מחירים -->
+    <section class="max-w-5xl mx-auto px-6 pt-16 md:pt-20 pb-20">
+        <div class="text-center mb-10 reveal">
+            <span class="text-yellow-500 font-black text-sm tracking-wide">מחירים</span>
+            <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mt-3">פשוט, הוגן ובלי הפתעות</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="price-card hl reveal">
+                <small>אחסון על השרת שלנו</small>
+                <b>35 <span>₪</span></b>
+                <em>לחודש · כולל עדכונים, גיבוי ותמיכה</em>
+            </div>
+            <div class="price-card reveal">
+                <small>תת-דומיין משלכם</small>
+                <b>45 <span>₪</span></b>
+                <em>לשנה · forum.your-brand.co.il</em>
+            </div>
+            <div class="price-card reveal">
+                <small>בניית הפורום</small>
+                <b>מחיר <span>מיוחד</span></b>
+                <em>למנויי שרת — כולל התקנה, עיצוב והטמעה</em>
+            </div>
+        </div>
+
+        <div class="mt-6 rounded-2xl bg-yellow-400/10 border border-yellow-400/40 px-6 py-4 flex items-start gap-3 reveal">
+            <i class="fa-solid fa-bolt text-yellow-500 mt-1"></i>
+            <p class="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed m-0">
+                מחירים נוחים במיוחד לבניית פורום למנויי השרת שלנו — ללא עלויות נסתרות, כולל התקנה ועיצוב.
+            </p>
+        </div>
+    </section>
+
+    <!-- קריאה לפעולה -->
+    <section class="max-w-5xl mx-auto px-6 pb-24">
+        <div class="hero-pattern rounded-[2rem] px-8 py-14 md:px-14 text-center relative overflow-hidden reveal">
+            <div class="hero-glow" style="width:300px;height:300px;background:rgba(242,181,11,.2);top:-120px;inset-inline-end:-60px;"></div>
+            <h2 class="relative text-2xl md:text-3xl font-black text-white">רוצים פורום משלכם באוויר?</h2>
+            <p class="relative text-blue-100/90 mt-3 max-w-xl mx-auto leading-relaxed">
+                נקים, נעצב ונתחזק אותו עבורכם — נשאר רק להחליט על השם.
+            </p>
+            <div class="relative flex flex-wrap justify-center gap-4 mt-8">
+                <a href="index.html#contact" class="btn-yellow px-8 py-4 font-black inline-flex items-center gap-2">
+                    דברו איתנו <i class="fa-solid fa-paper-plane"></i>
+                </a>
+                <a href="index.html#services" class="px-8 py-4 font-bold text-white border border-white/25 rounded-full hover:bg-white/10 transition-all">
+                    חזרה לשירותים
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-8">
+        <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-right">
+            <span class="font-bold text-slate-400 text-sm">© 2026 רביב דיגיטל. כל הזכויות שמורות לשלמה רביב.</span>
+            <a href="index.html" class="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-yellow-500 transition-colors">
+                חזרה לדף הבית <i class="fa-solid fa-arrow-left"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- תצוגה מוגדלת -->
+    <div id="lightbox" class="lightbox" onclick="if (event.target === this) closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="סגירה"><i class="fa-solid fa-xmark"></i></button>
+        <img src="forum-demo.jpg" alt="צילום מסך של פורום קהילתי בעברית">
+    </div>
+
+    <script>
+        /* מצב כהה/בהיר — משותף עם דף הבית */
+        function setThemeIcon(isDark) {
+            const icon = document.getElementById('theme-icon');
+            if (!icon) return;
+            icon.classList.toggle('fa-sun', isDark);
+            icon.classList.toggle('fa-moon', !isDark);
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const dark = !html.classList.contains('dark');
+            html.classList.toggle('dark', dark);
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
+            setThemeIcon(dark);
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            setThemeIcon(true);
+        }
+
+        /* אנימציות חשיפה בגלילה */
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); io.unobserve(e.target); } });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        /* לייטבוקס */
+        function openLightbox() {
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+
+</html>

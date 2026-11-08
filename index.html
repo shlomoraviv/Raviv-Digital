@@ -1374,6 +1374,8 @@
         }
         .dark .demo-shot-btn { background: #0f172a; }
         .demo-shot-btn img { display: block; width: 100%; height: auto; }
+        /* גרסה מכווצת של צילום המסך בתוך חלון ההדמה — משאירה מקום לכפתורים */
+        .demo-shot.compact .demo-shot-btn img { max-height: 330px; object-fit: cover; object-position: top center; }
         .demo-shot-btn::after {
             content: '';
             position: absolute;
@@ -1558,8 +1560,8 @@
         .dark .demo-price { background: #16233b; border-color: #334155; }
         .demo-price.hl { border-color: var(--digital-yellow); background: #fffdf5; }
         .dark .demo-price.hl { background: rgba(242, 181, 11, 0.07); }
-        .demo-price small { display: block; font-size: 0.72rem; font-weight: 700; color: #94a3b8; margin-bottom: 0.15rem; }
-        .demo-price b { font-size: 1.45rem; font-weight: 900; color: var(--deep-blue); }
+        .demo-price small { display: block; font-size: 0.72rem; font-weight: 700; color: #94a3b8; margin-bottom: 0.15rem; line-height: 1.5; }
+        .demo-price b { font-size: 1.45rem; font-weight: 900; color: var(--deep-blue); line-height: 1.25; }
         .dark .demo-price b { color: #fff; }
         .demo-price b span { font-size: 0.78rem; font-weight: 700; color: #64748b; }
         .dark .demo-price b span { color: #94a3b8; }
@@ -2392,12 +2394,12 @@
 
             <div class="demo-modal-body">
                 <p class="demo-lead">
-                    פורום קהילתי מלא בעברית — קטגוריות ותתי-קטגוריות, הרשאות וקבוצות משתמשים, חיפוש, תגיות
-                    וממשק ניהול פשוט. אנחנו מתקינים, מעצבים בהתאמה למותג שלכם ומתחזקים את הפורום על השרת שלנו.
+                    פורום קהילתי מלא בעברית — עיצוב מודרני, מערכת משתמשים והרשאות, קטגוריות מסודרות
+                    והתראות בזמן אמת. אנחנו מתקינים, מעצבים ומתחזקים על השרת שלנו.
                 </p>
 
                 <!-- צילום מסך מתוך פורום אמיתי -->
-                <figure class="demo-shot">
+                <figure class="demo-shot compact">
                     <div class="demo-window">
                         <div class="demo-window-bar">
                             <span class="dot r"></span>
@@ -2413,46 +2415,25 @@
                     <figcaption>צילום מסך מתוך פורום אמיתי שהקמנו — עברית מלאה, קטגוריות וניהול</figcaption>
                 </figure>
 
-                <div class="demo-label">מה כלול</div>
-                <div class="demo-features">
-                    <div class="demo-feat"><i class="fa-solid fa-check"></i> התקנה מלאה של NodeBB על השרת שלנו</div>
-                    <div class="demo-feat"><i class="fa-solid fa-check"></i> עברית מלאה ו-RTL לאורך כל הממשק</div>
-                    <div class="demo-feat"><i class="fa-solid fa-check"></i> קטגוריות, תתי-קטגוריות ותגיות</div>
-                    <div class="demo-feat"><i class="fa-solid fa-check"></i> הרשאות, קבוצות וניהול משתמשים</div>
-                    <div class="demo-feat"><i class="fa-solid fa-check"></i> עיצוב מותאם למותג ולוגו שלכם</div>
-                    <div class="demo-feat"><i class="fa-solid fa-check"></i> עדכוני אבטחה, גיבוי ותמיכה שוטפת</div>
-                </div>
-
-                <div class="demo-label">מחירים</div>
                 <div class="demo-prices">
                     <div class="demo-price hl">
                         <small>אחסון על השרת שלנו</small>
                         <b>35 <span>₪</span></b>
-                        <em>לחודש · כולל עדכונים, גיבוי ותמיכה</em>
+                        <em>לחודש</em>
                     </div>
                     <div class="demo-price">
                         <small>תת-דומיין משלכם</small>
                         <b>45 <span>₪</span></b>
-                        <em>לשנה · forum.your-brand.co.il</em>
+                        <em>לשנה</em>
                     </div>
-                    <div class="demo-price">
-                        <small>בניית הפורום</small>
-                        <b>מחיר <span>מיוחד</span></b>
-                        <em>למנויי שרת — כולל התקנה ועיצוב</em>
-                    </div>
-                </div>
-
-                <div class="demo-note">
-                    <i class="fa-solid fa-bolt"></i>
-                    מחירים נוחים במיוחד לבניית פורום למנויי השרת שלנו — ללא עלויות נסתרות.
                 </div>
 
                 <div class="demo-cta">
-                    <button type="button" onclick="closeDemo('forumDemoModal'); toggleContactModal();" class="btn-yellow px-7 py-3 font-black flex items-center gap-2">
-                        להצעת מחיר <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                    <button type="button" onclick="closeDemo('forumDemoModal')" class="demo-btn ghost">
-                        סגירה
+                    <a href="forum.html" class="btn-yellow px-7 py-3 font-black flex items-center gap-2">
+                        לעמוד הפורום המלא <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                    <button type="button" onclick="closeDemo('forumDemoModal'); toggleContactModal();" class="demo-btn ghost">
+                        להצעת מחיר
                     </button>
                 </div>
             </div>
