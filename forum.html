@@ -285,20 +285,19 @@
         .price-card:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -30px rgba(15, 23, 42, .5); }
 
         .price-card.hl {
-            background: linear-gradient(150deg, var(--deep-blue), #2c4f8f);
-            border-color: transparent;
-            color: #fff;
-            box-shadow: 0 26px 50px -28px rgba(26, 50, 99, .8);
+            background: #fffdf6;
+            border-color: rgba(242, 181, 11, .55);
+            box-shadow: 0 26px 50px -34px rgba(26, 50, 99, .45);
         }
 
+        .dark .price-card.hl { background: rgba(242, 181, 11, .07); border-color: rgba(242, 181, 11, .45); }
+
         .price-card small { display: block; font-size: .82rem; font-weight: 700; color: #64748b; }
-        .price-card.hl small { color: #c7d2fe; }
 
         .price-card b { display: block; font-size: 2.4rem; font-weight: 900; line-height: 1.15; margin: .5rem 0 .2rem; color: var(--deep-blue); }
-        .price-card.hl b { color: var(--digital-yellow); }
-        .price-card b span { font-size: 1.15rem; font-weight: 700; }
+        .dark .price-card b { color: #fff; }
+        .price-card b span { font-size: 1.15rem; font-weight: 700; color: var(--digital-yellow); }
         .price-card em { display: block; font-style: normal; font-size: .8rem; color: #94a3b8; line-height: 1.6; }
-        .price-card.hl em { color: #cbd5e1; }
 
         /* ---------- לייטבוקס ---------- */
         .lightbox {
@@ -371,18 +370,6 @@
             <h1 class="text-4xl md:text-6xl font-black text-white leading-[1.15] mt-6 tracking-tight">
                 פורום קהילתי <span class="text-yellow-400">בעברית מלאה</span>
             </h1>
-            <p class="text-blue-100/90 text-lg md:text-xl leading-relaxed mt-5 max-w-2xl mx-auto">
-                פורום שהוא באמת בית לקהילה שלכם — עיצוב מודרני, מערכת משתמשים והרשאות מלאה,
-                קטגוריות מסודרות, הודעות פרטיות והתראות בזמן אמת. אנחנו מתקינים, מעצבים ומתחזקים.
-            </p>
-            <div class="flex flex-wrap items-center justify-center gap-4 mt-9">
-                <a href="index.html#contact" class="btn-yellow px-8 py-4 font-black text-base inline-flex items-center gap-2">
-                    להצעת מחיר <i class="fa-solid fa-paper-plane"></i>
-                </a>
-                <a href="#features" class="px-8 py-4 font-bold text-base text-white border border-white/25 rounded-full hover:bg-white/10 transition-all inline-flex items-center gap-2">
-                    מה כלול בפורום <i class="fa-solid fa-arrow-down"></i>
-                </a>
-            </div>
         </div>
     </header>
 
@@ -396,7 +383,7 @@
                 <span class="shot-url">forum.your-brand.co.il</span>
             </div>
             <button type="button" class="shot-btn" onclick="openLightbox()" aria-label="הגדלת צילום המסך">
-                <img src="forum-demo.jpg" alt="צילום מסך של פורום קהילתי בעברית מבוסס NodeBB" width="1778" height="919">
+                <img src="forum-demo.jpg" alt="צילום מסך של פורום קהילתי בעברית מבוסס NodeBB" width="1906" height="925">
                 <span class="shot-zoom"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> להגדלה</span>
             </button>
         </figure>
@@ -417,7 +404,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
 
-            <details class="feat-card reveal" open>
+            <details class="feat-card reveal">
                 <summary>
                     <span class="feat-ico"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
                     <span>
@@ -563,23 +550,18 @@
 
         </div>
 
-        <p class="text-center text-slate-400 dark:text-slate-500 text-sm mt-8 reveal">
-            <i class="fa-solid fa-circle-info text-yellow-500"></i>
-            כל פורום מגיע מותקן, מתורגם לעברית מלאה ומוכן לעבודה — כולל לוגו, צבעים ותמונות שלכם.
-        </p>
     </section>
 
     <!-- מחירים -->
     <section class="max-w-5xl mx-auto px-6 pt-16 md:pt-20 pb-20">
         <div class="text-center mb-10 reveal">
             <span class="text-yellow-500 font-black text-sm tracking-wide">מחירים</span>
-            <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mt-3">פשוט, הוגן ובלי הפתעות</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
             <div class="price-card hl reveal">
                 <small>אחסון על השרת שלנו</small>
-                <b>35 <span>₪</span></b>
+                <b>60 <span>₪</span></b>
                 <em>לחודש · כולל עדכונים, גיבוי ותמיכה</em>
             </div>
             <div class="price-card reveal">

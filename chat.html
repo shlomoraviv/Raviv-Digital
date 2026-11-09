@@ -121,138 +121,67 @@
 
         .dark .shot-url { background: #1e293b; border-color: #334155; color: #94a3b8; }
 
-        /* ---------- הדמיית ממשק הצ'אט ---------- */
-        .chat-ui {
-            display: grid;
-            grid-template-columns: 210px 1fr;
-            background: #f8fafc;
-            min-height: 350px;
-        }
+        /* ---------- צילום מסך ---------- */
+        .shot-btn { position: relative; display: block; width: 100%; cursor: zoom-in; border: 0; padding: 0; background: none; }
 
-        .dark .chat-ui { background: #0f172a; }
+        .shot-btn img { display: block; width: 100%; height: auto; }
 
-        .cu-side {
-            background: var(--deep-blue);
-            padding: 1.1rem .85rem;
-            color: #fff;
-        }
-
-        .cu-brand {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-            font-weight: 900;
-            font-size: .95rem;
-            padding-bottom: .9rem;
-            margin-bottom: .6rem;
-            border-bottom: 1px solid rgba(255, 255, 255, .14);
-        }
-
-        .cu-brand i { color: var(--digital-yellow); }
-
-        .cu-ch {
-            display: flex;
+        .shot-zoom {
+            position: absolute;
+            bottom: 1rem;
+            inset-inline-start: 1rem;
+            display: inline-flex;
             align-items: center;
             gap: .45rem;
-            font-size: .82rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, .72);
-            padding: .42rem .6rem;
-            border-radius: .6rem;
-            margin-bottom: .2rem;
-        }
-
-        .cu-ch.active { background: rgba(255, 255, 255, .16); color: #fff; }
-        .cu-ch span { opacity: .65; }
-
-        .cu-main { display: flex; flex-direction: column; padding: 1rem 1.15rem; gap: .55rem; }
-
-        .cu-msg { display: flex; gap: .55rem; align-items: flex-start; }
-
-        .cu-av {
-            width: 28px;
-            height: 28px;
-            flex-shrink: 0;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: .72rem;
-            font-weight: 900;
-            color: #fff;
-        }
-
-        .cu-av.a1 { background: var(--deep-blue); }
-        .cu-av.a2 { background: #f59e0b; }
-        .cu-av.a3 { background: #8b5cf6; }
-        .cu-av.a4 { background: #10b981; }
-
-        .cu-bubble {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: .85rem;
-            padding: .5rem .75rem;
             font-size: .78rem;
-            line-height: 1.6;
-            color: #334155;
-            max-width: 30rem;
-        }
-
-        .dark .cu-bubble { background: #1e293b; border-color: #334155; color: #e2e8f0; }
-
-        .cu-bubble b { font-weight: 900; color: var(--deep-blue); font-size: .72rem; display: block; }
-        .dark .cu-bubble b { color: #93c5fd; }
-
-        .cu-ad {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-            font-size: .74rem;
             font-weight: 800;
-            color: #b45309;
-            background: #fffbeb;
-            border: 1px dashed #fcd34d;
-            border-radius: .7rem;
-            padding: .55rem .8rem;
-            margin-top: auto;
-        }
-
-        .dark .cu-ad { background: rgba(242, 181, 11, .08); border-color: rgba(242, 181, 11, .5); color: #fcd34d; }
-
-        .cu-input {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: .5rem;
-            background: #fff;
-            border: 1px solid #e2e8f0;
+            color: #fff;
+            background: rgba(26, 50, 99, .88);
+            padding: .42rem .92rem;
             border-radius: 9999px;
-            padding: .5rem .55rem .5rem .95rem;
-            font-size: .78rem;
-            color: #94a3b8;
+            backdrop-filter: blur(6px);
+            transition: background .25s ease, transform .25s ease;
         }
 
-        .dark .cu-input { background: #1e293b; border-color: #334155; }
+        .shot-btn:hover .shot-zoom { background: var(--deep-blue); transform: translateY(-2px); }
 
-        .cu-send {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
+        /* ---------- לייטבוקס ---------- */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            background: rgba(8, 15, 30, .92);
+            display: none;
             align-items: center;
             justify-content: center;
-            background: var(--digital-yellow);
-            color: var(--dark-gray);
-            font-size: .68rem;
+            padding: 1.5rem;
         }
 
-        @media (max-width: 640px) {
-            .chat-ui { grid-template-columns: 1fr; min-height: 0; }
-            .cu-side { display: flex; align-items: center; gap: .4rem; overflow-x: auto; padding: .7rem .8rem; }
-            .cu-brand { display: none; }
-            .cu-ch { margin: 0; white-space: nowrap; font-size: .75rem; }
-            .cu-bubble { max-width: 100%; }
+        .lightbox.open { display: flex; }
+
+        .lightbox img {
+            max-width: 96vw;
+            max-height: 88vh;
+            border-radius: 1rem;
+            box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .9);
         }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1.4rem;
+            inset-inline-end: 1.4rem;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 0;
+            background: rgba(255, 255, 255, .14);
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background .25s ease;
+        }
+
+        .lightbox-close:hover { background: rgba(255, 255, 255, .3); }
 
         /* ---------- מלבני הפיצ'רים (אקורדיון) ---------- */
         .feat-card {
@@ -382,20 +311,19 @@
         .price-card:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -30px rgba(15, 23, 42, .5); }
 
         .price-card.hl {
-            background: linear-gradient(150deg, var(--deep-blue), #2c4f8f);
-            border-color: transparent;
-            color: #fff;
-            box-shadow: 0 26px 50px -28px rgba(26, 50, 99, .8);
+            background: #fffdf6;
+            border-color: rgba(242, 181, 11, .55);
+            box-shadow: 0 26px 50px -34px rgba(26, 50, 99, .45);
         }
 
+        .dark .price-card.hl { background: rgba(242, 181, 11, .07); border-color: rgba(242, 181, 11, .45); }
+
         .price-card small { display: block; font-size: .82rem; font-weight: 700; color: #64748b; }
-        .price-card.hl small { color: #c7d2fe; }
 
         .price-card b { display: block; font-size: 2.4rem; font-weight: 900; line-height: 1.15; margin: .5rem 0 .2rem; color: var(--deep-blue); }
-        .price-card.hl b { color: var(--digital-yellow); }
-        .price-card b span { font-size: 1.15rem; font-weight: 700; }
+        .dark .price-card b { color: #fff; }
+        .price-card b span { font-size: 1.15rem; font-weight: 700; color: var(--digital-yellow); }
         .price-card em { display: block; font-style: normal; font-size: .8rem; color: #94a3b8; line-height: 1.6; }
-        .price-card.hl em { color: #cbd5e1; }
 
         @media (max-width: 640px) {
             .feat-card summary { padding: 1.15rem 1.15rem; gap: .8rem; }
@@ -454,35 +382,10 @@
                 <span class="dot g"></span>
                 <span class="shot-url">channel.your-brand.co.il</span>
             </div>
-            <div class="chat-ui" aria-hidden="true">
-                <aside class="cu-side">
-                    <div class="cu-brand"><i class="fa-solid fa-tower-broadcast"></i> הערוץ</div>
-                    <div class="cu-ch active"><span>#</span> עדכונים</div>
-                    <div class="cu-ch"><span>#</span> כללי</div>
-                    <div class="cu-ch"><span>#</span> הודעות</div>
-                    <div class="cu-ch"><span>#</span> ארכיון</div>
-                </aside>
-                <div class="cu-main">
-                    <div class="cu-msg">
-                        <span class="cu-av a1">ר</span>
-                        <div class="cu-bubble"><b>רביב דיגיטל · 09:41</b> ברוכים הבאים לערוץ העדכונים החדש שלנו 🎉</div>
-                    </div>
-                    <div class="cu-msg">
-                        <span class="cu-av a2">ש</span>
-                        <div class="cu-bubble"><b>שלמה · 09:44</b> כל העדכונים והמבצעים יופיעו כאן ראשונים.</div>
-                    </div>
-                    <div class="cu-msg">
-                        <span class="cu-av a3">ד</span>
-                        <div class="cu-bubble"><b>דוד · 09:46</b> אפשר לקבל התראה על הודעה חדשה?</div>
-                    </div>
-                    <div class="cu-msg">
-                        <span class="cu-av a4">ב</span>
-                        <div class="cu-bubble"><b>בוט AI · 09:46</b> בטח — אפשר להפעיל התראות Push ולקבל עדכון על כל פרסום חדש.</div>
-                    </div>
-                    <div class="cu-ad"><i class="fa-solid fa-bullhorn"></i> פרסומת · אזור ממומן בניהול מלא</div>
-                    <div class="cu-input"><span>כתבו הודעה בערוץ...</span><span class="cu-send"><i class="fa-solid fa-paper-plane"></i></span></div>
-                </div>
-            </div>
+            <button type="button" class="shot-btn" onclick="openLightbox()" aria-label="הגדלת צילום המסך">
+                <img src="channel-demo.jpg" alt="צילום מסך של אתר קהילה מבוסס צ'אט" width="1914" height="921">
+                <span class="shot-zoom"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> להגדלה</span>
+            </button>
         </div>
         <figcaption class="text-center text-sm text-slate-500 dark:text-slate-400 mt-5 reveal">
             הממשק שלכם — מיתוג, צבעים וצ'אנלים לפי הסדר שאתם בוחרים
@@ -501,7 +404,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5">
 
-            <details class="feat-card reveal" open>
+            <details class="feat-card reveal">
                 <summary>
                     <span class="feat-ico"><i class="fa-solid fa-sliders"></i></span>
                     <span>
@@ -649,17 +552,12 @@
 
         </div>
 
-        <p class="text-center text-slate-400 dark:text-slate-500 text-sm mt-8 reveal">
-            <i class="fa-solid fa-circle-info text-yellow-500"></i>
-            כל אתר מגיע מותקן, מתורגם לעברית מלאה ומוכן לעבודה — כולל לוגו, צבעים ותוכן שלכם.
-        </p>
     </section>
 
     <!-- מחירים -->
     <section class="max-w-5xl mx-auto px-6 pt-16 md:pt-20 pb-20">
         <div class="text-center mb-10 reveal">
             <span class="text-yellow-500 font-black text-sm tracking-wide">מחירים</span>
-            <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mt-3">פשוט, הוגן ובלי הפתעות</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
@@ -736,7 +634,28 @@
             entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); io.unobserve(e.target); } });
         }, { threshold: 0.08 });
         document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        /* לייטבוקס */
+        function openLightbox() {
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeLightbox();
+        });
     </script>
+    <!-- תצוגה מוגדלת -->
+    <div id="lightbox" class="lightbox" onclick="if (event.target === this) closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="סגירה"><i class="fa-solid fa-xmark"></i></button>
+        <img src="channel-demo.jpg" alt="צילום מסך של אתר קהילה מבוסס צ'אט">
+    </div>
+
     <script src="admin.js"></script>
 </body>
 
