@@ -30,17 +30,24 @@
         try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) { }
     }
 
-    /* ---------- מפתחות יציבים לטקסטים ---------- */
-    function keyFor(el) {
-        var parts = [];
-        var node = el;
-        while (node && node !== document.body && node.parentElement) {
-            var idx = 0, s = node;
-            while ((s = s.previousElementSibling)) idx++;
-            parts.unshift(node.tagName.toLowerCase() + ':' + idx);
-            node = node.parentElement;
+    /* ---------- מפתחות יציבים לטקסטים ----------
+       המפתח נגזר מהטקסט המקורי שבקובץ ולא ממיקום במבנה הדף,
+       כדי ששמירה תמשיך לעבוד גם כשהדף משתנה (פתיח, תוכן דינמי וכו'). */
+    function norm(t) {
+        return (t || '').replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    function rawDirect(el) {
+        var t = '';
+        for (var i = 0; i < el.childNodes.length; i++) {
+            var n = el.childNodes[i];
+            if (n.nodeType === 3) t += n.nodeValue;
         }
-        return parts.join('>');
+        return t;
+    }
+
+    function directText(el) {
+        return norm(rawDirect(el));
     }
 
     function textNodesOf(el) {
@@ -54,13 +61,19 @@
 
     function collect() {
         var out = [];
+        var seen = {};
         var all = document.body.getElementsByTagName('*');
         for (var i = 0; i < all.length; i++) {
             var el = all[i];
             if (SKIP_TAGS.test(el.tagName.toUpperCase())) continue;
             if (el.closest('[data-rd-skip]')) continue;
             if (!textNodesOf(el).length) continue;
-            out.push({ el: el, key: keyFor(el) });
+            var txt = directText(el);
+            if (!txt) continue;
+            var sig = el.tagName.toLowerCase() + '|' + txt;
+            var n = seen[sig] || 0;
+            seen[sig] = n + 1;
+            out.push({ el: el, key: el.dataset.rdKey || (sig + '|' + n) });
         }
         return out;
     }
@@ -68,11 +81,14 @@
     /* ---------- החלת הטקסטים השמורים ---------- */
     function applySaved() {
         var data = allData()[PAGE];
-        if (!data) return;
         var list = collect();
         for (var i = 0; i < list.length; i++) {
+            // שומרים על המפתח המקורי של האלמנט גם אחרי ההחלפה
+            list[i].el.dataset.rdKey = list[i].key;
+            if (!data) continue;
             var val = data[list[i].key];
             if (typeof val !== 'string') continue;
+            if (rawDirect(list[i].el) === val) continue;
             setText(list[i].el, val);
         }
     }
@@ -221,6 +237,7 @@
         document.body.classList.add('rd-editing');
         for (var i = 0; i < items.length; i++) {
             var it = items[i];
+            it.el.dataset.rdKey = it.key;
             it.orig = textNodesOf(it.el).map(function (n) { return n.nodeValue; }).join('');
             it.el.setAttribute('contenteditable', 'true');
             it.el.setAttribute('spellcheck', 'false');
@@ -244,7 +261,6 @@
         for (var j = 0; j < items.length; j++) {
             items[j].el.removeAttribute('contenteditable');
             items[j].el.removeAttribute('spellcheck');
-            delete items[j].el.dataset.rdKey;
         }
         editing = false;
         dirty = false;
@@ -285,7 +301,7 @@
         dirty = true;
         var data = allData();
         if (!data[PAGE]) data[PAGE] = {};
-        data[PAGE][t.dataset.rdKey] = t.innerText.replace(/\u00a0/g, ' ').trim();
+        data[PAGE][t.dataset.rdKey] = rawDirect(t).replace(/\u00a0/g, ' ');
         saveData(data);
         if (bar) bar.querySelector('.rd-status').textContent = 'שינויים לא פורסמו';
     }
@@ -440,6 +456,16 @@
 
         applySaved();
         window.addEventListener('load', function () { if (!editing) applySaved(); });
+
+        // אם הדף מרנדר מחדש תוכן אחרי הטעינה — מחזירים את הטקסטים שנשמרו
+        if (window.MutationObserver) {
+            var scheduled = false;
+            new MutationObserver(function () {
+                if (editing || scheduled) return;
+                scheduled = true;
+                setTimeout(function () { scheduled = false; if (!editing) applySaved(); }, 500);
+            }).observe(document.body, { childList: true, subtree: true, characterData: true });
+        }
     }
 
     if (document.readyState === 'loading') {
