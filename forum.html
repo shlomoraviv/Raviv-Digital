@@ -345,6 +345,7 @@
             .feat-body { padding: 0 1.15rem 1.25rem; margin: 0 1.15rem; padding-inline: 0; }
         }
     </style>
+    <script src="content.js"></script>
 </head>
 
 <body>
@@ -367,9 +368,6 @@
         </nav>
 
         <div class="relative z-10 max-w-4xl mx-auto px-6 pt-10 pb-24 md:pt-16 md:pb-32 text-center">
-            <span class="inline-flex items-center gap-2 bg-yellow-400 text-slate-900 text-xs font-black px-4 py-1.5 rounded-full shadow-lg shadow-yellow-500/20">
-                <i class="fa-solid fa-comments"></i> מבוסס NodeBB
-            </span>
             <h1 class="text-4xl md:text-6xl font-black text-white leading-[1.15] mt-6 tracking-tight">
                 פורום קהילתי <span class="text-yellow-400">בעברית מלאה</span>
             </h1>
@@ -377,17 +375,6 @@
                 פורום שהוא באמת בית לקהילה שלכם — עיצוב מודרני, מערכת משתמשים והרשאות מלאה,
                 קטגוריות מסודרות, הודעות פרטיות והתראות בזמן אמת. אנחנו מתקינים, מעצבים ומתחזקים.
             </p>
-            <div class="flex flex-wrap items-center justify-center gap-3 mt-8">
-                <span class="inline-flex items-center gap-2 text-sm font-bold text-white/90 bg-white/10 border border-white/15 rounded-full px-4 py-2">
-                    <i class="fa-solid fa-server text-yellow-400"></i> שרת ₪35 לחודש
-                </span>
-                <span class="inline-flex items-center gap-2 text-sm font-bold text-white/90 bg-white/10 border border-white/15 rounded-full px-4 py-2">
-                    <i class="fa-solid fa-globe text-yellow-400"></i> תת-דומיין ₪45 לשנה
-                </span>
-                <span class="inline-flex items-center gap-2 text-sm font-bold text-white/90 bg-white/10 border border-white/15 rounded-full px-4 py-2">
-                    <i class="fa-solid fa-language text-yellow-400"></i> עברית מלאה ו-RTL
-                </span>
-            </div>
             <div class="flex flex-wrap items-center justify-center gap-4 mt-9">
                 <a href="index.html#contact" class="btn-yellow px-8 py-4 font-black text-base inline-flex items-center gap-2">
                     להצעת מחיר <i class="fa-solid fa-paper-plane"></i>
@@ -589,7 +576,7 @@
             <h2 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mt-3">פשוט, הוגן ובלי הפתעות</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
             <div class="price-card hl reveal">
                 <small>אחסון על השרת שלנו</small>
                 <b>35 <span>₪</span></b>
@@ -600,18 +587,6 @@
                 <b>45 <span>₪</span></b>
                 <em>לשנה · forum.your-brand.co.il</em>
             </div>
-            <div class="price-card reveal">
-                <small>בניית הפורום</small>
-                <b>מחיר <span>מיוחד</span></b>
-                <em>למנויי שרת — כולל התקנה, עיצוב והטמעה</em>
-            </div>
-        </div>
-
-        <div class="mt-6 rounded-2xl bg-yellow-400/10 border border-yellow-400/40 px-6 py-4 flex items-start gap-3 reveal">
-            <i class="fa-solid fa-bolt text-yellow-500 mt-1"></i>
-            <p class="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed m-0">
-                מחירים נוחים במיוחד לבניית פורום למנויי השרת שלנו — ללא עלויות נסתרות, כולל התקנה ועיצוב.
-            </p>
         </div>
     </section>
 
@@ -692,6 +667,7 @@
             if (e.key === 'Escape') closeLightbox();
         });
     </script>
+    <script src="admin.js"></script>
 </body>
 
 </html>
