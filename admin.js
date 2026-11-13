@@ -12,7 +12,8 @@
     var STORE_KEY = 'rd_content_v1';
     var TOKEN_KEY = 'rd_gh_token';
     var PASS_HASH = '16ef49fbf7358f4f967f7e1d13b6f1d550d0d8018bec098e95f669a621cb9b4a';
-    var GH = { owner: 'shlomoraviv', repo: 'Raviv-Digital', branch: 'main', file: 'content.js' };
+    var GH = { owner: 'shlomoraviv', repo: 'Raviv-Digital', branch: 'main', file: 'content.json' };
+    var PUBLISHED = {};
     var SKIP_TAGS = /^(SCRIPT|STYLE|NOSCRIPT|IFRAME|SVG|PATH|CANVAS|BR|IMG|INPUT|TEXTAREA|SELECT|OPTION|HR)$/;
 
     var editing = false;
@@ -78,15 +79,27 @@
         return out;
     }
 
-    /* ---------- החלת הטקסטים השמורים ---------- */
+    /* ---------- הטקסטים שפורסמו לאתר (משותפים לכל הגולשים) ---------- */
+    function loadPublished() {
+        return fetch('content.json?v=' + Date.now(), { cache: 'no-store' })
+            .then(function (r) { return r.ok ? r.json() : {}; })
+            .then(function (json) {
+                PUBLISHED = (json && typeof json === 'object') ? json : {};
+                applySaved();
+            })
+            .catch(function () { PUBLISHED = {}; });
+    }
+
+    /* ---------- החלת הטקסטים השמורים ----------
+       קודם מה שפורסם לאתר, ואחר כך מה שנשמר במחשב הזה (עריכה מקומית גוברת). */
     function applySaved() {
-        var data = allData()[PAGE];
+        var local = allData()[PAGE] || {};
+        var remote = PUBLISHED[PAGE] || {};
         var list = collect();
         for (var i = 0; i < list.length; i++) {
             // שומרים על המפתח המקורי של האלמנט גם אחרי ההחלפה
             list[i].el.dataset.rdKey = list[i].key;
-            if (!data) continue;
-            var val = data[list[i].key];
+            var val = typeof local[list[i].key] === 'string' ? local[list[i].key] : remote[list[i].key];
             if (typeof val !== 'string') continue;
             if (rawDirect(list[i].el) === val) continue;
             setText(list[i].el, val);
@@ -352,8 +365,9 @@
         var saved = localStorage.getItem(TOKEN_KEY) || '';
         panel.innerHTML =
             '<h3><i class="fa-solid fa-cloud-arrow-up" style="color:#F2B50B"></i> פרסום האתר</h3>' +
-            '<p>הטקסטים נשמרים בקובץ <b>content.js</b> בריפו, ו-GitHub Pages בונה את האתר מחדש (בדרך כלל תוך דקה). ' +
-            'כדי לפרסם צריך טוקן GitHub עם הרשאת <b>repo</b> — הוא נשמר רק בדפדפן שלכם ולא נכנס לאתר.</p>' +
+            '<p>הטקסטים נשמרים בקובץ <b>content.json</b> בריפו, ו-GitHub Pages מגיש אותם לכל הגולשים תוך דקה. ' +
+            'כדי לפרסם צריך טוקן GitHub עם הרשאת כתיבה לתוכן (Fine-grained: <b>Contents — Read and write</b>). ' +
+            'הטוקן נשמר רק בדפדפן שלכם ואינו נכנס לאתר.</p>' +
             '<input id="rd-token" type="password" autocomplete="off" placeholder="ghp_... / github_pat_..." dir="ltr">' +
             '<div class="rd-row">' +
             '  <button type="button" class="rd-primary" id="rd-pub-go"><i class="fa-solid fa-cloud-arrow-up"></i> פרסם עכשיו</button>' +
@@ -403,9 +417,20 @@
     }
 
     function publish(token) {
-        var data = allData();
-        var body = '/* טקסטים שנערכו מממשק הניהול — רביב דיגיטל */\nwindow.SITE_CONTENT = ' +
-            JSON.stringify(data, null, 2) + ';\n';
+        // ממזגים את מה שכבר פורסם עם מה שנערך עכשיו, כדי שפרסום של עמוד אחד לא ימחק אחרים
+        var data = {};
+        var pages = [PUBLISHED, allData()];
+        for (var p = 0; p < pages.length; p++) {
+            for (var page in pages[p]) {
+                if (!pages[p].hasOwnProperty(page)) continue;
+                data[page] = data[page] || {};
+                var src = pages[p][page] || {};
+                for (var k in src) {
+                    if (src.hasOwnProperty(k) && typeof src[k] === 'string') data[page][k] = src[k];
+                }
+            }
+        }
+        var body = JSON.stringify(data, null, 2) + '\n';
         var api = 'https://api.github.com/repos/' + GH.owner + '/' + GH.repo + '/contents/' + GH.file;
 
         return fetch(api + '?ref=' + GH.branch, { headers: ghHeaders(token), cache: 'no-store' })
@@ -429,9 +454,10 @@
                 });
             })
             .then(function (r) {
-                if (r.status === 401 || r.status === 403) throw new Error('אין הרשאה לכתוב לריפו (צריך טוקן עם repo)');
+                if (r.status === 401 || r.status === 403) throw new Error('אין הרשאה לכתוב לריפו (הטוקן צריך Contents: Read and write)');
                 if (!r.ok) return r.json().then(function (j) { throw new Error(j.message || ('שגיאה ' + r.status)); });
                 dirty = false;
+                PUBLISHED = data;
                 if (bar) bar.querySelector('.rd-status').textContent = 'פורסם';
                 return 'פורסם בהצלחה. האתר יתעדכן תוך דקה.';
             });
@@ -455,6 +481,7 @@
         root.appendChild(btn);
 
         applySaved();
+        loadPublished();
         window.addEventListener('load', function () { if (!editing) applySaved(); });
 
         // אם הדף מרנדר מחדש תוכן אחרי הטעינה — מחזירים את הטקסטים שנשמרו
