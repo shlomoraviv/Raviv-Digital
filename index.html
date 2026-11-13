@@ -170,6 +170,427 @@
             mix-blend-mode: normal;
         }
 
+        /* ============================================================
+           הזירה הטכנולוגית — אזור קידום
+           ============================================================ */
+        .tech-arena {
+            --ta-navy: #081428;
+            --ta-navy-2: #1A3263;
+            --ta-cyan: #38bdf8;
+            --ta-gold: #F2B50B;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            background:
+                radial-gradient(900px 480px at 88% -12%, rgba(56, 189, 248, 0.22), transparent 62%),
+                radial-gradient(760px 420px at 6% 112%, rgba(242, 181, 11, 0.18), transparent 62%),
+                linear-gradient(135deg, var(--ta-navy) 0%, var(--ta-navy-2) 50%, #0d2144 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .tech-arena::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(148, 197, 255, 0.075) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 197, 255, 0.075) 1px, transparent 1px);
+            background-size: 54px 54px;
+            -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%);
+            mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%);
+        }
+
+        .tech-arena-orb {
+            position: absolute;
+            z-index: 0;
+            border-radius: 9999px;
+            filter: blur(70px);
+            opacity: 0.55;
+            pointer-events: none;
+        }
+
+        .tech-arena-orb-a {
+            width: 22rem;
+            height: 22rem;
+            top: -6rem;
+            left: -4rem;
+            background: rgba(56, 189, 248, 0.35);
+            animation: taFloat 12s ease-in-out infinite;
+        }
+
+        .tech-arena-orb-b {
+            width: 18rem;
+            height: 18rem;
+            bottom: -5rem;
+            right: -3rem;
+            background: rgba(242, 181, 11, 0.28);
+            animation: taFloat 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes taFloat {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(0, -24px, 0) scale(1.06); }
+        }
+
+        .ta-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.45rem 1rem;
+            margin-bottom: 1.4rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(242, 181, 11, 0.45);
+            background: rgba(242, 181, 11, 0.12);
+            color: #fde68a;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+        }
+
+        .ta-eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 9999px;
+            background: var(--ta-gold);
+            box-shadow: 0 0 0 4px rgba(242, 181, 11, 0.22);
+        }
+
+        .ta-title {
+            margin: 0 0 1.35rem;
+            color: #ffffff;
+            font-size: clamp(2.6rem, 6.4vw, 4.6rem);
+            font-weight: 900;
+            line-height: 1.02;
+            letter-spacing: -0.035em;
+            text-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+        }
+
+        .ta-highlight {
+            background: linear-gradient(120deg, #F2B50B 10%, #fde047 55%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        .ta-lead {
+            max-width: 34rem;
+            margin: 0 0 1.6rem;
+            color: #dbeafe;
+            font-size: clamp(1.02rem, 1.55vw, 1.22rem);
+            font-weight: 400;
+            line-height: 1.85;
+        }
+
+        .ta-lead strong {
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        .ta-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+        }
+
+        .ta-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.07);
+            color: #e2e8f0;
+            font-size: 0.86rem;
+            font-weight: 700;
+            backdrop-filter: blur(6px);
+            transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .ta-chip i {
+            color: var(--ta-gold);
+            font-size: 0.9rem;
+        }
+
+        .ta-chip:hover {
+            transform: translateY(-2px);
+            border-color: rgba(242, 181, 11, 0.55);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .ta-cta-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.9rem 1.1rem;
+        }
+
+        .ta-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            padding: 1.1rem 2.3rem;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #f7c529 0%, #F2B50B 55%, #e0a208 100%);
+            color: #16233d;
+            font-size: 1.12rem;
+            font-weight: 900;
+            text-decoration: none;
+            box-shadow: 0 18px 38px -14px rgba(242, 181, 11, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+        }
+
+        .ta-cta i {
+            font-size: 0.95rem;
+            transition: transform 0.3s ease;
+        }
+
+        .ta-cta:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+            box-shadow: 0 24px 48px -16px rgba(242, 181, 11, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .ta-cta:hover i {
+            transform: translate(2px, -2px);
+        }
+
+        .ta-url {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.15rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            background: rgba(56, 189, 248, 0.1);
+            color: #bae6fd;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+        }
+
+        .ta-url i {
+            font-size: 0.8rem;
+            color: var(--ta-cyan);
+        }
+
+        .ta-url span {
+            direction: ltr;
+            unicode-bidi: isolate;
+        }
+
+        .ta-url:hover {
+            border-color: rgba(56, 189, 248, 0.7);
+            background: rgba(56, 189, 248, 0.18);
+            color: #e0f2fe;
+        }
+
+        .ta-visual {
+            position: relative;
+            max-width: 32rem;
+            margin-inline: auto;
+            width: 100%;
+        }
+
+        .ta-visual::before {
+            content: "";
+            position: absolute;
+            inset: 8% 6%;
+            border-radius: 9999px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.32), transparent 68%);
+            filter: blur(30px);
+            z-index: -1;
+        }
+
+        .ta-frame {
+            position: relative;
+            padding: 10px;
+            border-radius: 2.4rem;
+            background: linear-gradient(150deg, rgba(56, 189, 248, 0.75), rgba(242, 181, 11, 0.5) 55%, rgba(56, 189, 248, 0.55));
+            box-shadow: 0 35px 70px -30px rgba(0, 0, 0, 0.8);
+            transform: rotate(-1.2deg);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
+        }
+
+        .ta-frame:hover {
+            transform: rotate(0deg) translateY(-6px);
+            box-shadow: 0 45px 90px -30px rgba(0, 0, 0, 0.85);
+        }
+
+        .ta-logo {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 1.9rem;
+            background: #0b1a35;
+        }
+
+        .ta-live {
+            position: absolute;
+            top: -0.9rem;
+            inset-inline-start: 1.4rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            background: rgba(8, 20, 40, 0.94);
+            border: 1px solid rgba(248, 113, 113, 0.55);
+            color: #fecaca;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2;
+        }
+
+        .ta-live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background: #ef4444;
+            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.65);
+            animation: taPulse 1.8s infinite;
+        }
+
+        @keyframes taPulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.65); }
+            70% { box-shadow: 0 0 0 9px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .ta-caption {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem 0.9rem;
+            margin-top: 1.25rem;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .ta-caption i {
+            color: var(--ta-cyan);
+            margin-inline-end: 0.35rem;
+        }
+
+        .ta-caption-sep {
+            width: 5px;
+            height: 5px;
+            border-radius: 9999px;
+            background: rgba(242, 181, 11, 0.8);
+        }
+
+        .ta-join {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.4rem 2rem;
+            margin-top: 4rem;
+            padding: 2rem 2.25rem;
+            border-radius: 2rem;
+            border: 1.5px dashed rgba(242, 181, 11, 0.55);
+            background: linear-gradient(120deg, rgba(242, 181, 11, 0.14), rgba(56, 189, 248, 0.1));
+            backdrop-filter: blur(6px);
+        }
+
+        .ta-join h3 {
+            margin: 0 0 0.5rem;
+            color: #ffffff;
+            font-size: clamp(1.25rem, 2.4vw, 1.7rem);
+            font-weight: 900;
+            line-height: 1.3;
+        }
+
+        .ta-join p {
+            margin: 0;
+            color: #cbd5e1;
+            font-size: 1.02rem;
+            line-height: 1.6;
+        }
+
+        .ta-join-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 1rem 1.7rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(242, 181, 11, 0.65);
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .ta-join-btn i {
+            color: var(--ta-gold);
+            transition: color 0.3s ease;
+        }
+
+        .ta-join-btn:hover {
+            background: var(--ta-gold);
+            border-color: var(--ta-gold);
+            color: #16233d;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px -12px rgba(242, 181, 11, 0.7);
+        }
+
+        .ta-join-btn:hover i {
+            color: #16233d;
+        }
+
+        @media (max-width: 640px) {
+            .ta-cta {
+                width: 100%;
+            }
+
+            .ta-url {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .ta-join {
+                padding: 1.6rem 1.4rem;
+            }
+
+            .ta-join-btn {
+                width: 100%;
+                justify-content: center;
+                white-space: normal;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tech-arena-orb,
+            .ta-live-dot {
+                animation: none;
+            }
+
+            .ta-frame,
+            .ta-cta,
+            .ta-join-btn {
+                transition: none;
+            }
+        }
+
         /* עיצוב כרטיסי שירות */
         .service-card {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1495,6 +1916,80 @@
             <p class="reveal text-center text-slate-400 dark:text-slate-500 text-sm mt-10 max-w-2xl mx-auto leading-relaxed">
                 מחירים נוחים במיוחד לבניית פורום או צ'אט עבור מנויי השרת שלנו — כולל התקנה, עיצוב ותמיכה.
             </p>
+        </div>
+    </section>
+
+    <!-- ===== הזירה הטכנולוגית ===== -->
+    <section id="tech-arena" class="tech-arena py-24 md:py-28" aria-labelledby="tech-arena-title">
+        <div class="tech-arena-orb tech-arena-orb-a" aria-hidden="true"></div>
+        <div class="tech-arena-orb tech-arena-orb-b" aria-hidden="true"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+
+                <div class="reveal-right">
+                    <span class="ta-eyebrow">
+                        <span class="ta-eyebrow-dot" aria-hidden="true"></span>
+                        פרויקט של רביב דיגיטל
+                    </span>
+
+                    <h2 id="tech-arena-title" class="ta-title">
+                        הזירה <span class="ta-highlight">הטכנולוגית</span>
+                    </h2>
+
+                    <p class="ta-lead">
+                        אתר חדשות <strong>הטכנולוגיה והבינה המלאכותית</strong> — פתוח בכל הסינונים,
+                        עם מבזקים בזמן אמת. כל מה שקורה בעולם הטכנולוגיה, במקום אחד, בלי לפספס כלום.
+                    </p>
+
+                    <div class="ta-chips">
+                        <span class="ta-chip"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> פתוח בכל הסינונים</span>
+                        <span class="ta-chip"><i class="fa-solid fa-bolt" aria-hidden="true"></i> מבזקים בזמן אמת</span>
+                        <span class="ta-chip"><i class="fa-solid fa-brain" aria-hidden="true"></i> AI וטכנולוגיה</span>
+                    </div>
+
+                    <div class="ta-cta-wrap">
+                        <a href="https://channel.extsync.com" target="_blank" rel="noopener" class="ta-cta">
+                            <span>לכניסה לאתר</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://channel.extsync.com" target="_blank" rel="noopener" class="ta-url" aria-label="כניסה לאתר הזירה הטכנולוגית בכתובת channel.extsync.com">
+                            <i class="fa-solid fa-globe" aria-hidden="true"></i>
+                            <span>channel.extsync.com</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ta-visual reveal-left">
+                    <div class="ta-frame">
+                        <img src="tech-arena-logo.jpg"
+                            alt="לוגו הזירה הטכנולוגית — אתר חדשות טכנולוגיה ובינה מלאכותית"
+                            class="ta-logo" loading="lazy" draggable="false">
+                        <span class="ta-live">
+                            <span class="ta-live-dot" aria-hidden="true"></span>
+                            LIVE · מבזקים בזמן אמת
+                        </span>
+                    </div>
+                    <div class="ta-caption">
+                        <span><i class="fa-solid fa-newspaper" aria-hidden="true"></i> חדשות</span>
+                        <span class="ta-caption-sep" aria-hidden="true"></span>
+                        <span><i class="fa-solid fa-microchip" aria-hidden="true"></i> טכנולוגיה</span>
+                        <span class="ta-caption-sep" aria-hidden="true"></span>
+                        <span><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> בינה מלאכותית</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ta-join reveal">
+                <div>
+                    <h3>הצטרפו לצוות המעדכנים של הזירה הטכנולוגית!</h3>
+                    <p>יודעים ראשונים מה קורה בעולם הטכנולוגיה?</p>
+                </div>
+                <a href="#contact" class="ta-join-btn">
+                    <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+                    לחצו כאן להצטרף לקבוצת המעדכנים
+                </a>
+            </div>
         </div>
     </section>
 
