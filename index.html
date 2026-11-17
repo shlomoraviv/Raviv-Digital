@@ -171,24 +171,31 @@
         }
 
         /* ============================================================
-           הזירה הטכנולוגית — באנר קומפקטי בין הפרויקטים
+           הזירה הטכנולוגית — כרטיס בין הפרויקטים
            ============================================================ */
         .ta-strip {
             position: relative;
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: center;
+            gap: 1.1rem;
             align-self: center;
-            gap: 0.9rem;
             width: 100%;
-            padding: 1.5rem 1.15rem 1.35rem;
+            --ta-px: 1.15rem;
+            --ta-pb: 1.35rem;
+            padding: 1.75rem var(--ta-px) var(--ta-pb);
             border-radius: 1.75rem;
-            border: 1px solid rgba(217, 154, 6, 0.4);
+            border: 1px solid rgba(217, 154, 6, 0.3);
             background:
-                radial-gradient(130% 80% at 100% 0%, rgba(56, 189, 248, 0.16), transparent 58%),
-                linear-gradient(168deg, #fffdf6 0%, #fcf1d8 100%);
-            box-shadow: 0 16px 34px -26px rgba(15, 23, 42, 0.5);
+                radial-gradient(115% 62% at 50% 0%, rgba(242, 181, 11, 0.2), transparent 64%),
+                radial-gradient(85% 55% at 96% 102%, rgba(56, 189, 248, 0.14), transparent 62%),
+                linear-gradient(172deg, #fffefb 0%, #fbf1da 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                0 20px 44px -32px rgba(13, 33, 68, 0.55);
             overflow: hidden;
+            text-align: center;
             transition: border-color .3s ease, box-shadow .3s ease;
         }
 
@@ -197,42 +204,64 @@
             position: absolute;
             inset: 0 0 auto 0;
             height: 3px;
-            background: linear-gradient(90deg, #f2b50b, #38bdf8 58%, #0d2144);
+            background: linear-gradient(90deg, rgba(242, 181, 11, 0), #f2b50b 22%, #38bdf8 55%, #0d2144 88%, rgba(13, 33, 68, 0));
         }
 
         .ta-strip:hover {
-            border-color: rgba(217, 154, 6, 0.62);
-            box-shadow: 0 22px 40px -26px rgba(15, 23, 42, 0.55);
+            border-color: rgba(217, 154, 6, 0.5);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                0 26px 50px -32px rgba(13, 33, 68, 0.6);
         }
 
-        .ta-strip-head {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
+        .ta-strip-badge {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            padding: 0.4rem;
+            border-radius: 9999px;
+            background: #ffffff;
+            box-shadow:
+                0 0 0 1px rgba(217, 154, 6, 0.32),
+                0 0 0 7px rgba(255, 255, 255, 0.6),
+                0 18px 30px -20px rgba(13, 33, 68, 0.6);
         }
 
         .ta-strip-logo {
-            width: 7rem;
-            height: 7rem;
-            flex-shrink: 0;
             display: block;
-            filter: drop-shadow(0 10px 18px rgba(13, 33, 68, 0.28));
+            width: 6.4rem;
+            height: 6.4rem;
         }
 
+        .ta-strip-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+        }
+
+        /* שם האתר כבר מופיע בלוגו — הכותרת נשמרת לקוראי מסך בלבד */
         .ta-strip-title {
-            margin: 0;
-            color: #0d2144;
-            font-size: 1.1rem;
-            font-weight: 900;
-            line-height: 1.25;
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         .ta-strip-sub {
-            margin: 0.2rem 0 0;
-            color: #6b7280;
-            font-size: 0.76rem;
-            font-weight: 600;
-            line-height: 1.5;
+            margin: 0;
+            max-width: 15rem;
+            color: #59617a;
+            font-size: 0.78rem;
+            font-weight: 700;
+            line-height: 1.65;
+            letter-spacing: 0.01em;
         }
 
         .ta-strip-cta {
@@ -240,15 +269,16 @@
             flex-direction: column;
             align-items: center;
             gap: 0.1rem;
-            padding: 0.62rem 0.9rem;
+            width: 100%;
+            padding: 0.68rem 0.9rem;
             border-radius: 0.95rem;
-            background: linear-gradient(135deg, #0d2144, #19386e);
+            background: linear-gradient(135deg, #12264d, #1d3f78);
             color: #ffffff;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             font-weight: 800;
             text-decoration: none;
-            box-shadow: 0 12px 24px -14px rgba(13, 33, 68, 0.75);
-            transition: transform .25s ease, box-shadow .25s ease;
+            box-shadow: 0 14px 26px -16px rgba(13, 33, 68, 0.8);
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
         }
 
         .ta-strip-cta span {
@@ -263,108 +293,98 @@
         }
 
         .ta-strip-cta small {
-            font-size: 0.62rem;
+            font-size: 0.63rem;
             font-weight: 700;
             letter-spacing: 0.02em;
-            color: rgba(226, 238, 255, 0.72);
+            color: rgba(226, 238, 255, 0.7);
             direction: ltr;
         }
 
         .ta-strip-cta:hover {
+            background: linear-gradient(135deg, #16305f, #24498a);
             transform: translateY(-2px);
-            box-shadow: 0 16px 28px -14px rgba(13, 33, 68, 0.8);
+            box-shadow: 0 18px 30px -16px rgba(13, 33, 68, 0.85);
         }
 
         .ta-strip-join {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.35rem;
-            color: #a16207;
-            font-size: 0.73rem;
+            gap: 0.4rem;
+            width: calc(100% + var(--ta-px) * 2);
+            margin: auto calc(var(--ta-px) * -1) calc(var(--ta-pb) * -1);
+            padding: 0.85rem var(--ta-px);
+            border-top: 1px solid rgba(217, 154, 6, 0.28);
+            background: linear-gradient(180deg, rgba(242, 181, 11, 0.12), rgba(242, 181, 11, 0.03));
+            color: #96620a;
+            font-size: 0.75rem;
             font-weight: 800;
             text-decoration: none;
-            transition: color .2s ease;
+            transition: color .2s ease, background .2s ease;
         }
 
         .ta-strip-join:hover {
+            background: linear-gradient(180deg, rgba(242, 181, 11, 0.2), rgba(242, 181, 11, 0.06));
             color: #0d2144;
         }
 
         .dark .ta-strip {
-            border-color: rgba(242, 181, 11, 0.35);
+            border-color: rgba(242, 181, 11, 0.3);
             background:
-                radial-gradient(130% 80% at 100% 0%, rgba(56, 189, 248, 0.2), transparent 58%),
-                linear-gradient(168deg, #16233d 0%, #0d1a30 100%);
-            box-shadow: 0 16px 34px -26px rgba(0, 0, 0, 0.8);
+                radial-gradient(115% 62% at 50% 0%, rgba(242, 181, 11, 0.16), transparent 64%),
+                radial-gradient(85% 55% at 96% 102%, rgba(56, 189, 248, 0.18), transparent 62%),
+                linear-gradient(172deg, #16233d 0%, #0d1a30 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.06),
+                0 20px 44px -30px rgba(0, 0, 0, 0.8);
         }
 
-        .dark .ta-strip-title {
-            color: #ffffff;
+        .dark .ta-strip-badge {
+            background: #101d33;
+            box-shadow:
+                0 0 0 1px rgba(242, 181, 11, 0.35),
+                0 0 0 7px rgba(255, 255, 255, 0.05),
+                0 18px 30px -20px rgba(0, 0, 0, 0.8);
         }
 
         .dark .ta-strip-sub {
-            color: #94a3b8;
+            color: #9aa6bd;
         }
 
         .dark .ta-strip-join {
+            border-top-color: rgba(242, 181, 11, 0.22);
+            background: linear-gradient(180deg, rgba(242, 181, 11, 0.12), rgba(242, 181, 11, 0.03));
             color: #fcd34d;
-        }
-
-        @media (max-width: 767px) {
-            .ta-strip-head {
-                flex-direction: column;
-                justify-content: center;
-                text-align: center;
-                gap: 0.5rem;
-            }
         }
 
         @media (min-width: 768px) {
             .ta-strip {
+                --ta-px: 1rem;
+                --ta-pb: 0;
                 width: 14.5rem;
-                padding: 1.3rem 1rem 1.2rem;
-                gap: 0.8rem;
-            }
-
-            .ta-strip-head {
-                flex-direction: column;
-                text-align: center;
-                gap: 0.55rem;
+                padding: 1.5rem var(--ta-px) 0;
+                gap: 0.95rem;
             }
 
             .ta-strip-logo {
-                width: 8.5rem;
-                height: 8.5rem;
-                margin: -0.4rem 0 -0.2rem;
-                filter: drop-shadow(0 16px 28px rgba(13, 33, 68, 0.32));
-            }
-
-            .ta-strip-title {
-                font-size: 1.05rem;
-            }
-
-            .ta-strip-sub {
-                font-size: 0.73rem;
+                width: 8rem;
+                height: 8rem;
             }
         }
 
         @media (min-width: 1000px) {
             .ta-strip {
+                --ta-px: 1.1rem;
                 align-self: stretch;
-                width: 21rem;
-                padding: 1.5rem 1.2rem 1.4rem;
-                gap: 0.9rem;
+                justify-content: space-evenly;
+                width: 19rem;
+                padding: 1.7rem var(--ta-px) 0;
+                gap: 1rem;
             }
 
             .ta-strip-logo {
-                width: 13rem;
-                height: 13rem;
-                margin: -0.7rem 0 -0.4rem;
-            }
-
-            .ta-strip-title {
-                font-size: 1.12rem;
+                width: 10.5rem;
+                height: 10.5rem;
             }
 
             .ta-strip-sub {
@@ -374,34 +394,17 @@
 
         @media (min-width: 1152px) {
             .ta-strip {
-                width: 22.5rem;
+                width: 21rem;
             }
 
             .ta-strip-logo {
-                width: 14rem;
-                height: 14rem;
-            }
-
-            .ta-strip-title {
-                font-size: 1.2rem;
+                width: 11.75rem;
+                height: 11.75rem;
             }
 
             .ta-strip-sub {
                 font-size: 0.8rem;
             }
-        }
-
-        /* שם האתר כבר מופיע בלוגו — הכותרת נשמרת לקוראי מסך בלבד */
-        .ta-strip-title {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0 0 0 0);
-            white-space: nowrap;
-            border: 0;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1890,18 +1893,18 @@
 
                 <!-- באנר הזירה הטכנולוגית — בין שני הפרויקטים -->
                 <aside id="tech-arena" class="ta-strip" aria-labelledby="tech-arena-title">
-                    <div class="ta-strip-head">
+                    <span class="ta-strip-badge">
                         <img src="arena-logo.png" alt="לוגו הזירה הטכנולוגית" class="ta-strip-logo" loading="lazy" draggable="false">
-                        <div>
-                            <h2 id="tech-arena-title" class="ta-strip-title">הזירה הטכנולוגית</h2>
-                            <p class="ta-strip-sub">חדשות טכנולוגיה ו‑AI בזמן אמת</p>
-                        </div>
+                    </span>
+                    <div class="ta-strip-body">
+                        <h2 id="tech-arena-title" class="ta-strip-title">הזירה הטכנולוגית</h2>
+                        <p class="ta-strip-sub">חדשות טכנולוגיה ו‑AI בזמן אמת</p>
+                        <a href="https://channel.extsync.com" target="_blank" rel="noopener" class="ta-strip-cta"
+                            aria-label="כניסה לאתר הזירה הטכנולוגית — channel.extsync.com">
+                            <span>לכניסה לאתר <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
+                            <small>channel.extsync.com</small>
+                        </a>
                     </div>
-                    <a href="https://channel.extsync.com" target="_blank" rel="noopener" class="ta-strip-cta"
-                        aria-label="כניסה לאתר הזירה הטכנולוגית — channel.extsync.com">
-                        <span>לכניסה לאתר <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
-                        <small>channel.extsync.com</small>
-                    </a>
                     <a href="#contact" class="ta-strip-join">
                         <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
                         הצטרפות לקבוצת המעדכנים
