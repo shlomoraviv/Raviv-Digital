@@ -178,6 +178,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-self: center;
             gap: 0.9rem;
             width: 100%;
             padding: 1.5rem 1.15rem 1.35rem;
@@ -312,7 +313,10 @@
 
         @media (max-width: 767px) {
             .ta-strip-head {
+                flex-direction: column;
                 justify-content: center;
+                text-align: center;
+                gap: 0.5rem;
             }
         }
 
@@ -345,16 +349,17 @@
             }
         }
 
-        @media (min-width: 1024px) {
+        @media (min-width: 1000px) {
             .ta-strip {
-                width: 19.5rem;
+                align-self: stretch;
+                width: 21rem;
                 padding: 1.5rem 1.2rem 1.4rem;
                 gap: 0.9rem;
             }
 
             .ta-strip-logo {
-                width: 12.5rem;
-                height: 12.5rem;
+                width: 13rem;
+                height: 13rem;
                 margin: -0.7rem 0 -0.4rem;
             }
 
@@ -365,6 +370,38 @@
             .ta-strip-sub {
                 font-size: 0.76rem;
             }
+        }
+
+        @media (min-width: 1152px) {
+            .ta-strip {
+                width: 22.5rem;
+            }
+
+            .ta-strip-logo {
+                width: 14rem;
+                height: 14rem;
+            }
+
+            .ta-strip-title {
+                font-size: 1.2rem;
+            }
+
+            .ta-strip-sub {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* שם האתר כבר מופיע בלוגו — הכותרת נשמרת לקוראי מסך בלבד */
+        .ta-strip-title {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1852,7 +1889,7 @@
                 </article>
 
                 <!-- באנר הזירה הטכנולוגית — בין שני הפרויקטים -->
-                <aside id="tech-arena" class="ta-strip self-center" aria-labelledby="tech-arena-title">
+                <aside id="tech-arena" class="ta-strip" aria-labelledby="tech-arena-title">
                     <div class="ta-strip-head">
                         <img src="arena-logo.png" alt="לוגו הזירה הטכנולוגית" class="ta-strip-logo" loading="lazy" draggable="false">
                         <div>
